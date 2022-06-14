@@ -1,0 +1,1 @@
+# aepsdk-campaignclassic-ios
