@@ -9,9 +9,7 @@
  governing permissions and limitations under the License.
  */
 
-@testable import AEPCampaignClassic
 @testable import AEPCore
-@testable import AEPServices
 import XCTest
 
 extension EventHub {
@@ -52,13 +50,4 @@ extension FileManager {
         }
     }
 
-    func clearLifecycleData() {
-        if let _ = self.urls(for: .cachesDirectory, in: .userDomainMask).first {
-            do {
-                try self.removeItem(at: URL(fileURLWithPath: "Library/Caches/com.adobe.module.lifecycle"))
-            } catch {
-                print("ERROR DESCRIPTION: \(error)")
-            }
-        }
-    }
 }

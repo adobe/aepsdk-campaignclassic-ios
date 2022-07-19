@@ -27,7 +27,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
         FileManager.default.clearCache()
         ServiceProvider.shared.reset()
         EventHub.reset()
-        datastore = NamedCollectionDataStore(name: CampaignClassicConstants.DATASTORE_NAME)
+        datastore = NamedCollectionDataStore(name: TestConstants.DATASTORE_NAME)
         mockRuntime = TestableExtensionRuntime()
         testableNetworkService = TestableNetworkService()
         ServiceProvider.shared.networkService = testableNetworkService

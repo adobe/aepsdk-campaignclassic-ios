@@ -16,7 +16,6 @@ import Foundation
 
 @objc(AEPMobileCampaignClassic)
 public class CampaignClassic: NSObject, Extension {
-    private let LOG_TAG = "CampaignClassic"
     public var name = CampaignClassicConstants.EXTENSION_NAME
     public var friendlyName = CampaignClassicConstants.FRIENDLY_NAME
     public static var extensionVersion = CampaignClassicConstants.EXTENSION_VERSION
@@ -25,10 +24,6 @@ public class CampaignClassic: NSObject, Extension {
     var state: CampaignClassicState
     typealias EventDispatcher = (_ eventName: String, _ eventType: String, _ eventSource: String, _ contextData: [String: Any]?) -> Void
     let dispatchQueue: DispatchQueue
-
-    private let dependencies: [String] = [
-        CampaignClassicConstants.EventDataKeys.Configuration.SHARED_STATE_NAME
-    ]
 
     /// Initializes the Campaign Classic extension
     public required init?(runtime: ExtensionRuntime) {
@@ -49,7 +44,7 @@ public class CampaignClassic: NSObject, Extension {
 
     /// Called before each `Event` processed by the Campaign Classic extension
     /// - Parameter event: event that will be processed next
-    /// - Returns: `true` if Configuration and Identity shared states are available
+    /// - Returns: `true` if Configuration shared state is available
     public func readyForEvent(_ event: Event) -> Bool {
         return getSharedState(extensionName: CampaignClassicConstants.EventDataKeys.Configuration.SHARED_STATE_NAME, event: event)?.status == .set
     }
@@ -57,7 +52,7 @@ public class CampaignClassic: NSObject, Extension {
     /// Handles `Configuration Response` events
     /// - Parameter event: the Configuration `Event` to be handled
     private func handleConfigurationEvents(event: Event) {
-        Log.trace(label: self.LOG_TAG, "An event of type '\(event.type)' has been received.")
+        Log.trace(label: CampaignClassicConstants.LOG_TAG, "An event of type '\(event.type)' has been received.")
         dispatchQueue.async { [weak self] in
             guard let self = self else {return}
             self.updateCampaignState(event: event)
@@ -72,11 +67,6 @@ public class CampaignClassic: NSObject, Extension {
     /// Updates the `CampaignClassicState` with the shared state of other required extensions
     /// - Parameter event: the `Event`containing the shared state of other required extensions
     private func updateCampaignState(event: Event) {
-        var sharedStates = [String: [String: Any]?]()
-        for extensionName in dependencies {
-            sharedStates[extensionName] = runtime.getSharedState(extensionName: extensionName, event: event, barrier: true)?.value
-
-        }
-        state.update(dataMap: sharedStates)
+        // todo
     }
 }

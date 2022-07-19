@@ -8,18 +8,12 @@ coverage:
   range: "70...90"
 
   status:
-    project:
-      default:
-        target: 0%
-        threshold: 5%
-    patch:
-      default:
-        target: 0%
-        threshold: 5%
+    project: yes
+    patch: yes
     changes: no
 
   ignore:
-    - "./AEPCampaignClassic/Tests/.*"        
+    - "./AEPCampaignClassic/Tests/.*"
     - "./Pods"
     - "./Documentation"
     - "./build"

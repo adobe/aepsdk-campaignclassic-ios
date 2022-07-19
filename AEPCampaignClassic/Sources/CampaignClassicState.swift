@@ -26,27 +26,4 @@ class CampaignClassicState {
         self.dataStore = NamedCollectionDataStore(name: CampaignClassicConstants.DATASTORE_NAME)
     }
 
-    /// Takes the shared states map and updates the data within the Campaign Classic State.
-    /// - Parameter dataMap: The map containing the shared state data required by the Campaign Extension.
-    func update(dataMap: [String: [String: Any]?]) {
-        for key in dataMap.keys {
-            guard let sharedState = dataMap[key] else {
-                continue
-
-            }
-            switch key {
-            case CampaignClassicConstants.EventDataKeys.Configuration.SHARED_STATE_NAME:
-                extractConfigurationInfo(from: sharedState ?? [:])
-            default:
-                break
-            }
-
-        }
-    }
-
-    /// Extracts the configuration data from the provided shared state data.
-    /// - Parameter configurationData the data map from the `Configuration` shared state.
-    private func extractConfigurationInfo(from configurationData: [String: Any]) {
-        self.privacyStatus = PrivacyStatus.init(rawValue: configurationData[CampaignClassicConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY] as? PrivacyStatus.RawValue ?? PrivacyStatus.unknown.rawValue) ?? .unknown
-    }
 }

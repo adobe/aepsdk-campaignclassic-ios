@@ -16,5 +16,4 @@ import Foundation
 
 /// Defines the public interface for the CampaignClassic extension
 @objc public extension CampaignClassic {
-    private static let LOG_TAG = "CampaignClassic"
 }

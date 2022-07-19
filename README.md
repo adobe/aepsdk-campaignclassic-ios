@@ -51,9 +51,9 @@ To add the AEPCampaignClassic Package to your application, from the Xcode menu s
 
 `File > Swift Packages > Add Package Dependency...`
 
-Enter the URL for the AEPCampaignClassic package repository: `https://github.com/adobe/aepsdk-campaignclassic-ios.git`.
+Enter the URL for the AEPCampaignClassic package repository: `https://github.com/adobe/aepsdk-campaignclassic-ios.git`. Click Next
 
-When prompted, make sure you change the version to `3.0.0`.
+Specify the Version rule for the package options. Click Next and Finish.
 
 Alternatively, if your project has a `Package.swift` file, you can add AEPCampaignClassic directly to your dependencies:
 
@@ -80,9 +80,15 @@ Run `make archive` from the root directory to generate `.xcframeworks` for each 
 
 Additional documentation for usage and SDK architecture can be found under the [Documentation](Documentation/README.md) directory.
 
+## Related Projects
+
+| Project                                                      | Description                                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [AEPCore Extensions](https://github.com/adobe/aepsdk-core-ios) | The AEPCore extensions provide a common set of functionality and services required by all the Mobile SDK extensions. |
+
 ## Contributing
 
-Contributions are welcomed! Read the [Contributing Guide](./.github/CONTRIBUTING.md) for more information.
+Contributions are welcome! Read the [Contributing Guide](./.github/CONTRIBUTING.md) for more information.
 
 ## Licensing
 
