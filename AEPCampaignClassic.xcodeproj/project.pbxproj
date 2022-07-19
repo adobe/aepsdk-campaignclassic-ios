@@ -61,7 +61,7 @@
 		2FAB33EAE72BF5B52971EAA7 /* Pods_AEPCampaignClassic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AEPCampaignClassic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D10A5F5262581650049BDA1 /* AEPCampaignClassic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AEPCampaignClassic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D10A5F9262581650049BDA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3D10A6242625826D0049BDA1 /* AEPCampaignClassicFunctionalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AEPCampaignClassicFunctionalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D10A6242625826D0049BDA1 /* FunctionalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunctionalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D10A6282625826D0049BDA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F8DDFF09111C5B305F6E469 /* Pods-AEPCampaignClassicFunctionalTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AEPCampaignClassicFunctionalTests.debug.xcconfig"; path = "Target Support Files/Pods-AEPCampaignClassicFunctionalTests/Pods-AEPCampaignClassicFunctionalTests.debug.xcconfig"; sourceTree = "<group>"; };
 		99C3C4EC3BAA9513000F2192 /* Pods_AEPCampaignClassicFunctionalTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AEPCampaignClassicFunctionalTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,7 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				3D10A5F5262581650049BDA1 /* AEPCampaignClassic.framework */,
-				3D10A6242625826D0049BDA1 /* AEPCampaignClassicFunctionalTests.xctest */,
+				3D10A6242625826D0049BDA1 /* FunctionalTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -190,19 +190,19 @@
 		3D10A61C262581DA0049BDA1 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				D609F872284AC7CE0007EAA7 /* AEPCampaignClassicFunctionalTests */,
+				D609F872284AC7CE0007EAA7 /* FunctionalTests */,
 				D609F874284AC7CE0007EAA7 /* TestHelpers */,
 				3D10A6282625826D0049BDA1 /* Info.plist */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		D609F872284AC7CE0007EAA7 /* AEPCampaignClassicFunctionalTests */ = {
+		D609F872284AC7CE0007EAA7 /* FunctionalTests */ = {
 			isa = PBXGroup;
 			children = (
 				D609F88F284AC7E60007EAA7 /* CampaignClassicFunctionalTests.swift */,
 			);
-			path = AEPCampaignClassicFunctionalTests;
+			path = FunctionalTests;
 			sourceTree = "<group>";
 		};
 		D609F874284AC7CE0007EAA7 /* TestHelpers */ = {
@@ -252,9 +252,9 @@
 			productReference = 3D10A5F5262581650049BDA1 /* AEPCampaignClassic.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		3D10A6232625826D0049BDA1 /* AEPCampaignClassicFunctionalTests */ = {
+		3D10A6232625826D0049BDA1 /* FunctionalTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3D10A62C2625826D0049BDA1 /* Build configuration list for PBXNativeTarget "AEPCampaignClassicFunctionalTests" */;
+			buildConfigurationList = 3D10A62C2625826D0049BDA1 /* Build configuration list for PBXNativeTarget "FunctionalTests" */;
 			buildPhases = (
 				D3FF822A4F55F0A4AD6BF675 /* [CP] Check Pods Manifest.lock */,
 				3D10A6202625826D0049BDA1 /* Sources */,
@@ -267,9 +267,9 @@
 			dependencies = (
 				3D10A62B2625826D0049BDA1 /* PBXTargetDependency */,
 			);
-			name = AEPCampaignClassicFunctionalTests;
+			name = FunctionalTests;
 			productName = AEPCampaignFunctionalTests;
-			productReference = 3D10A6242625826D0049BDA1 /* AEPCampaignClassicFunctionalTests.xctest */;
+			productReference = 3D10A6242625826D0049BDA1 /* FunctionalTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -278,7 +278,7 @@
 		3D10A5EC262581650049BDA1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1240;
+				LastSwiftUpdateCheck = 1400;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
 					3D10A5F4262581650049BDA1 = {
@@ -307,7 +307,7 @@
 			projectRoot = "";
 			targets = (
 				3D10A5F4262581650049BDA1 /* AEPCampaignClassic */,
-				3D10A6232625826D0049BDA1 /* AEPCampaignClassicFunctionalTests */,
+				3D10A6232625826D0049BDA1 /* FunctionalTests */,
 				D6B407C1264462F8002814FC /* AEPCampaignClassicXCFramework */,
 			);
 		};
@@ -716,7 +716,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3D10A62C2625826D0049BDA1 /* Build configuration list for PBXNativeTarget "AEPCampaignClassicFunctionalTests" */ = {
+		3D10A62C2625826D0049BDA1 /* Build configuration list for PBXNativeTarget "FunctionalTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3D10A62D2625826D0049BDA1 /* Debug */,

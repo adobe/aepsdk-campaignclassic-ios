@@ -16,10 +16,6 @@ target 'AEPCampaignClassic' do
    campaignclassic_dependencies
 end
 
-target 'AEPCampaignClassicUnitTests' do
-   campaignclassic_dependencies
-end
-
-target 'AEPCampaignClassicFunctionalTests' do
+target 'FunctionalTests' do
   campaignclassic_dependencies
 end

@@ -45,7 +45,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3D10A6232625826D0049BDA1"
                BuildableName = "AEPCampaignClassicFunctionalTests.xctest"
-               BlueprintName = "AEPCampaignClassicFunctionalTests"
+               BlueprintName = "FunctionalTests"
                ReferencedContainer = "container:AEPCampaignClassic.xcodeproj">
             </BuildableReference>
          </TestableReference>
