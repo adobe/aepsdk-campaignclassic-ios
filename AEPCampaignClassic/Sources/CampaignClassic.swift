@@ -16,9 +16,9 @@ import Foundation
 
 @objc(AEPMobileCampaignClassic)
 public class CampaignClassic: NSObject, Extension {
-    public var name = CampaignClassicConstants.EXTENSION_NAME
-    public var friendlyName = CampaignClassicConstants.FRIENDLY_NAME
-    public static var extensionVersion = CampaignClassicConstants.EXTENSION_VERSION
+    public let name = CampaignClassicConstants.EXTENSION_NAME
+    public let friendlyName = CampaignClassicConstants.FRIENDLY_NAME
+    public static let extensionVersion = CampaignClassicConstants.EXTENSION_VERSION
     public var metadata: [String: String]?
     public var runtime: ExtensionRuntime
     var state: CampaignClassicState

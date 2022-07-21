@@ -60,10 +60,4 @@ class CampaignClassicFunctionalTests: XCTestCase {
        sleep(1)
     }
 
-    func test_Config() {
-        // setup
-        initExtensionsAndWait()
-        sleep(1)
-        self.updateConfiguration()
-    }
 }
