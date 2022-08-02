@@ -19,3 +19,7 @@ end
 target 'FunctionalTests' do
   campaignclassic_dependencies
 end
+
+target 'UnitTests' do
+  campaignclassic_dependencies
+end

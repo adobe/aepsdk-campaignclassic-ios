@@ -34,6 +34,12 @@ enum CampaignClassicConstants {
         static let TOKEN_HASH = "ADOBEMOBILE_STOREDDEFAULTS_TOKENHASH"
         static let REGISTER_STATUS = "ADOBEMOBILE_STOREDDEFAULTS_REGISTERSTATUS"
     }
+    
+    
+    enum SDKEventType {
+        // to be moved to Core EventType
+        static let CAMPAIGN_CLASSIC = "com.adobe.eventType.campaignClassic"
+    }
 
     enum EventDataKeys {
         static let STATE_OWNER = "stateowner"
