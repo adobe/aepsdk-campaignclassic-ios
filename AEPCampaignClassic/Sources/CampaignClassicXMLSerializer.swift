@@ -16,7 +16,7 @@ import AEPServices
 class CampaignClassicXMLSerializer {
 
     /// Creates xml string from the provided variant map.
-    /// - Parameter map :  a dictionary containing AnyCodable key value pairs
+    /// - Parameter map : a dictionary containing AnyCodable key value pairs
     /// - Returns: string in campaign classic xml format
     static func serializeToXMLString(map: [String: AnyCodable]) -> String {
         var xmlString = ""
