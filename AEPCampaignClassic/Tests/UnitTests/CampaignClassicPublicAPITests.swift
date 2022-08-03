@@ -7,6 +7,7 @@
 
 @testable import AEPCore
 @testable import AEPCampaignClassic
+import AEPServices
 import XCTest
 
 class CampaignClassicPublicAPITests: XCTestCase {
@@ -14,7 +15,7 @@ class CampaignClassicPublicAPITests: XCTestCase {
     let SAMPLE_PUSHTOKEN_DATA = "PushToken".data(using: .utf8)!
     let SAMPLE_PUSHTOKEN_AS_HEXSTRING = "50757368546F6B656E"
     let SAMPLE_INFO : [String : String] = ["key" : "value"]
-    let SAMPLE_ADDITIONAL_DATA = ["additionalDataKey" : "additionalDataValue"]
+    
 
     override func setUpWithError() throws {
         EventHub.shared.start()
@@ -28,6 +29,8 @@ class CampaignClassicPublicAPITests: XCTestCase {
     func test_registerDevice() throws {
         let SAMPLE_USER_KEY = "UserKey"
         let expectation = XCTestExpectation(description: "Register Device API should dispatch appropriate event")
+        let SAMPLE_ADDITIONAL_DATA = ["string" : "abc", "number" : 4, "boolean" : true] as [String : Any]
+        let ANYCODABLE_DATA = AnyCodable.from(dictionary: SAMPLE_ADDITIONAL_DATA)
         
         // event dispatch verification
         EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: CampaignClassicConstants.SDKEventType.CAMPAIGN_CLASSIC,
@@ -35,7 +38,7 @@ class CampaignClassicPublicAPITests: XCTestCase {
             XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE] as! Bool, true)
             XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN] as! String, self.SAMPLE_PUSHTOKEN_AS_HEXSTRING)
             XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY] as! String, SAMPLE_USER_KEY)
-            XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as! [String : String], self.SAMPLE_ADDITIONAL_DATA)
+            XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as! [String : AnyCodable], ANYCODABLE_DATA)
             
             // verify deviceInfo
             let deviceInfo = event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO] as! [String : String]

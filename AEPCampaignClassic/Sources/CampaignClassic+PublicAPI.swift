@@ -26,7 +26,7 @@ import Foundation
     ///    - additionalParameters : a dictionary of custom key-value pairs to be sent along with the registration call
     ///    - callback : a block which will be called after the device registration is complete. The callback returns
     ///                YES if the registration request completed successfully, NO otherwise
-    static func registerDevice(token: Data, userKey: String, additionalParameter: [String: String]?, callback: @escaping (Bool) -> Void) {
+    static func registerDevice(token: Data, userKey: String, additionalParameter: [String: Any]?, callback: @escaping (Bool) -> Void) {
         let deviceInfo = [CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_DEVICE_NAME: UIDevice.current.name,
                           CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_DEVICE_MODEL: UIDevice.current.model,
                           CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_OS_NAME: UIDevice.current.systemName]
@@ -38,7 +38,7 @@ import Foundation
 
         // attach additional parameters only if they are available
         if let additionalParameter = additionalParameter {
-            eventData[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] = additionalParameter
+            eventData[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] = AnyCodable.from(dictionary: additionalParameter)
         }
 
         let event = Event(name: "CampaignClassic Register Device",
