@@ -34,7 +34,7 @@ class CampaignClassicPublicAPITests: XCTestCase {
         let expectation = XCTestExpectation(description: "Register Device API should dispatch appropriate event")
         
         // event dispatch verification
-        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: CampaignClassicConstants.SDKEventType.CAMPAIGN_CLASSIC,
+        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: EventType.campaign,
                                                                                     source: EventSource.requestContent) { event in
             XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE] as! Bool, true)
             XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN] as! String, self.SAMPLE_PUSHTOKEN_AS_HEXSTRING)
@@ -49,9 +49,7 @@ class CampaignClassicPublicAPITests: XCTestCase {
             expectation.fulfill()
         }
         
-        CampaignClassic.registerDevice(token: SAMPLE_PUSHTOKEN_DATA, userKey: SAMPLE_USER_KEY, additionalParameter: SAMPLE_ADDITIONAL_DATA, callback: { isCompleted in
-            // callback verification will be done in functional test
-        })
+        CampaignClassic.registerDevice(token: SAMPLE_PUSHTOKEN_DATA, userKey: SAMPLE_USER_KEY, additionalParameters: SAMPLE_ADDITIONAL_DATA)
         
         // verify
         wait(for: [expectation], timeout: 1)
@@ -62,14 +60,14 @@ class CampaignClassicPublicAPITests: XCTestCase {
         let expectation = XCTestExpectation(description: "CampaignClassic Track Notification Click should dispatch appropriate event")
         
         // event dispatch verification
-        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: CampaignClassicConstants.SDKEventType.CAMPAIGN_CLASSIC,
+        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: EventType.campaign,
                                                                                     source: EventSource.requestContent) { event in
             XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_CLICK] as! Bool, true)
             XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as! [String : String], self.SAMPLE_INFO)
             expectation.fulfill()
         }
         
-        CampaignClassic.trackNotificationClick(trackingInfo: SAMPLE_INFO)
+        CampaignClassic.trackNotificationClick(withUserInfo: SAMPLE_INFO)
         
         // verify
         wait(for: [expectation], timeout: 2)
@@ -80,14 +78,14 @@ class CampaignClassicPublicAPITests: XCTestCase {
         let expectation = XCTestExpectation(description: "CampaignClassic Track Notification Receive should dispatch appropriate event")
         
         // event dispatch verification
-        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: CampaignClassicConstants.SDKEventType.CAMPAIGN_CLASSIC,
+        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: EventType.campaign,
                                                                                     source: EventSource.requestContent) { event in
             XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE] as! Bool, true)
             XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as! [String : String], self.SAMPLE_INFO)
             expectation.fulfill()
         }
         
-        CampaignClassic.trackNotificationReceive(trackingInfo: SAMPLE_INFO)
+        CampaignClassic.trackNotificationReceive(withUserInfo: SAMPLE_INFO)
         
         // verify
         wait(for: [expectation], timeout: 2)
