@@ -19,7 +19,7 @@ extension Dictionary where Key == String, Value == AnyCodable {
     func serializeToXMLString() -> String {
         var xmlString = ""
         for(key, value) in self {
-            if let stringValue = value.stringValue {
+            if let stringValue = value.getString() {
                 xmlString.append("<param name=\"\(key.escaped())\" value=\"\(stringValue.escaped())\" />")
             }
         }
