@@ -15,9 +15,7 @@ import AEPServices
 
 extension Dictionary where Key == String, Value == AnyCodable {
 
-    /// Creates xml string from the provided variant map.
-    /// - Parameter map :  a dictionary containing AnyCodable key value pairs
-    /// - Returns: string in campaign classic xml format
+    /// - Returns  : A serialized campaign classic xml formatted string.
     func serializeToXMLString() -> String {
         var xmlString = ""
         for(key, value) in self {
@@ -29,6 +27,11 @@ extension Dictionary where Key == String, Value == AnyCodable {
     }
 
     /// Retrieves string value from AnyCodable
+    /// Only String, Double, Bool, Float and Int AnyCodable values are converted to String.
+    /// Other types are ignored and nil is returned.
+    ///
+    /// - Parameter anyCodable: An `AnyCodable`value that needs to be unwrapped
+    /// - Returns : A String value of the `Anycodable` input
     private func getStringFromAnyCodable(anyCodable: AnyCodable) -> String? {
         if let value = anyCodable.value {
             switch value {

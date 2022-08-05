@@ -16,7 +16,7 @@ import AEPServices
 import XCTest
 
 
-class CampaignClassicXMLSerializerTests: XCTestCase {
+class XMLSerializerTests: XCTestCase {
     
     func test_serializer() throws {
         // setup
