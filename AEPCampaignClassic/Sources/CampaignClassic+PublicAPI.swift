@@ -19,7 +19,6 @@ import Foundation
 public extension CampaignClassic {
 
     /// Registers a device with the configured Adobe Campaign Classic server instance.
-    /// The `callback` will be executed when the registration request is completed, returning success status of the call.
     ///
     /// - Parameters:
     ///    - token : A unique device token received after registering your app with APNs servers
@@ -51,6 +50,7 @@ public extension CampaignClassic {
     /// Sends tracking information to the configured Adobe Campaign Classic server.
     /// Use this API to send tracking info when the application is opened following a notification click.
     /// If the userInfo does not contain the necessary tracking identifiers, messageId `_mId` and deliveryId `_dId`, no track request is sent.
+    ///
     /// - Parameter userInfo :  a dictionary containing `_mId` and `_dId` received in the push message payload, or in the
     ///                             launch options before opening the application
     static func trackNotificationClick(withUserInfo userInfo: [String: Any]) {
@@ -68,7 +68,7 @@ public extension CampaignClassic {
     /// Use this API to send tracking info on receiving a notification (silent push).
     /// If the userInfo does not contain the necessary tracking identifiers, messageId `_mId` and deliveryId `_dId`, no track request is sent.
     ///
-    /// - Parameter userInfo :  a dictionary containing `_dId` and `_mId` received in the push message payload, or in the
+    /// - Parameter userInfo :  a dictionary containing `_mId` and `_dId` received in the push message payload, or in the
     ///                             launch options before opening the application
     static func trackNotificationReceive(withUserInfo userInfo: [String: Any]) {
         let eventData = [CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE: true,
