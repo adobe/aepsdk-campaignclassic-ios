@@ -19,49 +19,10 @@ extension Dictionary where Key == String, Value == AnyCodable {
     func serializeToXMLString() -> String {
         var xmlString = ""
         for(key, value) in self {
-            if let stringValue = getStringFromAnyCodable(anyCodable: value) {
-                xmlString.append("<param name=\"\(escapeString(key))\" value=\"\(escapeString(stringValue))\" />")
+            if let stringValue = value.getString() {
+                xmlString.append("<param name=\"\(key.escaped())\" value=\"\(stringValue.escaped())\" />")
             }
         }
         return URLEncoder.encode(value: "<additionalParams>\(xmlString)</additionalParams>")
-    }
-
-    /// Retrieves string value from AnyCodable
-    /// Only String, Double, Bool, Float and Int AnyCodable values are converted to String.
-    /// Other types are ignored and nil is returned.
-    ///
-    /// - Parameter anyCodable: An `AnyCodable`value that needs to be unwrapped
-    /// - Returns : A String value of the `Anycodable` input
-    private func getStringFromAnyCodable(anyCodable: AnyCodable) -> String? {
-        if let value = anyCodable.value {
-            switch value {
-            case is String:
-                return anyCodable.stringValue
-            case is Int:
-                if let intValue = anyCodable.intValue { return String(intValue) }
-            case is Double:
-                if let doubleValue = anyCodable.doubleValue { return String(doubleValue) }
-            case is Bool:
-                if let boolValue = anyCodable.boolValue { return String(boolValue) }
-            case is Float:
-                if let floatValue = anyCodable.floatValue { return String(floatValue) }
-            default:
-                return nil
-            }
-        }
-        return nil
-    }
-
-    /// Creates escaped string from given input string
-    private func escapeString(_ input: String) -> String {
-        var escapedString = input
-        escapedString = escapedString.replacingOccurrences(of: "\r", with: "")
-        escapedString = escapedString.replacingOccurrences(of: "\n", with: "")
-        escapedString = escapedString.replacingOccurrences(of: "&", with: "&amp;")
-        escapedString = escapedString.replacingOccurrences(of: "\"", with: "&quot;")
-        escapedString = escapedString.replacingOccurrences(of: "'", with: "&#x27;")
-        escapedString = escapedString.replacingOccurrences(of: ">", with: "&gt;")
-        escapedString = escapedString.replacingOccurrences(of: "<", with: "&lt;")
-        return escapedString
     }
 }
