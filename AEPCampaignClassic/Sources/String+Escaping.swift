@@ -13,6 +13,8 @@
 import Foundation
 
 extension String {
+    
+    /// Computes and returns a new string in which certain characters are replaced by escape sequences.
     func escaped() -> String {
         var escapedString = self
         escapedString = escapedString.replacingOccurrences(of: "\r", with: "")
