@@ -1,9 +1,13 @@
-//
-//  UnitTests.swift
-//  UnitTests
-//
-//  Created by pprakash on 8/1/22.
-//
+/*
+ Copyright 2022 Adobe. All rights reserved.
+ This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License. You may obtain a copy
+ of the License at http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software distributed under
+ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ OF ANY KIND, either express or implied. See the License for the specific language
+ governing permissions and limitations under the License.
+ */
 
 @testable import AEPCore
 @testable import AEPCampaignClassic
@@ -30,27 +34,34 @@ class CampaignClassicPublicAPITests: XCTestCase {
         let SAMPLE_USER_KEY = "UserKey"
         let expectation = XCTestExpectation(description: "Register Device API should dispatch appropriate event")
         let SAMPLE_ADDITIONAL_DATA = ["string" : "abc", "number" : 4, "boolean" : true] as [String : Any]
-        let ANYCODABLE_DATA = AnyCodable.from(dictionary: SAMPLE_ADDITIONAL_DATA)
+        let ANYCODABLE_ADDITIONAL_DATA = AnyCodable.from(dictionary: SAMPLE_ADDITIONAL_DATA)
         
         // event dispatch verification
-        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: CampaignClassicConstants.SDKEventType.CAMPAIGN_CLASSIC,
+        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: EventType.campaign,
                                                                                     source: EventSource.requestContent) { event in
-            XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE] as! Bool, true)
-            XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN] as! String, self.SAMPLE_PUSHTOKEN_AS_HEXSTRING)
-            XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY] as! String, SAMPLE_USER_KEY)
-            XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as! [String : AnyCodable], ANYCODABLE_DATA)
+            // unwrap optionals
+            let isRegisterDeviceEvent = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE] as? Bool)
+            let deviceToken = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN] as? String)
+            let userKey = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY] as? String)
+            let additionalParameters = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as? [String : AnyCodable])
+            
+            // verify
+            XCTAssertEqual(isRegisterDeviceEvent, true)
+            XCTAssertEqual(deviceToken, self.SAMPLE_PUSHTOKEN_AS_HEXSTRING)
+            XCTAssertEqual(userKey, SAMPLE_USER_KEY)
+            XCTAssertEqual(additionalParameters, ANYCODABLE_ADDITIONAL_DATA)
             
             // verify deviceInfo
-            let deviceInfo = event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO] as! [String : String]
-            XCTAssertNotNil(deviceInfo[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_DEVICE_MODEL])
-            XCTAssertEqual("iOS",deviceInfo[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_OS_NAME])
-            XCTAssertEqual("iPhone",deviceInfo[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_DEVICE_MODEL])
+            let deviceInfo = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO] as? [String : String])
+            XCTAssertNotNil(deviceInfo?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_DEVICE_MODEL])
+            XCTAssertEqual("iOS",deviceInfo?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_OS_NAME])
+            XCTAssertEqual("iPhone",deviceInfo?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_DEVICE_MODEL])
+            
             expectation.fulfill()
         }
         
-        CampaignClassic.registerDevice(token: SAMPLE_PUSHTOKEN_DATA, userKey: SAMPLE_USER_KEY, additionalParameter: SAMPLE_ADDITIONAL_DATA, callback: { isCompleted in
-            // callback verification will be done in functional test
-        })
+        // test
+        CampaignClassic.registerDevice(token: SAMPLE_PUSHTOKEN_DATA, userKey: SAMPLE_USER_KEY, additionalParameters: SAMPLE_ADDITIONAL_DATA)
         
         // verify
         wait(for: [expectation], timeout: 1)
@@ -61,14 +72,20 @@ class CampaignClassicPublicAPITests: XCTestCase {
         let expectation = XCTestExpectation(description: "CampaignClassic Track Notification Click should dispatch appropriate event")
         
         // event dispatch verification
-        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: CampaignClassicConstants.SDKEventType.CAMPAIGN_CLASSIC,
+        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: EventType.campaign,
                                                                                     source: EventSource.requestContent) { event in
-            XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_CLICK] as! Bool, true)
-            XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as! [String : String], self.SAMPLE_INFO)
+            // unwrap optionals
+            let isTrackClickEvent = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_CLICK] as? Bool)
+            let trackInfo = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String : String])
+            
+            // verify
+            XCTAssertEqual(isTrackClickEvent, true)
+            XCTAssertEqual(trackInfo, self.SAMPLE_INFO)
+            
             expectation.fulfill()
         }
         
-        CampaignClassic.trackNotificationClick(trackingInfo: SAMPLE_INFO)
+        CampaignClassic.trackNotificationClick(withUserInfo: SAMPLE_INFO)
         
         // verify
         wait(for: [expectation], timeout: 2)
@@ -79,14 +96,20 @@ class CampaignClassicPublicAPITests: XCTestCase {
         let expectation = XCTestExpectation(description: "CampaignClassic Track Notification Receive should dispatch appropriate event")
         
         // event dispatch verification
-        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: CampaignClassicConstants.SDKEventType.CAMPAIGN_CLASSIC,
+        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: EventType.campaign,
                                                                                     source: EventSource.requestContent) { event in
-            XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE] as! Bool, true)
-            XCTAssertEqual(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as! [String : String], self.SAMPLE_INFO)
+            // unwrap optionals
+            let isTrackReceiveEvent = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE] as? Bool)
+            let trackInfo = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String : String])
+            
+            // verify
+            XCTAssertEqual(isTrackReceiveEvent, true)
+            XCTAssertEqual(trackInfo, self.SAMPLE_INFO)
+            
             expectation.fulfill()
         }
         
-        CampaignClassic.trackNotificationReceive(trackingInfo: SAMPLE_INFO)
+        CampaignClassic.trackNotificationReceive(withUserInfo: SAMPLE_INFO)
         
         // verify
         wait(for: [expectation], timeout: 2)
