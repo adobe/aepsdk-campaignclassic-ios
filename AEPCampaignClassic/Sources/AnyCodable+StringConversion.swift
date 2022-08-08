@@ -14,29 +14,32 @@ import Foundation
 import AEPServices
 
 extension AnyCodable {
-    
+
     /// Retrieves string value from AnyCodable
     /// Only String, Double, Bool, Float and Int AnyCodable values are converted to String.
     /// Other types are ignored and nil is returned.
     ///
     /// - Returns : A String value of the `Anycodable` input
     func getString() -> String? {
-        if let value = self.value {
-            switch value {
-            case is String:
-                return self.stringValue
-            case is Int:
-                if let intValue = self.intValue { return String(intValue) }
-            case is Double:
-                if let doubleValue = self.doubleValue { return String(doubleValue) }
-            case is Bool:
-                if let boolValue = self.boolValue { return String(boolValue) }
-            case is Float:
-                if let floatValue = self.floatValue { return String(floatValue) }
-            default:
-                return nil
-            }
+        guard let value = self.value else {
+            return nil
         }
-        return nil
+
+        switch value {
+        case let stringValue as String:
+            return stringValue
+        case let intValue as Int:
+            return String(intValue)
+        case let longValue as Int64:
+            return String(longValue)
+        case let floatValue as Float:
+            return String(floatValue)
+        case let doubleValue as Double:
+            return String(doubleValue)
+        case let boolValue as Bool:
+            return String(boolValue)
+        default:
+            return nil
+        }
     }
 }

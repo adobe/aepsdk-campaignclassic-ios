@@ -20,7 +20,7 @@ extension Dictionary where Key == String, Value == AnyCodable {
         var xmlString = ""
         for(key, value) in self {
             if let stringValue = value.getString() {
-                xmlString.append("<param name=\"\(key.escaped())\" value=\"\(stringValue.escaped())\" />")
+                xmlString.append("<param name=\"\(key.escapedXML())\" value=\"\(stringValue.escapedXML())\" />")
             }
         }
         return URLEncoder.encode(value: "<additionalParams>\(xmlString)</additionalParams>")

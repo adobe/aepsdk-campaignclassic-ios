@@ -13,9 +13,10 @@
 import Foundation
 
 extension String {
-    
+
     /// Computes and returns a new string in which certain characters are replaced by escape sequences.
-    func escaped() -> String {
+    func escapedXML() -> String {
+        if self.isEmpty { return self}
         var escapedString = self
         escapedString = escapedString.replacingOccurrences(of: "\r", with: "")
         escapedString = escapedString.replacingOccurrences(of: "\n", with: "")

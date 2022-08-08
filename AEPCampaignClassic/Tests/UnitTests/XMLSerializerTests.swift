@@ -20,9 +20,9 @@ class XMLSerializerTests: XCTestCase {
     
     func test_serializer() throws {
         // setup
-        let additionalData = ["company" : AnyCodable.init(stringLiteral: "xxx.corp"),
-                              "isRegistered" : AnyCodable.init(booleanLiteral: true),
-                              "serial" : AnyCodable.init(integerLiteral : 12345)]
+        let additionalData = AnyCodable.from(dictionary: ["company" : "xxx.corp",
+                                                         "isRegistered": true,
+                                                          "serial" : 12345])!
         
         // test
         let serializedXML = additionalData.serializeToXMLString()
