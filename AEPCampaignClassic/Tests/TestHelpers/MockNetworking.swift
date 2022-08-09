@@ -12,9 +12,11 @@
 
 import AEPServices
 import Foundation
+import XCTest
 
 class MockNetworking: Networking {
-    public var connectAsyncCalled: Bool = false
+    
+    public var connectAsyncCalled = XCTestExpectation(description: "Networking - connectAsync method not called")
     public var connectAsyncCalledWithNetworkRequest: NetworkRequest?
     public var connectAsyncCalledWithCompletionHandler: ((HttpConnection) -> Void)?
     public var expectedResponse: HttpConnection?
@@ -22,19 +24,20 @@ class MockNetworking: Networking {
 
     func connectAsync(networkRequest: NetworkRequest, completionHandler: ((HttpConnection) -> Void)? = nil) {
         print("Do nothing \(networkRequest)")
-        connectAsyncCalled = true
+        
         connectAsyncCalledWithNetworkRequest = networkRequest
         connectAsyncCalledWithCompletionHandler = completionHandler
         if let expectedResponse = expectedResponse, let completionHandler = completionHandler {
             completionHandler(expectedResponse)
         }
         cachedNetworkRequests.append(networkRequest)
+        connectAsyncCalled.fulfill()
     }
 
     func reset() {
-        connectAsyncCalled = false
         connectAsyncCalledWithNetworkRequest = nil
         connectAsyncCalledWithCompletionHandler = nil
         cachedNetworkRequests = []
     }
+    
 }

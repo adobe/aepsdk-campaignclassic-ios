@@ -10,8 +10,59 @@
  */
 
 import AEPCore
+import AEPServices
 import Foundation
 
 extension Event {
 
+    /// Returns true if this event is a Campaign Classic register event
+    var isRegisterEvent: Bool {
+        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE] as? Bool ?? false
+    }
+
+    /// Returns true if this event is a Campaign Classic TrackNotificationClick event
+    var isTrackClickEvent: Bool {
+        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_CLICK] as? Bool ?? false
+    }
+
+    /// Returns true if this event is a Campaign Classic TrackNotificationReceive event
+    var isTrackReceiveEvent: Bool {
+        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE] as? Bool ?? false
+    }
+
+    /// Retrieves the broadlogId string from the event data if available, nil otherwise
+    var broadlogId: String? {
+        if let trackingInfo = data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String: Any] {
+            return trackingInfo[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO_KEY_BROADLOG_ID] as? String
+        }
+        return nil
+    }
+
+    /// Retrieves the deliveryId string from the event data if available, nil otherwise
+    var deliveryId: String? {
+        if let trackingInfo = data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String: Any] {
+            return trackingInfo[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO_KEY_DELIVERY_ID] as? String
+        }
+        return nil
+    }
+
+    /// Retrieves the deviceToken string from the event data if available, nil otherwise
+    var deviceToken: String? {
+        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN] as? String
+    }
+
+    /// Retrieves the `userKey` string from the event data if available, nil otherwise
+    var userKey: String? {
+        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY] as? String
+    }
+
+    /// Retrieves the `additionalParameters` anycodable dictionary from event data if available, nil otherwise
+    var additionalParameters: [String: AnyCodable]? {
+        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as? [String: AnyCodable]
+    }
+
+    /// Retrieves the deviceInfo dictionary from event data if available, nil otherwise
+    var deviceInfo: [String: String]? {
+        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as? [String: String]
+    }
 }
