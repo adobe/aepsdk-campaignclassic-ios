@@ -24,7 +24,7 @@ public extension CampaignClassic {
     ///    - token : A unique device token received after registering your app with APNs servers
     ///    - userKey : A `string` containing the user identifier
     ///    - additionalParameters : a dictionary of custom key-value pairs to be sent along with the registration call
-    static func registerDevice(token: Data, userKey: String, additionalParameters: [String: String]?) {
+    static func registerDevice(token: Data, userKey: String, additionalParameters: [String: Any]?) {
         let deviceInfo = [CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_DEVICE_NAME: UIDevice.current.name,
                           CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_DEVICE_MODEL: UIDevice.current.model,
                           CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_OS_NAME: UIDevice.current.systemName]
@@ -36,7 +36,7 @@ public extension CampaignClassic {
 
         // attach additional parameters only if they are available
         if let additionalParameters = additionalParameters {
-            eventData[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] = additionalParameters
+            eventData[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] = AnyCodable.from(dictionary: additionalParameters)
         }
 
         let event = Event(name: CampaignClassicConstants.EventName.REGISTER_DEVICE,
