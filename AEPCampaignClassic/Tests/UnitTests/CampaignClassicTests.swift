@@ -85,7 +85,7 @@ class CampaignClassicTests: XCTestCase {
         XCTAssertTrue(networking.cachedNetworkRequests[0].connectPayload.isEmpty)
     }
     
-    func test_trackNotificationClick_whenNetworkError() throws {
+    func test_trackNotificationClick_when_networkError() throws {
         // setup
         enum error: Error {
             case genericError
