@@ -136,7 +136,6 @@ class CampaignClassicTests: XCTestCase {
         wait(for: [networking.connectAsyncCalled], timeout: 1)
     }
     
-    
     func test_trackNotificationClick_when_emptyTrackingServer() throws {
         // setup
         setConfigState(trackingServer: "")
@@ -201,11 +200,9 @@ class CampaignClassicTests: XCTestCase {
         wait(for: [networking.connectAsyncCalled], timeout: 1)
     }
     
-    
     //*******************************************************************
     // Track Notification Receive Tests
     //*******************************************************************
-    
     func test_trackNotificationReceive_makesCorrectNetworkRequest() throws {
         // setup
         let expectedURL = "https://trackserver/r/?id=h\(CampaignClassicTests.v8BROADLOG_ID),deliveryId,1"
@@ -222,7 +219,6 @@ class CampaignClassicTests: XCTestCase {
         XCTAssertEqual(networking.cachedNetworkRequests[0].connectTimeout, TimeInterval(CampaignClassicTests.NETWORK_TIMEOUT))
         XCTAssertTrue(networking.cachedNetworkRequests[0].connectPayload.isEmpty)
     }
-    
     
     //*******************************************************************
     // private methods

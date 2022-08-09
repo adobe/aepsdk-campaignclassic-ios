@@ -63,6 +63,6 @@ extension Event {
 
     /// Retrieves the deviceInfo dictionary from event data if available, nil otherwise
     var deviceInfo: [String: String]? {
-        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as? [String: String]
+        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO] as? [String: String]
     }
 }

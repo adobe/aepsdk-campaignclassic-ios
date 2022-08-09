@@ -70,7 +70,6 @@ public class CampaignClassic: NSObject, Extension {
         Log.trace(label: CampaignClassicConstants.LOG_TAG, "An event of type '\(event.type)' has been received.")
         dispatchQueue.async { [weak self] in
             guard let self = self else {return}
-
             if event.isRegisterEvent {
                 self.handleRegisterDeviceEvent(event: event)
             } else if event.isTrackClickEvent {
@@ -116,7 +115,7 @@ public class CampaignClassic: NSObject, Extension {
             return
         }
 
-        // V8 message Id is received in UUID format while V7 still comes as an integer(decimal) represented as a string.
+        // V8 messageId is received in UUID format while V7 still comes as an integer(decimal) represented as a string.
         // No transformation is required for the V8 UUID however for V7, message Id is parsed as an integer and converted to hex string.
         guard let transformedBroadlogId = transformBroadLogId(broadlogId) else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "TrackingInfo broadLogId is nil (Missing key `_mId` from tracking Info), discarding the campaign classic track event.")

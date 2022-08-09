@@ -24,18 +24,15 @@ struct CampaignClassicConfiguration {
         guard let configSharedState = runtime.getSharedState(extensionName: CampaignClassicConstants.EventDataKeys.Configuration.NAME, event: event, barrier: false)?.value else {
             return
         }
-
-        integrationKey = configSharedState[CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_INTEGRATION_KEY] as? String
+        
         marketingServer = configSharedState[CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_MARKETING_SERVER] as? String
         trackingServer = configSharedState[CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_SERVER] as? String
-        if let timeOutInt = configSharedState[CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_NETWORK_TIMEOUT] as? Int {
-            timeout = TimeInterval(timeOutInt)
+        integrationKey = configSharedState[CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_INTEGRATION_KEY] as? String
+        if let timeoutInt = configSharedState[CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_NETWORK_TIMEOUT] as? Int {
+            timeout = TimeInterval(timeoutInt)
         }
-
-        let privacyStatusString = configSharedState[CampaignClassicConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY] as? String ?? ""
-        privacyStatus = PrivacyStatus.init(rawValue: configSharedState[CampaignClassicConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY] as? PrivacyStatus.RawValue ?? CampaignClassicConstants.Default.PRIVACY_STATUS.rawValue) ?? CampaignClassicConstants.Default.PRIVACY_STATUS
-
-        privacyStatus = PrivacyStatus(rawValue: privacyStatusString)!
-
+        if let privacyStatusString = configSharedState[CampaignClassicConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY] as? String {
+            privacyStatus = PrivacyStatus(rawValue: privacyStatusString)!
+        }
     }
 }
