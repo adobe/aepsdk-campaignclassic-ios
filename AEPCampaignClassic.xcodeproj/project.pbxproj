@@ -21,12 +21,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		24A4732C289DD10E005B875C /* String+Escaping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A4732B289DD10E005B875C /* String+Escaping.swift */; };
+		24A4732E289DD205005B875C /* AnyCodable+StringConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A4732D289DD205005B875C /* AnyCodable+StringConversion.swift */; };
 		3D10A6292625826D0049BDA1 /* AEPCampaignClassic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D10A5F5262581650049BDA1 /* AEPCampaignClassic.framework */; };
 		B6269C5428989A2B008B1F94 /* CampaignClassicPublicAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6269C5328989A2B008B1F94 /* CampaignClassicPublicAPITests.swift */; };
 		B6269C5528989A2B008B1F94 /* AEPCampaignClassic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D10A5F5262581650049BDA1 /* AEPCampaignClassic.framework */; platformFilter = ios; };
 		B6269C5B2898A1F8008B1F94 /* MockExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F87B284AC7CE0007EAA7 /* MockExtension.swift */; };
-		B6269C5D2899BA98008B1F94 /* CampaignClassicXMLSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6269C5C2899BA98008B1F94 /* CampaignClassicXMLSerializer.swift */; };
-		B6269C602899CC41008B1F94 /* CampaignClassicXMLSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6269C5E2899CBEE008B1F94 /* CampaignClassicXMLSerializerTests.swift */; };
+		B6269C5D2899BA98008B1F94 /* Dictionary+XMLSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6269C5C2899BA98008B1F94 /* Dictionary+XMLSerializer.swift */; };
+		B6269C602899CC41008B1F94 /* XMLSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6269C5E2899CBEE008B1F94 /* XMLSerializerTests.swift */; };
 		BA69B1D12C22A2C6EAFCD420 /* Pods_FunctionalTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B226DCD5A320D3F3EF94E484 /* Pods_FunctionalTests.framework */; };
 		CE3E5A1484C009C7380806E6 /* Pods_UnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0170DA4853B34F4DCBF45338 /* Pods_UnitTests.framework */; };
 		D609F883284AC7CE0007EAA7 /* TestableExtensionRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F876284AC7CE0007EAA7 /* TestableExtensionRuntime.swift */; };
@@ -72,6 +74,8 @@
 /* Begin PBXFileReference section */
 		0170DA4853B34F4DCBF45338 /* Pods_UnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D8DE94FEB754EEB30C2E8B9 /* Pods-AEPCampaignClassicUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AEPCampaignClassicUnitTests.release.xcconfig"; path = "Target Support Files/Pods-AEPCampaignClassicUnitTests/Pods-AEPCampaignClassicUnitTests.release.xcconfig"; sourceTree = "<group>"; };
+		24A4732B289DD10E005B875C /* String+Escaping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Escaping.swift"; sourceTree = "<group>"; };
+		24A4732D289DD205005B875C /* AnyCodable+StringConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyCodable+StringConversion.swift"; sourceTree = "<group>"; };
 		2FAB33EAE72BF5B52971EAA7 /* Pods_AEPCampaignClassic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AEPCampaignClassic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D10A5F5262581650049BDA1 /* AEPCampaignClassic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AEPCampaignClassic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D10A5F9262581650049BDA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -86,8 +90,8 @@
 		B226DCD5A320D3F3EF94E484 /* Pods_FunctionalTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FunctionalTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6269C5128989A2A008B1F94 /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6269C5328989A2B008B1F94 /* CampaignClassicPublicAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignClassicPublicAPITests.swift; sourceTree = "<group>"; };
-		B6269C5C2899BA98008B1F94 /* CampaignClassicXMLSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignClassicXMLSerializer.swift; sourceTree = "<group>"; };
-		B6269C5E2899CBEE008B1F94 /* CampaignClassicXMLSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignClassicXMLSerializerTests.swift; sourceTree = "<group>"; };
+		B6269C5C2899BA98008B1F94 /* Dictionary+XMLSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+XMLSerializer.swift"; sourceTree = "<group>"; };
+		B6269C5E2899CBEE008B1F94 /* XMLSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLSerializerTests.swift; sourceTree = "<group>"; };
 		D15CDE497C7A5CCFC583C7B3 /* Pods-AEPCampaignClassicFunctionalTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AEPCampaignClassicFunctionalTests.release.xcconfig"; path = "Target Support Files/Pods-AEPCampaignClassicFunctionalTests/Pods-AEPCampaignClassicFunctionalTests.release.xcconfig"; sourceTree = "<group>"; };
 		D19CD9975001EB4CF1D0B376 /* Pods-AEPCampaignClassicUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AEPCampaignClassicUnitTests.debug.xcconfig"; path = "Target Support Files/Pods-AEPCampaignClassicUnitTests/Pods-AEPCampaignClassicUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D268B7DE6AEEC1A3AE502248 /* Pods_AEPCampaignClassicUnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AEPCampaignClassicUnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -213,12 +217,14 @@
 		3D10A61B262581AD0049BDA1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				24A4732D289DD205005B875C /* AnyCodable+StringConversion.swift */,
 				D6E12AD9284A5EA100C7FEFE /* CampaignClassicConstants.swift */,
 				D6E12ADA284A5EA100C7FEFE /* CampaignClassic.swift */,
 				D6E12AD7284A5EA100C7FEFE /* CampaignClassic+PublicAPI.swift */,
 				D6E12AD6284A5EA100C7FEFE /* CampaignClassicState.swift */,
-				B6269C5C2899BA98008B1F94 /* CampaignClassicXMLSerializer.swift */,
+				B6269C5C2899BA98008B1F94 /* Dictionary+XMLSerializer.swift */,
 				D6E12ADC284A5EA100C7FEFE /* Event+CampaignClassic.swift */,
+				24A4732B289DD10E005B875C /* String+Escaping.swift */,
 				3D10A5F9262581650049BDA1 /* Info.plist */,
 				D62CB117284AC0020008C0F2 /* AEPCampaignClassic.h */,
 			);
@@ -240,7 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				B6269C5328989A2B008B1F94 /* CampaignClassicPublicAPITests.swift */,
-				B6269C5E2899CBEE008B1F94 /* CampaignClassicXMLSerializerTests.swift */,
+				B6269C5E2899CBEE008B1F94 /* XMLSerializerTests.swift */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -536,7 +542,9 @@
 			files = (
 				D6E12AE0284A5EA100C7FEFE /* CampaignClassicConstants.swift in Sources */,
 				D6E12ADE284A5EA100C7FEFE /* CampaignClassic+PublicAPI.swift in Sources */,
-				B6269C5D2899BA98008B1F94 /* CampaignClassicXMLSerializer.swift in Sources */,
+				24A4732E289DD205005B875C /* AnyCodable+StringConversion.swift in Sources */,
+				24A4732C289DD10E005B875C /* String+Escaping.swift in Sources */,
+				B6269C5D2899BA98008B1F94 /* Dictionary+XMLSerializer.swift in Sources */,
 				D6E12AE3284A5EA100C7FEFE /* Event+CampaignClassic.swift in Sources */,
 				D6E12ADD284A5EA100C7FEFE /* CampaignClassicState.swift in Sources */,
 				D6E12AE1284A5EA100C7FEFE /* CampaignClassic.swift in Sources */,
@@ -562,7 +570,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6269C5428989A2B008B1F94 /* CampaignClassicPublicAPITests.swift in Sources */,
-				B6269C602899CC41008B1F94 /* CampaignClassicXMLSerializerTests.swift in Sources */,
+				B6269C602899CC41008B1F94 /* XMLSerializerTests.swift in Sources */,
 				B6269C5B2898A1F8008B1F94 /* MockExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

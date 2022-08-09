@@ -16,16 +16,16 @@ import AEPServices
 import XCTest
 
 
-class CampaignClassicXMLSerializerTests: XCTestCase {
+class XMLSerializerTests: XCTestCase {
     
     func test_serializer() throws {
-        // test
-        let additionalData = ["company" : AnyCodable.init(stringLiteral: "xxx.corp"),
-                              "isRegistered" : AnyCodable.init(booleanLiteral: true),
-                              "serial" : AnyCodable.init(integerLiteral : 12345)]
+        // setup
+        let additionalData = AnyCodable.from(dictionary: ["company" : "xxx.corp",
+                                                         "isRegistered": true,
+                                                          "serial" : 12345])!
         
-        // verify
-        let serializedXML = CampaignClassicXMLSerializer.serializeToXMLString(map: additionalData)
+        // test
+        let serializedXML = additionalData.serializeToXMLString()
         
         //verify for encoded start tag <additionalParams>
         XCTAssertTrue(serializedXML.contains("%3CadditionalParams%3E"))
@@ -40,16 +40,22 @@ class CampaignClassicXMLSerializerTests: XCTestCase {
     }
     
     func test_serializer_when_emptyMap() throws {
+        // setup
+        let additionalData : [String : AnyCodable] = [:]
+        
         // test
-        let serializedXML = CampaignClassicXMLSerializer.serializeToXMLString(map: [:])
+        let serializedXML = additionalData.serializeToXMLString()
         
         // verify
         XCTAssertEqual("%3CadditionalParams%3E%3C%2FadditionalParams%3E", serializedXML)
     }
     
     func test_serializer_when_symbolsToEscape() throws {
+        // setup
+        let additionalData : [String : AnyCodable] = ["greeting": "'h>e&l\"l<o'"]
+        
         // test
-        let serializedXML = CampaignClassicXMLSerializer.serializeToXMLString(map: ["greeting": "'h>e&l\"l<o'"])
+        let serializedXML = additionalData.serializeToXMLString()
         
         // verify
         XCTAssertEqual("%3CadditionalParams%3E%3Cparam%20name%3D%22greeting%22%20value%3D%22%26%23x27%3Bh%26gt%3Be%26amp%3Bl%26quot%3Bl%26lt%3Bo%26%23x27%3B%22%20%2F%3E%3C%2FadditionalParams%3E", serializedXML)
@@ -60,7 +66,7 @@ class CampaignClassicXMLSerializerTests: XCTestCase {
         let additionalData = ["company" : AnyCodable.init(nilLiteral: {}())]
                 
         // test
-        let serializedXML = CampaignClassicXMLSerializer.serializeToXMLString(map: additionalData)
+        let serializedXML = additionalData.serializeToXMLString()
         
         // verify
         XCTAssertEqual("%3CadditionalParams%3E%3C%2FadditionalParams%3E", serializedXML)
