@@ -11,24 +11,25 @@
  */
 
 import Foundation
+import AEPCore
 
 enum CampaignClassicConstants {
     static let EXTENSION_NAME                           = "com.adobe.module.campaignclassic"
     static let FRIENDLY_NAME                            = "CampaignClassic"
     static let EXTENSION_VERSION                        = "3.0.0"
-    static let DATASTORE_NAME                           = EXTENSION_NAME
     static let LOG_TAG                                  = FRIENDLY_NAME
 
     // general strings
     static let DATASTORE_KEY = "ADOBEMOBILE_CAMPAIGNCLASSIC"
-    static let REGISTRATION_API_URL_BASE = "https://%s/nms/mobile/1/registerIOS.jssp"
-    static let TRACKING_API_URL_BASE = "https://%s/r/?id=h%s,%s,%s"
-    static let REGISTER_PARAMS_FORMAT = "registrationToken=%s&mobileAppUuid=%s&userKey=%s&deviceName=%s&deviceModel=%s&deviceBrand=%s&deviceManufacturer=%s&osName=%s&osVersion=%s&osLanguage=%s&additionalParams="
+    static let REGISTRATION_API_URL_BASE = "https://%@/nms/mobile/1/registerIOS.jssp"
+    static let TRACKING_API_URL_BASE = "https://%@/r/?id=h%@,%@,%@"
+    static let REGISTER_PARAMS_FORMAT = "registrationToken=%@&mobileAppUuid=%@&userKey=%@&deviceName=%@&deviceModel=%@&deviceBrand=%@&deviceManufacturer=%@&osName=%s&osVersion=%@&osLanguage=%@&additionalParams="
     static let REGISTER_PARAM_DEVICE_BRAND_APPLE = "Apple"
     static let REGISTER_PARAM_DEVICE_MANUFACTURER_APPLE = REGISTER_PARAM_DEVICE_BRAND_APPLE
-    static let TRACK_RECEIVE_TAGID = "1"
-    static let TRACK_CLICK_TAGID = "2"
-    static let CONTENT_TYPE_UTF8_CHARSET = "charset=UTF-8"
+    static let TRACK_RECEIVE_TAG_ID = "1"
+    static let TRACK_CLICK_TAG_ID = "2"
+    static let HEADER_CONTENT_TYPE_UTF8_CHARSET = "charset=UTF-8"
+    static let HEADER_KEY_CONTENT_LENGTH = "Content-Length"
 
     enum DatastoreKeys {
         static let TOKEN_HASH = "ADOBEMOBILE_STOREDDEFAULTS_TOKENHASH"
@@ -39,6 +40,11 @@ enum CampaignClassicConstants {
         static let REGISTER_DEVICE = "CampaignClassic Device Registration"
         static let TRACK_NOTIFICATION_CLICK = "CampaignClassic Track Notification Click"
         static let TRACK_NOTIFICATION_RECEIVE = "CampaignClassic Track Notification Receive"
+    }
+
+    enum Default {
+        static let PRIVACY_STATUS: PrivacyStatus = .unknown
+        static let NETWORK_TIMEOUT = TimeInterval(30)
     }
 
     enum EventDataKeys {
@@ -60,11 +66,10 @@ enum CampaignClassicConstants {
             static let TRACK_INFO = "trackinfo"
             static let TRACK_INFO_KEY_DELIVERY_ID = "_dId"
             static let TRACK_INFO_KEY_BROADLOG_ID = "_mId"
-            static let LOG_PREFIX = SHARED_STATE_NAME
         }
 
         enum Configuration {
-            static let SHARED_STATE_NAME = "com.adobe.module.configuration"
+            static let EXTENSION_NAME = "com.adobe.module.configuration"
             static let GLOBAL_CONFIG_PRIVACY = "global.privacy"
             static let CAMPAIGNCLASSIC_NETWORK_TIMEOUT = "campaignclassic.timeout"
             static let CAMPAIGNCLASSIC_MARKETING_SERVER = "campaignclassic.marketingServer"

@@ -29,6 +29,10 @@
 		B6269C5B2898A1F8008B1F94 /* MockExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F87B284AC7CE0007EAA7 /* MockExtension.swift */; };
 		B6269C5D2899BA98008B1F94 /* Dictionary+XMLSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6269C5C2899BA98008B1F94 /* Dictionary+XMLSerializer.swift */; };
 		B6269C602899CC41008B1F94 /* XMLSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6269C5E2899CBEE008B1F94 /* XMLSerializerTests.swift */; };
+		B65FE1D728A2EA00001596B6 /* CampaignClassicConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FE1D628A2EA00001596B6 /* CampaignClassicConfiguration.swift */; };
+		B65FE1D928A2EB18001596B6 /* CampaignClassicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FE1D828A2EB18001596B6 /* CampaignClassicTests.swift */; };
+		B65FE1DA28A2EB4D001596B6 /* TestableExtensionRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F876284AC7CE0007EAA7 /* TestableExtensionRuntime.swift */; };
+		B65FE1DB28A2EB51001596B6 /* MockNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F877284AC7CE0007EAA7 /* MockNetworking.swift */; };
 		BA69B1D12C22A2C6EAFCD420 /* Pods_FunctionalTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B226DCD5A320D3F3EF94E484 /* Pods_FunctionalTests.framework */; };
 		CE3E5A1484C009C7380806E6 /* Pods_UnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0170DA4853B34F4DCBF45338 /* Pods_UnitTests.framework */; };
 		D609F883284AC7CE0007EAA7 /* TestableExtensionRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F876284AC7CE0007EAA7 /* TestableExtensionRuntime.swift */; };
@@ -39,7 +43,6 @@
 		D609F88B284AC7CE0007EAA7 /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F87E284AC7CE0007EAA7 /* TestHelper.swift */; };
 		D609F890284AC7E60007EAA7 /* CampaignClassicFunctionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F88F284AC7E60007EAA7 /* CampaignClassicFunctionalTests.swift */; };
 		D62CB118284AC0020008C0F2 /* AEPCampaignClassic.h in Headers */ = {isa = PBXBuildFile; fileRef = D62CB117284AC0020008C0F2 /* AEPCampaignClassic.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D6E12ADD284A5EA100C7FEFE /* CampaignClassicState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E12AD6284A5EA100C7FEFE /* CampaignClassicState.swift */; };
 		D6E12ADE284A5EA100C7FEFE /* CampaignClassic+PublicAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E12AD7284A5EA100C7FEFE /* CampaignClassic+PublicAPI.swift */; };
 		D6E12AE0284A5EA100C7FEFE /* CampaignClassicConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E12AD9284A5EA100C7FEFE /* CampaignClassicConstants.swift */; };
 		D6E12AE1284A5EA100C7FEFE /* CampaignClassic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E12ADA284A5EA100C7FEFE /* CampaignClassic.swift */; };
@@ -92,6 +95,8 @@
 		B6269C5328989A2B008B1F94 /* CampaignClassicPublicAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignClassicPublicAPITests.swift; sourceTree = "<group>"; };
 		B6269C5C2899BA98008B1F94 /* Dictionary+XMLSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+XMLSerializer.swift"; sourceTree = "<group>"; };
 		B6269C5E2899CBEE008B1F94 /* XMLSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLSerializerTests.swift; sourceTree = "<group>"; };
+		B65FE1D628A2EA00001596B6 /* CampaignClassicConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignClassicConfiguration.swift; sourceTree = "<group>"; };
+		B65FE1D828A2EB18001596B6 /* CampaignClassicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignClassicTests.swift; sourceTree = "<group>"; };
 		D15CDE497C7A5CCFC583C7B3 /* Pods-AEPCampaignClassicFunctionalTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AEPCampaignClassicFunctionalTests.release.xcconfig"; path = "Target Support Files/Pods-AEPCampaignClassicFunctionalTests/Pods-AEPCampaignClassicFunctionalTests.release.xcconfig"; sourceTree = "<group>"; };
 		D19CD9975001EB4CF1D0B376 /* Pods-AEPCampaignClassicUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AEPCampaignClassicUnitTests.debug.xcconfig"; path = "Target Support Files/Pods-AEPCampaignClassicUnitTests/Pods-AEPCampaignClassicUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D268B7DE6AEEC1A3AE502248 /* Pods_AEPCampaignClassicUnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AEPCampaignClassicUnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,7 +111,6 @@
 		D655170E2667F6FB00A152CF /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		D655170F2667F72600A152CF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D6B406C3264347C3002814FC /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		D6E12AD6284A5EA100C7FEFE /* CampaignClassicState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignClassicState.swift; sourceTree = "<group>"; };
 		D6E12AD7284A5EA100C7FEFE /* CampaignClassic+PublicAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CampaignClassic+PublicAPI.swift"; sourceTree = "<group>"; };
 		D6E12AD9284A5EA100C7FEFE /* CampaignClassicConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignClassicConstants.swift; sourceTree = "<group>"; };
 		D6E12ADA284A5EA100C7FEFE /* CampaignClassic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignClassic.swift; sourceTree = "<group>"; };
@@ -218,10 +222,10 @@
 			isa = PBXGroup;
 			children = (
 				24A4732D289DD205005B875C /* AnyCodable+StringConversion.swift */,
+				B65FE1D628A2EA00001596B6 /* CampaignClassicConfiguration.swift */,
 				D6E12AD9284A5EA100C7FEFE /* CampaignClassicConstants.swift */,
 				D6E12ADA284A5EA100C7FEFE /* CampaignClassic.swift */,
 				D6E12AD7284A5EA100C7FEFE /* CampaignClassic+PublicAPI.swift */,
-				D6E12AD6284A5EA100C7FEFE /* CampaignClassicState.swift */,
 				B6269C5C2899BA98008B1F94 /* Dictionary+XMLSerializer.swift */,
 				D6E12ADC284A5EA100C7FEFE /* Event+CampaignClassic.swift */,
 				24A4732B289DD10E005B875C /* String+Escaping.swift */,
@@ -245,6 +249,7 @@
 		B6269C5228989A2B008B1F94 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				B65FE1D828A2EB18001596B6 /* CampaignClassicTests.swift */,
 				B6269C5328989A2B008B1F94 /* CampaignClassicPublicAPITests.swift */,
 				B6269C5E2899CBEE008B1F94 /* XMLSerializerTests.swift */,
 			);
@@ -543,10 +548,10 @@
 				D6E12AE0284A5EA100C7FEFE /* CampaignClassicConstants.swift in Sources */,
 				D6E12ADE284A5EA100C7FEFE /* CampaignClassic+PublicAPI.swift in Sources */,
 				24A4732E289DD205005B875C /* AnyCodable+StringConversion.swift in Sources */,
+				B65FE1D728A2EA00001596B6 /* CampaignClassicConfiguration.swift in Sources */,
 				24A4732C289DD10E005B875C /* String+Escaping.swift in Sources */,
 				B6269C5D2899BA98008B1F94 /* Dictionary+XMLSerializer.swift in Sources */,
 				D6E12AE3284A5EA100C7FEFE /* Event+CampaignClassic.swift in Sources */,
-				D6E12ADD284A5EA100C7FEFE /* CampaignClassicState.swift in Sources */,
 				D6E12AE1284A5EA100C7FEFE /* CampaignClassic.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -571,7 +576,10 @@
 			files = (
 				B6269C5428989A2B008B1F94 /* CampaignClassicPublicAPITests.swift in Sources */,
 				B6269C602899CC41008B1F94 /* XMLSerializerTests.swift in Sources */,
+				B65FE1D928A2EB18001596B6 /* CampaignClassicTests.swift in Sources */,
+				B65FE1DB28A2EB51001596B6 /* MockNetworking.swift in Sources */,
 				B6269C5B2898A1F8008B1F94 /* MockExtension.swift in Sources */,
+				B65FE1DA28A2EB4D001596B6 /* TestableExtensionRuntime.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
