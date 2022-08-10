@@ -25,8 +25,8 @@ class CampaignClassicTests: XCTestCase {
     static let NETWORK_TIMEOUT = 10
     
     // broadLogID and deliveryID test constants
-    static let v8BROADLOG_ID = UUID().uuidString
-    static let v7BROADLOG_ID = "55336"
+    static let V8_BROADLOG_ID = UUID().uuidString
+    static let V7_BROADLOG_ID = "55336"
     static let DELIVERY_ID = "deliveryId"
     let v7BROADLOG_ID_HEX = "D828"
       
@@ -70,7 +70,7 @@ class CampaignClassicTests: XCTestCase {
     //*******************************************************************
     func test_trackNotificationClick_makesCorrectNetworkRequest() throws {
         // setup
-        let expectedURL = "https://trackserver/r/?id=h\(CampaignClassicTests.v8BROADLOG_ID),deliveryId,2"
+        let expectedURL = "https://trackserver/r/?id=h\(CampaignClassicTests.V8_BROADLOG_ID),deliveryId,2"
         setConfigState()
         networking.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
 
@@ -153,7 +153,7 @@ class CampaignClassicTests: XCTestCase {
         setConfigState()
 
         // test
-        let event = trackNotificationClickEvent(broadLogID: CampaignClassicTests.v7BROADLOG_ID)
+        let event = trackNotificationClickEvent(broadLogID: CampaignClassicTests.V7_BROADLOG_ID)
         runtime.simulateComingEvents(event)
         
         // verify
@@ -162,7 +162,7 @@ class CampaignClassicTests: XCTestCase {
         XCTAssertEqual(networking.cachedNetworkRequests[0].url.absoluteString, "https://trackserver/r/?id=h\(v7BROADLOG_ID_HEX),deliveryId,2")
     }
     
-    func test_trackNotificationClick_with_InValidBroadLogId() throws {
+    func test_trackNotificationClick_with_inValidBroadLogId() throws {
         // setup
         setConfigState()
         networking.connectAsyncCalled.isInverted = true
@@ -205,7 +205,7 @@ class CampaignClassicTests: XCTestCase {
     //*******************************************************************
     func test_trackNotificationReceive_makesCorrectNetworkRequest() throws {
         // setup
-        let expectedURL = "https://trackserver/r/?id=h\(CampaignClassicTests.v8BROADLOG_ID),deliveryId,1"
+        let expectedURL = "https://trackserver/r/?id=h\(CampaignClassicTests.V8_BROADLOG_ID),deliveryId,1"
         setConfigState()
         networking.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
 
@@ -224,7 +224,7 @@ class CampaignClassicTests: XCTestCase {
     // private methods
     //*******************************************************************
     
-    private func trackNotificationClickEvent(broadLogID : String? = v8BROADLOG_ID, deliveryID : String? = DELIVERY_ID) -> Event {
+    private func trackNotificationClickEvent(broadLogID : String? = V8_BROADLOG_ID, deliveryID : String? = DELIVERY_ID) -> Event {
         let userInfo = ["_mId" : broadLogID, "_dId" : deliveryID]
         return Event(name: CampaignClassicConstants.EventName.TRACK_NOTIFICATION_CLICK,
                      type: EventType.campaign,
@@ -233,7 +233,7 @@ class CampaignClassicTests: XCTestCase {
                             CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO: userInfo] as [String: Any])
     }
     
-    private func trackNotificationReceiveEvent(broadLogID : String = v8BROADLOG_ID, deliveryID : String? = DELIVERY_ID) -> Event {
+    private func trackNotificationReceiveEvent(broadLogID : String = V8_BROADLOG_ID, deliveryID : String? = DELIVERY_ID) -> Event {
         let userInfo = ["_mId" : broadLogID, "_dId" : deliveryID]
         return Event(name: CampaignClassicConstants.EventName.TRACK_NOTIFICATION_CLICK,
                      type: EventType.campaign,
@@ -252,6 +252,6 @@ class CampaignClassicTests: XCTestCase {
                                      CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_MARKETING_SERVER: marketingServer as Any,
                                      CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_INTEGRATION_KEY: integrationKey as Any,
                                      CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_NETWORK_TIMEOUT: networkTimeOut]
-        runtime.simulateSharedState(for: CampaignClassicConstants.EventDataKeys.Configuration.NAME, data: (configurationSharedState, .set))
+        runtime.simulateSharedState(for: CampaignClassicConstants.EventDataKeys.Configuration.EXTENSION_NAME, data: (configurationSharedState, .set))
     }
 }

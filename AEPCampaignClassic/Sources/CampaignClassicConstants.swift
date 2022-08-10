@@ -21,13 +21,13 @@ enum CampaignClassicConstants {
 
     // general strings
     static let DATASTORE_KEY = "ADOBEMOBILE_CAMPAIGNCLASSIC"
-    static let REGISTRATION_API_URL_BASE = "https://%s/nms/mobile/1/registerIOS.jssp"
+    static let REGISTRATION_API_URL_BASE = "https://%@/nms/mobile/1/registerIOS.jssp"
     static let TRACKING_API_URL_BASE = "https://%@/r/?id=h%@,%@,%@"
-    static let REGISTER_PARAMS_FORMAT = "registrationToken=%s&mobileAppUuid=%s&userKey=%s&deviceName=%s&deviceModel=%s&deviceBrand=%s&deviceManufacturer=%s&osName=%s&osVersion=%s&osLanguage=%s&additionalParams="
+    static let REGISTER_PARAMS_FORMAT = "registrationToken=%@&mobileAppUuid=%@&userKey=%@&deviceName=%@&deviceModel=%@&deviceBrand=%@&deviceManufacturer=%@&osName=%s&osVersion=%@&osLanguage=%@&additionalParams="
     static let REGISTER_PARAM_DEVICE_BRAND_APPLE = "Apple"
     static let REGISTER_PARAM_DEVICE_MANUFACTURER_APPLE = REGISTER_PARAM_DEVICE_BRAND_APPLE
-    static let TRACK_RECEIVE_TAGID = "1"
-    static let TRACK_CLICK_TAGID = "2"
+    static let TRACK_RECEIVE_TAG_ID = "1"
+    static let TRACK_CLICK_TAG_ID = "2"
     static let HEADER_CONTENT_TYPE_UTF8_CHARSET = "charset=UTF-8"
     static let HEADER_KEY_CONTENT_LENGTH = "Content-Length"
 
@@ -70,7 +70,7 @@ enum CampaignClassicConstants {
         }
 
         enum Configuration {
-            static let NAME = "com.adobe.module.configuration"
+            static let EXTENSION_NAME = "com.adobe.module.configuration"
             static let GLOBAL_CONFIG_PRIVACY = "global.privacy"
             static let CAMPAIGNCLASSIC_NETWORK_TIMEOUT = "campaignclassic.timeout"
             static let CAMPAIGNCLASSIC_MARKETING_SERVER = "campaignclassic.marketingServer"

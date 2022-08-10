@@ -32,18 +32,12 @@ extension Event {
 
     /// Retrieves the broadlogId string from the event data if available, nil otherwise
     var broadlogId: String? {
-        if let trackingInfo = data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String: Any] {
-            return trackingInfo[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO_KEY_BROADLOG_ID] as? String
-        }
-        return nil
+        return trackingInfo?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO_KEY_BROADLOG_ID] as? String
     }
 
     /// Retrieves the deliveryId string from the event data if available, nil otherwise
     var deliveryId: String? {
-        if let trackingInfo = data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String: Any] {
-            return trackingInfo[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO_KEY_DELIVERY_ID] as? String
-        }
-        return nil
+        return trackingInfo?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO_KEY_DELIVERY_ID] as? String
     }
 
     /// Retrieves the deviceToken string from the event data if available, nil otherwise
@@ -64,5 +58,9 @@ extension Event {
     /// Retrieves the deviceInfo dictionary from event data if available, nil otherwise
     var deviceInfo: [String: String]? {
         return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO] as? [String: String]
+    }
+    
+    private var trackingInfo: [String : Any]? {
+        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String: Any]
     }
 }
