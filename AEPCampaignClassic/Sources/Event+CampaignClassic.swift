@@ -30,24 +30,36 @@ extension Event {
         return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE] as? Bool ?? false
     }
 
-    /// Retrieves the broadlogId string from the event data if available, nil otherwise
+    /// Retrieves the broadlogId string from the event data if available and not empty, nil otherwise
     var broadlogId: String? {
-        return trackingInfo?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO_KEY_BROADLOG_ID] as? String
+        guard let broadlogId = trackingInfo?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO_KEY_BROADLOG_ID] as? String, !broadlogId.isEmpty else {
+            return nil
+        }
+        return broadlogId
     }
 
-    /// Retrieves the deliveryId string from the event data if available, nil otherwise
+    /// Retrieves the deliveryId string from the event data if available and not empty, nil otherwise
     var deliveryId: String? {
-        return trackingInfo?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO_KEY_DELIVERY_ID] as? String
+        guard let deliveryId = trackingInfo?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO_KEY_DELIVERY_ID] as? String, !deliveryId.isEmpty else {
+            return nil
+        }
+        return deliveryId
     }
 
-    /// Retrieves the deviceToken string from the event data if available, nil otherwise
+    /// Retrieves the deviceToken string from the event data if available and not empty, nil otherwise
     var deviceToken: String? {
-        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN] as? String
+        guard let deviceToken = data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN] as? String, !deviceToken.isEmpty else {
+            return nil
+        }
+        return deviceToken
     }
 
-    /// Retrieves the `userKey` string from the event data if available, nil otherwise
+    /// Retrieves the `userKey` string from the event data if available and not empty, nil otherwise
     var userKey: String? {
-        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY] as? String
+        guard let userKey = data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY] as? String, !userKey.isEmpty else {
+            return nil
+        }
+        return userKey
     }
 
     /// Retrieves the `additionalParameters` anycodable dictionary from event data if available, nil otherwise
@@ -59,8 +71,8 @@ extension Event {
     var deviceInfo: [String: String]? {
         return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO] as? [String: String]
     }
-    
-    private var trackingInfo: [String : Any]? {
+
+    private var trackingInfo: [String: Any]? {
         return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String: Any]
     }
 }

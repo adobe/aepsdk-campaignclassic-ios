@@ -94,7 +94,7 @@ public class CampaignClassic: NSObject, Extension {
     ///   - tagId : an integer string indicating whether it is a notification receive or notification click request
     private func handleTrackEvent(event: Event, withTagId tagId: String) {
         let configuration = CampaignClassicConfiguration.init(forEvent: event, runtime: runtime)
-        
+
         if configuration.privacyStatus != PrivacyStatus.optedIn {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Unable to process TrackNotification request, MobilePrivacyStatus is not optedIn.")
             return
@@ -105,12 +105,12 @@ public class CampaignClassic: NSObject, Extension {
             return
         }
 
-        guard let deliveryId = event.deliveryId, !deliveryId.isEmpty else {
+        guard let deliveryId = event.deliveryId else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Unable to process TrackNotification request, trackingInfo deliveryId is nil (missing key `_dId` from tracking Info) or empty.")
             return
         }
 
-        guard let broadlogId = event.broadlogId, !broadlogId.isEmpty else {
+        guard let broadlogId = event.broadlogId else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Unable to process TrackNotification request, trackingInfo broadLogId is nil (missing key `_mId` from tracking Info) or empty.")
             return
         }
@@ -127,7 +127,7 @@ public class CampaignClassic: NSObject, Extension {
             return
         }
 
-        Log.debug(label: CampaignClassicConstants.LOG_TAG, "TrackingNotification network call initiated with URL : \(trackingUrl.absoluteString)");
+        Log.debug(label: CampaignClassicConstants.LOG_TAG, "TrackingNotification network call initiated with URL : \(trackingUrl.absoluteString)")
         let request = NetworkRequest(url: trackingUrl, httpMethod: .get, connectPayload: "", httpHeaders: [:], connectTimeout: configuration.timeout, readTimeout: configuration.timeout)
 
         networkService.connectAsync(networkRequest: request, completionHandler: { connection in
