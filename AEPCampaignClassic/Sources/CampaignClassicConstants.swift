@@ -66,7 +66,6 @@ enum CampaignClassicConstants {
             static let TRACK_INFO = "trackinfo"
             static let TRACK_INFO_KEY_DELIVERY_ID = "_dId"
             static let TRACK_INFO_KEY_BROADLOG_ID = "_mId"
-            static let LOG_PREFIX = SHARED_STATE_NAME
         }
 
         enum Configuration {
