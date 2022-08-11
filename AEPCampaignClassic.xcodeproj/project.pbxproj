@@ -222,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				B673E40C28A4C05D0069CAEF /* Extensions */,
+				D6E12ADA284A5EA100C7FEFE /* CampaignClassic.swift */,
 				B65FE1D628A2EA00001596B6 /* CampaignClassicConfiguration.swift */,
 				D6E12AD9284A5EA100C7FEFE /* CampaignClassicConstants.swift */,
 				D6E12AD7284A5EA100C7FEFE /* CampaignClassic+PublicAPI.swift */,
