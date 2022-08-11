@@ -235,7 +235,6 @@
 			isa = PBXGroup;
 			children = (
 				B6269C5228989A2B008B1F94 /* UnitTests */,
-				D609F872284AC7CE0007EAA7 /* FunctionalTests */,
 				D609F874284AC7CE0007EAA7 /* TestHelpers */,
 				3D10A6282625826D0049BDA1 /* Info.plist */,
 			);
@@ -274,6 +273,7 @@
 		D609F874284AC7CE0007EAA7 /* TestHelpers */ = {
 			isa = PBXGroup;
 			children = (
+				D609F872284AC7CE0007EAA7 /* FunctionalTests */,
 				D609F876284AC7CE0007EAA7 /* TestableExtensionRuntime.swift */,
 				D609F877284AC7CE0007EAA7 /* MockNetworking.swift */,
 				D609F879284AC7CE0007EAA7 /* TestableNetworkService.swift */,
