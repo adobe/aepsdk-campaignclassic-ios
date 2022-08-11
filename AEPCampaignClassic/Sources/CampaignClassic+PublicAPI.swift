@@ -25,14 +25,10 @@ public extension CampaignClassic {
     ///    - userKey : A `string` containing the user identifier
     ///    - additionalParameters : a dictionary of custom key-value pairs to be sent along with the registration call
     static func registerDevice(token: Data, userKey: String, additionalParameters: [String: Any]?) {
-        let deviceInfo = [CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_DEVICE_NAME: UIDevice.current.name,
-                          CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_DEVICE_MODEL: UIDevice.current.model,
-                          CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_OS_NAME: UIDevice.current.systemName]
 
         var eventData = [CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE: true,
                          CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN: token.hexDescription,
-                         CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY: userKey,
-                         CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO: deviceInfo] as [String: Any]
+                         CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY: userKey] as [String: Any]
 
         // attach additional parameters only if they are available
         if let additionalParameters = additionalParameters {

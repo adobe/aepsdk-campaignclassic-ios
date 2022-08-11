@@ -23,7 +23,7 @@ enum CampaignClassicConstants {
     static let DATASTORE_KEY = "ADOBEMOBILE_CAMPAIGNCLASSIC"
     static let REGISTRATION_API_URL_BASE = "https://%@/nms/mobile/1/registerIOS.jssp"
     static let TRACKING_API_URL_BASE = "https://%@/r/?id=h%@,%@,%@"
-    static let REGISTER_PARAMS_FORMAT = "registrationToken=%@&mobileAppUuid=%@&userKey=%@&deviceName=%@&deviceModel=%@&deviceBrand=%@&deviceManufacturer=%@&osName=%s&osVersion=%@&osLanguage=%@&additionalParams="
+    static let REGISTRATION_PAYLOAD_FORMAT = "registrationToken=%@&mobileAppUuid=%@&userKey=%@&deviceName=%@&deviceModel=%@&deviceBrand=%@&deviceManufacturer=%@&osName=%s&osVersion=%@&osLanguage=%@&additionalParams="
     static let REGISTER_PARAM_DEVICE_BRAND_APPLE = "Apple"
     static let REGISTER_PARAM_DEVICE_MANUFACTURER_APPLE = REGISTER_PARAM_DEVICE_BRAND_APPLE
     static let TRACK_RECEIVE_TAG_ID = "1"
@@ -33,7 +33,6 @@ enum CampaignClassicConstants {
 
     enum DatastoreKeys {
         static let TOKEN_HASH = "ADOBEMOBILE_STOREDDEFAULTS_TOKENHASH"
-        static let REGISTER_STATUS = "ADOBEMOBILE_STOREDDEFAULTS_REGISTERSTATUS"
     }
 
     enum EventName {
@@ -58,10 +57,6 @@ enum CampaignClassicConstants {
             static let DEVICE_TOKEN = "devicetoken"
             static let USER_KEY = "userkey"
             static let ADDITIONAL_PARAMETERS = "additionalparameters"
-            static let DEVICE_INFO = "deviceinfo"
-            static let DEVICE_INFO_KEY_DEVICE_NAME = "devicename"
-            static let DEVICE_INFO_KEY_DEVICE_MODEL = "devicemodel"
-            static let DEVICE_INFO_KEY_OS_NAME = "devicesystemname"
             static let REGISTRATION_STATUS = "registrationstatus"
             static let TRACK_INFO = "trackinfo"
             static let TRACK_INFO_KEY_DELIVERY_ID = "_dId"
@@ -77,12 +72,5 @@ enum CampaignClassicConstants {
             static let CAMPAIGNCLASSIC_INTEGRATION_KEY = "campaignclassic.ios.integrationKey"
         }
 
-        enum Lifecycle {
-            static let EXTENSION_NAME = "com.adobe.module.lifecycle"
-            static let LAUNCH_EVENT = "launchevent"
-            static let CONTEXT_DATA = "lifecyclecontextdata"
-            static let OPERATING_SYSTEM = "osversion"
-            static let LOCALE = "locale"
-        }
     }
 }

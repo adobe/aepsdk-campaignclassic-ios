@@ -53,9 +53,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3D10A639262582A60049BDA1"
-               BuildableName = "AEPCampaignClassicUnitTests.xctest"
-               BlueprintName = "AEPCampaignClassicUnitTests"
+               BlueprintIdentifier = "B6269C5028989A2A008B1F94"
+               BuildableName = "UnitTests.xctest"
+               BlueprintName = "UnitTests"
                ReferencedContainer = "container:AEPCampaignClassic.xcodeproj">
             </BuildableReference>
          </TestableReference>
