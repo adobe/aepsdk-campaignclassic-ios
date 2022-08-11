@@ -33,6 +33,11 @@
 		B65FE1D928A2EB18001596B6 /* CampaignClassicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FE1D828A2EB18001596B6 /* CampaignClassicTests.swift */; };
 		B65FE1DA28A2EB4D001596B6 /* TestableExtensionRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F876284AC7CE0007EAA7 /* TestableExtensionRuntime.swift */; };
 		B65FE1DB28A2EB51001596B6 /* MockNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F877284AC7CE0007EAA7 /* MockNetworking.swift */; };
+		B673E40A28A470860069CAEF /* CampaignClassicRegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B673E40928A470860069CAEF /* CampaignClassicRegistrationManager.swift */; };
+		B673E40E28A4C50E0069CAEF /* MockRegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B673E40D28A4C50E0069CAEF /* MockRegistrationManager.swift */; };
+		B673E41028A4D79C0069CAEF /* CampaignClassicRegistrationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B673E40F28A4D79C0069CAEF /* CampaignClassicRegistrationManagerTests.swift */; };
+		B673E41228A573DF0069CAEF /* Data+256sha.swift in Sources */ = {isa = PBXBuildFile; fileRef = B673E41128A573DF0069CAEF /* Data+256sha.swift */; };
+		B673E41428A5744C0069CAEF /* String+256sha.swift in Sources */ = {isa = PBXBuildFile; fileRef = B673E41328A5744C0069CAEF /* String+256sha.swift */; };
 		BA69B1D12C22A2C6EAFCD420 /* Pods_FunctionalTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B226DCD5A320D3F3EF94E484 /* Pods_FunctionalTests.framework */; };
 		CE3E5A1484C009C7380806E6 /* Pods_UnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0170DA4853B34F4DCBF45338 /* Pods_UnitTests.framework */; };
 		D609F883284AC7CE0007EAA7 /* TestableExtensionRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F876284AC7CE0007EAA7 /* TestableExtensionRuntime.swift */; };
@@ -97,6 +102,11 @@
 		B6269C5E2899CBEE008B1F94 /* XMLSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLSerializerTests.swift; sourceTree = "<group>"; };
 		B65FE1D628A2EA00001596B6 /* CampaignClassicConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignClassicConfiguration.swift; sourceTree = "<group>"; };
 		B65FE1D828A2EB18001596B6 /* CampaignClassicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignClassicTests.swift; sourceTree = "<group>"; };
+		B673E40928A470860069CAEF /* CampaignClassicRegistrationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CampaignClassicRegistrationManager.swift; sourceTree = "<group>"; };
+		B673E40D28A4C50E0069CAEF /* MockRegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRegistrationManager.swift; sourceTree = "<group>"; };
+		B673E40F28A4D79C0069CAEF /* CampaignClassicRegistrationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignClassicRegistrationManagerTests.swift; sourceTree = "<group>"; };
+		B673E41128A573DF0069CAEF /* Data+256sha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+256sha.swift"; sourceTree = "<group>"; };
+		B673E41328A5744C0069CAEF /* String+256sha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+256sha.swift"; sourceTree = "<group>"; };
 		D15CDE497C7A5CCFC583C7B3 /* Pods-AEPCampaignClassicFunctionalTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AEPCampaignClassicFunctionalTests.release.xcconfig"; path = "Target Support Files/Pods-AEPCampaignClassicFunctionalTests/Pods-AEPCampaignClassicFunctionalTests.release.xcconfig"; sourceTree = "<group>"; };
 		D19CD9975001EB4CF1D0B376 /* Pods-AEPCampaignClassicUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AEPCampaignClassicUnitTests.debug.xcconfig"; path = "Target Support Files/Pods-AEPCampaignClassicUnitTests/Pods-AEPCampaignClassicUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D268B7DE6AEEC1A3AE502248 /* Pods_AEPCampaignClassicUnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AEPCampaignClassicUnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -226,6 +236,7 @@
 				B65FE1D628A2EA00001596B6 /* CampaignClassicConfiguration.swift */,
 				D6E12AD9284A5EA100C7FEFE /* CampaignClassicConstants.swift */,
 				D6E12AD7284A5EA100C7FEFE /* CampaignClassic+PublicAPI.swift */,
+				B673E40928A470860069CAEF /* CampaignClassicRegistrationManager.swift */,
 				3D10A5F9262581650049BDA1 /* Info.plist */,
 				D62CB117284AC0020008C0F2 /* AEPCampaignClassic.h */,
 			);
@@ -245,8 +256,10 @@
 		B6269C5228989A2B008B1F94 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				B673E40D28A4C50E0069CAEF /* MockRegistrationManager.swift */,
 				B65FE1D828A2EB18001596B6 /* CampaignClassicTests.swift */,
 				B6269C5328989A2B008B1F94 /* CampaignClassicPublicAPITests.swift */,
+				B673E40F28A4D79C0069CAEF /* CampaignClassicRegistrationManagerTests.swift */,
 				B6269C5E2899CBEE008B1F94 /* XMLSerializerTests.swift */,
 			);
 			path = UnitTests;
@@ -259,6 +272,8 @@
 				B6269C5C2899BA98008B1F94 /* Dictionary+XMLSerializer.swift */,
 				D6E12ADC284A5EA100C7FEFE /* Event+CampaignClassic.swift */,
 				24A4732B289DD10E005B875C /* String+Escaping.swift */,
+				B673E41328A5744C0069CAEF /* String+256sha.swift */,
+				B673E41128A573DF0069CAEF /* Data+256sha.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -553,8 +568,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B673E41228A573DF0069CAEF /* Data+256sha.swift in Sources */,
+				B673E40A28A470860069CAEF /* CampaignClassicRegistrationManager.swift in Sources */,
 				D6E12AE0284A5EA100C7FEFE /* CampaignClassicConstants.swift in Sources */,
 				D6E12ADE284A5EA100C7FEFE /* CampaignClassic+PublicAPI.swift in Sources */,
+				B673E41428A5744C0069CAEF /* String+256sha.swift in Sources */,
 				24A4732E289DD205005B875C /* AnyCodable+StringConversion.swift in Sources */,
 				B65FE1D728A2EA00001596B6 /* CampaignClassicConfiguration.swift in Sources */,
 				24A4732C289DD10E005B875C /* String+Escaping.swift in Sources */,
@@ -584,6 +602,8 @@
 			files = (
 				B6269C5428989A2B008B1F94 /* CampaignClassicPublicAPITests.swift in Sources */,
 				B6269C602899CC41008B1F94 /* XMLSerializerTests.swift in Sources */,
+				B673E40E28A4C50E0069CAEF /* MockRegistrationManager.swift in Sources */,
+				B673E41028A4D79C0069CAEF /* CampaignClassicRegistrationManagerTests.swift in Sources */,
 				B65FE1D928A2EB18001596B6 /* CampaignClassicTests.swift in Sources */,
 				B65FE1DB28A2EB51001596B6 /* MockNetworking.swift in Sources */,
 				B6269C5B2898A1F8008B1F94 /* MockExtension.swift in Sources */,
