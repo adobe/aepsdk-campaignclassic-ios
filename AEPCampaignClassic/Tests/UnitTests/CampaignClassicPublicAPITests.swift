@@ -50,8 +50,7 @@ class CampaignClassicPublicAPITests: XCTestCase {
             XCTAssertEqual(deviceToken, self.SAMPLE_PUSHTOKEN_AS_HEXSTRING)
             XCTAssertEqual(userKey, SAMPLE_USER_KEY)
             XCTAssertEqual(additionalParameters, ANYCODABLE_ADDITIONAL_DATA)
-            
-            
+               
             expectation.fulfill()
         }
         
