@@ -11,16 +11,17 @@
 
 import Foundation
 import AEPCore
+import XCTest
 @testable import AEPCampaignClassic
 
 class MockRegistrationManager: CampaignClassicRegistrationManager {
     
+    public var registerDeviceCalled = XCTestExpectation(description: "MockRegistrationManager - registerDevice method not called")
     override init(_ runtime: ExtensionRuntime) {
         super.init(runtime)
     }
     
-    var registerDeviceCalled = false
     override func registerDevice(event: Event) {
-        registerDeviceCalled = true
+        registerDeviceCalled.fulfill()
     }
 }

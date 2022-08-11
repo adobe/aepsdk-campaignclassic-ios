@@ -235,7 +235,7 @@ class CampaignClassicTests: XCTestCase {
         runtime.simulateComingEvents(registerDeviceEvent())
         
         // verify
-        XCTAssertTrue(registrationManager.registerDeviceCalled)
+        wait(for: [registrationManager.registerDeviceCalled], timeout: 1)
     }
     
     //*******************************************************************
