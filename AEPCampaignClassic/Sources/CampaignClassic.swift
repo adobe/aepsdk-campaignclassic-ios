@@ -23,8 +23,8 @@ public class CampaignClassic: NSObject, Extension {
     public var runtime: ExtensionRuntime
     let dispatchQueue: DispatchQueue
 
-    #if DEBUG
     /// following variables is made editable for testing purposes
+    #if DEBUG
     var registrationManager: CampaignClassicRegistrationManager
     #else
     let registrationManager: CampaignClassicRegistrationManager

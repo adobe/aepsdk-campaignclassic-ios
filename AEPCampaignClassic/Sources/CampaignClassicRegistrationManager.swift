@@ -139,19 +139,3 @@ class CampaignClassicRegistrationManager {
         return !(hashedData == hashedRegistrationData)
     }
 }
-
-private extension SystemInfoService {
-
-    /// Gets the formatted locale
-    /// - Return: `String` formatted locale
-    func getFormattedLocale() -> String {
-        let locale = getActiveLocaleName()
-        return locale.replacingOccurrences(of: "_", with: "-")
-    }
-
-    /// Gets the formatted operating system containing OSName and OSVersion
-    /// - Return: `String` formatted operating system
-    func getFormattedOperatingSystem() -> String {
-        return "\(getOperatingSystemName()) \(getOperatingSystemVersion())"
-    }
-}
