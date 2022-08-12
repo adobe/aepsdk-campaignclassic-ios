@@ -62,14 +62,9 @@ extension Event {
         return userKey
     }
 
-    /// Retrieves the `additionalParameters` anycodable dictionary from event data if available, nil otherwise
-    var additionalParameters: [String: AnyCodable]? {
-        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as? [String: AnyCodable]
-    }
-
-    /// Retrieves the deviceInfo dictionary from event data if available, nil otherwise
-    var deviceInfo: [String: String]? {
-        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO] as? [String: String]
+    /// Retrieves the `additionalParameters` anycodable dictionary from event data if available, empty dictionary otherwise
+    var additionalParameters: [String: AnyCodable] {
+        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as? [String: AnyCodable] ?? [:]
     }
 
     private var trackingInfo: [String: Any]? {

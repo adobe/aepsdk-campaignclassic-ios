@@ -50,14 +50,7 @@ class CampaignClassicPublicAPITests: XCTestCase {
             XCTAssertEqual(deviceToken, self.SAMPLE_PUSHTOKEN_AS_HEXSTRING)
             XCTAssertEqual(userKey, SAMPLE_USER_KEY)
             XCTAssertEqual(additionalParameters, ANYCODABLE_ADDITIONAL_DATA)
-            
-            
-            // verify deviceInfo
-            let deviceInfo = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO] as? [String : String])
-            XCTAssertNotNil(deviceInfo?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_DEVICE_MODEL])
-            XCTAssertEqual("iOS",deviceInfo?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_OS_NAME])
-            XCTAssertEqual("iPhone",deviceInfo?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_INFO_KEY_DEVICE_MODEL])
-            
+               
             expectation.fulfill()
         }
         
