@@ -51,6 +51,7 @@ class CampaignClassicRegistrationManager {
     /// Sends a device registration request to the configured Campaign Classic server.
     /// If configuration is not available or Campaign Classic marketing server is not configured, no request is sent.
     /// If registration information has not changed since the last request, no request is sent.
+    /// If the privacy is opted out , no request is sent.
     /// - Parameter event: the campaign registration request event containing all the device/user details
     func registerDevice(event: Event) {
 
@@ -64,7 +65,7 @@ class CampaignClassicRegistrationManager {
 
         /// bail out if the privacy is opted out.
         let configuration = CampaignClassicConfiguration.init(forEvent: event, runtime: runtime)
-        if configuration.privacyStatus != PrivacyStatus.optedIn {
+        guard configuration.privacyStatus != PrivacyStatus.optedIn else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, MobilePrivacyStatus is not optedIn.")
             return
         }

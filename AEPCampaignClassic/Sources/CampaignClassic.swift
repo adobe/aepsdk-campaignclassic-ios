@@ -23,7 +23,7 @@ public class CampaignClassic: NSObject, Extension {
     public var runtime: ExtensionRuntime
     let dispatchQueue: DispatchQueue
 
-    /// following variables is made editable for testing purposes
+    /// following variable is made editable for testing purposes
     #if DEBUG
         var registrationManager: CampaignClassicRegistrationManager
     #else
@@ -89,7 +89,7 @@ public class CampaignClassic: NSObject, Extension {
     }
 
     /// Uses `CampaignClassicRegistrationManager` to send device registration request to configured Campaign Classic server.
-    /// - Parameter event: event initiating the Campaign Classic registration request.
+    /// - Parameter event: event initiating the Campaign Classic registration request
     private func handleRegisterDeviceEvent(event: Event) {
         registrationManager.registerDevice(event: event)
     }
