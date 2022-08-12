@@ -11,6 +11,7 @@
  */
 
 import Foundation
+import AEPServices
 
 extension SystemInfoService {
     /// Gets the formatted locale
