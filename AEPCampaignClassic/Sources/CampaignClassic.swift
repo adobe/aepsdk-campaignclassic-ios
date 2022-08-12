@@ -25,9 +25,9 @@ public class CampaignClassic: NSObject, Extension {
 
     /// following variables is made editable for testing purposes
     #if DEBUG
-    var registrationManager: CampaignClassicRegistrationManager
+        var registrationManager: CampaignClassicRegistrationManager
     #else
-    let registrationManager: CampaignClassicRegistrationManager
+        let registrationManager: CampaignClassicRegistrationManager
     #endif
 
     private var networkService: Networking {
