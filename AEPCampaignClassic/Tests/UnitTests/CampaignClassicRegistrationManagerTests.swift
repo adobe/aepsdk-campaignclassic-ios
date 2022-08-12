@@ -30,6 +30,7 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
     var registrationManager: CampaignClassicRegistrationManager!
     var networking: MockNetworking!
     let datastore = NamedCollectionDataStore(name: CampaignClassicConstants.EXTENSION_NAME)
+    let systemInfoService = ServiceProvider.shared.systemInfoService
     
     override func setUp() {
         registrationManager = CampaignClassicRegistrationManager(runtime)
@@ -68,11 +69,12 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
         XCTAssertTrue(payload.contains("registrationToken=deviceToken&"))
         XCTAssertTrue(payload.contains("mobileAppUuid=integrationKey&"))
         XCTAssertTrue(payload.contains("userKey=userKey&"))
-        XCTAssertTrue(payload.contains("deviceName=iPhone%20SE%20%283rd%20generation%29&"))
+        XCTAssertTrue(payload.contains("deviceName=\(URLEncoder.encode(value: UIDevice.current.name))&"))
         XCTAssertTrue(payload.contains("deviceModel=iPhone&"))
         XCTAssertTrue(payload.contains("deviceBrand=Apple&"))
         XCTAssertTrue(payload.contains("deviceManufacturer=Apple&"))
-        XCTAssertTrue(payload.contains("osName=iOS&osVersion=iOS%2016.0&"))
+        XCTAssertTrue(payload.contains("osName=iOS&"))
+        XCTAssertTrue(payload.contains("osVersion=\(URLEncoder.encode(value: systemInfoService.getFormattedOperatingSystem()))&"))
         XCTAssertTrue(payload.contains("osLanguage=en-US&"))
         XCTAssertTrue(payload.contains("additionalParams=%3CadditionalParams%3E%3C%2FadditionalParams%3E"))
         
