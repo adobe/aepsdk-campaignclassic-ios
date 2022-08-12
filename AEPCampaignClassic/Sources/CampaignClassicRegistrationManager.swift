@@ -65,7 +65,7 @@ class CampaignClassicRegistrationManager {
 
         /// bail out if the privacy is opted out.
         let configuration = CampaignClassicConfiguration.init(forEvent: event, runtime: runtime)
-        guard configuration.privacyStatus != PrivacyStatus.optedIn else {
+        guard configuration.privacyStatus == PrivacyStatus.optedIn else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, MobilePrivacyStatus is not optedIn.")
             return
         }
