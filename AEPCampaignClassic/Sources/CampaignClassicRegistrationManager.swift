@@ -48,6 +48,11 @@ class CampaignClassicRegistrationManager {
         self.runtime = runtime
     }
 
+    /// Clears the stored hashed registration data from memory and persistence.
+    func clearRegistrationData() {
+        hashedRegistrationData = nil
+    }
+
     /// Sends a device registration request to the configured Campaign Classic server.
     /// If configuration is not available or Campaign Classic marketing server is not configured, no request is sent.
     /// If registration information has not changed since the last request, no request is sent.

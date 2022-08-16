@@ -239,6 +239,35 @@ class CampaignClassicTests: XCTestCase {
     }
     
     //*******************************************************************
+    // Configuration Change event tests
+    //*******************************************************************
+    func test_configurationChange_whenPrivacyOptOut() throws {
+        // setup
+        setConfigState(privacyStatus: PrivacyStatus.optedOut.rawValue)
+        campaignClassic.registrationManager = registrationManager
+
+        // test
+        runtime.simulateComingEvents(configurationResponseEvent())
+        
+        // verify
+        wait(for: [registrationManager.clearRegistrationDataCalled], timeout: 0.5)
+    }
+    
+    
+    func test_configurationChange_whenPrivacyOptIn() throws {
+        // setup
+        setConfigState(privacyStatus: PrivacyStatus.optedIn.rawValue)
+        campaignClassic.registrationManager = registrationManager
+        registrationManager.clearRegistrationDataCalled.isInverted = true
+
+        // test
+        runtime.simulateComingEvents(configurationResponseEvent())
+        
+        // verify
+        wait(for: [registrationManager.clearRegistrationDataCalled], timeout: 0.5)
+    }
+    
+    //*******************************************************************
     // private methods
     //*******************************************************************
     
@@ -258,6 +287,13 @@ class CampaignClassicTests: XCTestCase {
                      source: EventSource.requestContent,
                      data: [CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE: true,
                             CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO: userInfo] as [String: Any])
+    }
+    
+    private func configurationResponseEvent() -> Event {
+        return Event(name: "Configuration Response Event",
+                     type: EventType.configuration,
+                     source: EventSource.responseContent,
+                     data: nil)
     }
         
     private func registerDeviceEvent() -> Event {

@@ -17,11 +17,16 @@ import XCTest
 class MockRegistrationManager: CampaignClassicRegistrationManager {
     
     public var registerDeviceCalled = XCTestExpectation(description: "MockRegistrationManager - registerDevice method not called")
+    public var clearRegistrationDataCalled = XCTestExpectation(description: "MockRegistrationManager - clearRegistrationData method not called")
     override init(_ runtime: ExtensionRuntime) {
         super.init(runtime)
     }
     
     override func registerDevice(event: Event) {
         registerDeviceCalled.fulfill()
+    }
+    
+    override func clearRegistrationData() {
+        clearRegistrationDataCalled.fulfill()
     }
 }
