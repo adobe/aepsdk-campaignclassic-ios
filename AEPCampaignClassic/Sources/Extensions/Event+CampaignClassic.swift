@@ -68,7 +68,7 @@ extension Event {
         return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as? [String: AnyCodable] ?? [:]
     }
 
-    private var trackingInfo: [String: Any]? {
-        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String: Any]
+    private var trackingInfo: [AnyHashable: Any]? {
+        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [AnyHashable: Any]
     }
 }
