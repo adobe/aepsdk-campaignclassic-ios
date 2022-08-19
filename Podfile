@@ -23,3 +23,13 @@ end
 target 'UnitTests' do
   campaignclassic_dependencies
 end
+
+target 'TestApp' do
+  campaignclassic_dependencies
+  pod 'AEPAssurance'
+end
+
+target 'TestAppObjC' do
+  campaignclassic_dependencies
+  pod 'AEPAssurance'
+end
