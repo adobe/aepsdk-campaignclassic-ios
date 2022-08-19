@@ -16,7 +16,7 @@ import XCTest
 
 class MockNetworking: Networking {
     
-    public var connectAsyncCalled = XCTestExpectation(description: "Networking - connectAsync method not called")
+    public var connectAsyncCalled = XCTestExpectation(description: "MockNetworking -  Expectation to call 'connectAsync' method")
     public var connectAsyncCalledWithNetworkRequest: NetworkRequest?
     public var connectAsyncCalledWithCompletionHandler: ((HttpConnection) -> Void)?
     public var expectedResponse: HttpConnection?
