@@ -79,6 +79,10 @@ struct NotificationSettingsCard: View {
                 .font(.title2)
             Text("Push Token: \(pushToken)").padding(.leading).font(.system(size: 13))
             Text("Delivered Notifications: \(unreadNotificationCount)").padding().font(.system(size: 13))
+            Button("Refresh Notification Data") {
+                loadNotificationSettings()
+                readOtherNotificationDetails()
+            }.buttonStyle(CustomButton())
         }
     }
     
