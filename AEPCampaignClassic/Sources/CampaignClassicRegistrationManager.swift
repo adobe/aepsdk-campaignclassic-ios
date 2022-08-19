@@ -118,6 +118,8 @@ class CampaignClassicRegistrationManager {
         /// crearte a network request
         let request = NetworkRequest(url: url, httpMethod: .post, connectPayload: payload, httpHeaders: headers, connectTimeout: configuration.timeout, readTimeout: configuration.timeout)
 
+        Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration Request initiated with \n URL : \(url.absoluteString) \n Headers: \(headers) \n Payload : \(payload)")
+
         /// make the network request
         ServiceProvider.shared.networkService.connectAsync(networkRequest: request, completionHandler: { connection in
             if connection.responseCode != 200 {
