@@ -16,7 +16,7 @@ import XCTest
 
 class MockRegistrationManager: CampaignClassicRegistrationManager {
     
-    public var registerDeviceCalled = XCTestExpectation(description: "MockRegistrationManager - registerDevice method not called")
+    public var registerDeviceCalled = XCTestExpectation(description: "MockRegistrationManager - Expectation to call 'registerDevice' method.")
     override init(_ runtime: ExtensionRuntime) {
         super.init(runtime)
     }

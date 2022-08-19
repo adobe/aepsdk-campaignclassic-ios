@@ -11,23 +11,16 @@
  */
 
 import Foundation
-import CommonCrypto
+import XCTest
+@testable import AEPCampaignClassic
 
-extension Data {
-    func sha256() -> String {
-        let input = self as NSData
-        let digestLength = Int(CC_SHA256_DIGEST_LENGTH)
-        var hash = [UInt8](repeating: 0, count: digestLength)
-        CC_SHA256(input.bytes, UInt32(input.length), &hash)
-        let digest = NSData(bytes: hash, length: digestLength)
-
-        var bytes = [UInt8](repeating: 0, count: digest.length)
-        digest.getBytes(&bytes, length: digest.length)
-
-        var hexString = ""
-        for byte in bytes {
-            hexString += String(format: "%02x", UInt8(byte))
-        }
-        return hexString
+class StringSHA256: XCTestCase {
+    
+    func test_SHA256Hashing() throws {
+        XCTAssertEqual("".sha256(), "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
+        XCTAssertEqual("hello".sha256(), "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824")
+        XCTAssertEqual("@@%%&&!!".sha256(), "80e71abeaf61c544800eceb742530c61cc0375cd8e75352aa3b8dddb77149731")
+        XCTAssertEqual("a b c".sha256(), "0e9f64031fcb2bc708b531c2a20441580425d151a38503f38592a7dd36019d3b")
     }
+    
 }
