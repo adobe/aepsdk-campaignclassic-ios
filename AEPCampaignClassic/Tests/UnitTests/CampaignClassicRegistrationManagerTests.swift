@@ -242,7 +242,7 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
     //*******************************************************************
     func test_clearRegistrationData() throws {
         // setup
-        registrationManager.hashedRegistrationData = "savedRegistrationData"
+        datastore.set(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH, value: "savedRegistrationData")
         
         // test
         registrationManager.clearRegistrationData()
