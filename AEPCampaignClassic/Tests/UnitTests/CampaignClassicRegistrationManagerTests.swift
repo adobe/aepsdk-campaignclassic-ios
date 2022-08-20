@@ -74,7 +74,7 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
         XCTAssertTrue(payload.contains("deviceBrand=Apple&"))
         XCTAssertTrue(payload.contains("deviceManufacturer=Apple&"))
         XCTAssertTrue(payload.contains("osName=iOS&"))
-        XCTAssertTrue(payload.contains("osVersion=\(URLEncoder.encode(value: systemInfoService.getFormattedOperatingSystem()))&"))
+        XCTAssertTrue(payload.contains("osVersion=\(URLEncoder.encode(value: "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"))&"))
         XCTAssertTrue(payload.contains("osLanguage=en-US&"))
         XCTAssertTrue(payload.contains("additionalParams=%3CadditionalParams%3E%3C%2FadditionalParams%3E"))
         
@@ -226,14 +226,6 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
     //*******************************************************************
     // Datastore Tests
     //*******************************************************************
-    func test_registrationToken_isWrittenToDatastore() throws {
-        // test
-        let hashedToken = "howdy"
-        registrationManager.hashedRegistrationData = hashedToken
-        
-        // verify
-        XCTAssertEqual(hashedToken, datastore.getString(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH))
-    }
     
     func test_registrationToken_isReadFromDatastore() throws {
         // test
@@ -250,7 +242,7 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
     //*******************************************************************
     func test_clearRegistrationData() throws {
         // setup
-        registrationManager.hashedRegistrationData = "savedRegistrationData"
+        datastore.set(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH, value: "savedRegistrationData")
         
         // test
         registrationManager.clearRegistrationData()

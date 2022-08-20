@@ -32,7 +32,7 @@ class CampaignClassicRegistrationManager {
     /// This property is set if the device is successfully registered with the campaign servers.
     /// This property is then used to hold back future device registration calls with unchanged data.
     /// The setter and getter of this property will use the datastore to store and retrieve the information.
-    var hashedRegistrationData: String? {
+    private(set) var hashedRegistrationData: String? {
         get {
             datastore.getString(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH)
         }
@@ -77,7 +77,7 @@ class CampaignClassicRegistrationManager {
 
         /// bail out if the required configuration for device registration request is unavailable
         guard let integrationKey = configuration.integrationKey, let marketingServer = configuration.marketingServer else {
-            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, `campaignclassic.ios.integrationKey` and/or campaignclassic.ios.marketingServer` configuration keys are unavailable.")
+            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, `campaignclassic.ios.integrationKey` and/or campaignclassic.marketingServer` configuration keys are unavailable.")
             return
         }
 
@@ -118,7 +118,7 @@ class CampaignClassicRegistrationManager {
         /// crearte a network request
         let request = NetworkRequest(url: url, httpMethod: .post, connectPayload: payload, httpHeaders: headers, connectTimeout: configuration.timeout, readTimeout: configuration.timeout)
 
-        Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration Request initiated with \n URL : \(url.absoluteString) \n Headers: \(headers) \n Payload : \(payload)")
+        Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration request initiated with \n URL : \(url.absoluteString) \n Headers: \(headers) \n Payload : \(payload)")
 
         /// make the network request
         ServiceProvider.shared.networkService.connectAsync(networkRequest: request, completionHandler: { connection in
