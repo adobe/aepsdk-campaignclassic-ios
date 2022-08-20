@@ -19,10 +19,11 @@ import AEPLifecycle
 import AEPAssurance
 import AEPCampaignClassic
 
+
+
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
-    public var pushToken = "Unknown"
-    
+    var pushDetails = PushNotificationDetailClass()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         MobileCore.setLogLevel(.trace)
@@ -31,10 +32,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
                           CampaignClassic.self
         ]
         MobileCore.registerExtensions(extensions, {
-            
-            MobileCore.configureWith(appId: "94f571f308d5/726250c97005/launch-b678f63aff74-development")
-            //MobileCore.configureWith(appId: "94f571f308d5/f8415a166bfc/launch-e9001d2e5f21-development")
-            //Assurance.startSession(url: URL(string: "94f571f308d5/726250c97005/launch-b678f63aff74-development")!)
+            // For testing use the appID from tag property "Pravin ACC (For Swift SDK)" in org "OBUMobile5"
+            MobileCore.configureWith(appId: "")
         })
         UNUserNotificationCenter.current().delegate = self
         requestNotificationPermission()
@@ -64,6 +63,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         CampaignClassic.registerDevice(token: deviceToken, userKey: "johnDoe", additionalParameters: ["email" : "john@email.com"])
+        let token = deviceToken.reduce("") {$0 + String(format: "%02X", $1)}
+        pushDetails.pushToken = token
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

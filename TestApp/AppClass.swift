@@ -19,7 +19,11 @@ struct AppClass: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(appDelegate.pushDetails)
         }
     }
+}
+
+final class PushNotificationDetailClass: ObservableObject {
+  @Published var pushToken = "unknown"
 }

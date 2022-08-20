@@ -16,16 +16,15 @@ import AEPCampaignClassic
 import UserNotifications
 
 struct ContentView: View {
-                
+    @EnvironmentObject private var pushDetail: PushNotificationDetailClass
     var body: some View {
-        ScrollView(.vertical) {
+        ScrollView(.vertical, showsIndicators: false) {
             Heading()
             CampaignClassicMockAPICard()
             MobileCorePrivacyAPICard()
-            NotificationSettingsCard()
+            NotificationSettingsCard(pushDetail: pushDetail)
         }
     }
-    
 }
 
 struct Heading: View {
@@ -61,7 +60,7 @@ struct MobileCorePrivacyAPICard: View {
 struct NotificationSettingsCard: View {
     @State var currentNotificationSettings = ""
     @State var unreadNotificationCount = 0
-    @State var pushToken = "6dbc896cf883febf53b2a1c643435bd183c3fdbab35e2bac4310dab23283cd25"
+    @ObservedObject var pushDetail : PushNotificationDetailClass
     var body: some View {
         VStack {
             Spacer(minLength: 20)
@@ -77,7 +76,7 @@ struct NotificationSettingsCard: View {
             Text("Notification Details")
                 .padding([.leading,.bottom])
                 .font(.title2)
-            Text("Push Token: \(pushToken)").padding(.leading).font(.system(size: 13))
+            Text("Push Token: \(pushDetail.pushToken)").padding(.leading).font(.system(size: 13))
             Text("Delivered Notifications: \(unreadNotificationCount)").padding().font(.system(size: 13))
             Button("Refresh Notification Data") {
                 loadNotificationSettings()
@@ -119,7 +118,7 @@ struct CampaignClassicMockAPICard: View {
             }
             HStack {
                 Button("Register Device"){
-                    CampaignClassic.registerDevice(token: "6dbc896cf883febf53b2a1c643435bd183c3fdbab35e2bac4310dab23283cd25".data(using: .utf8)!, userKey: "johnDoe", additionalParameters: ["email" : "johnDoe@email.com"])
+                    CampaignClassic.registerDevice(token: "6dbc896cf883febf53b2a1c643435bd183c3fdbab35e2bac4310dab23283cd25".data(using: .utf8)!, userKey: "johnDoe", additionalParameters: ["email" : "johnDoe@email.com", "points" : 35773, "isPremiumUser" : true])
                 }.buttonStyle(CustomButton())
 
                 Button("Track Receive"){

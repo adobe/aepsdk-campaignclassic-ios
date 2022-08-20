@@ -27,7 +27,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [AEPMobileCore setLogLevel: AEPLogLevelTrace];
     [AEPMobileCore registerExtensions:@[AEPMobileCampaignClassic.class] completion:^{
-        [AEPMobileCore configureWithAppId:@"94f571f308d5/f8415a166bfc/launch-e9001d2e5f21-development"];
+        // For testing use the appID from tag property "Pravin ACC (For Swift SDK)" in org "OBUMobile5"
+        [AEPMobileCore configureWithAppId:@""];
     }];
     [self registerForRemoteNotifications];
     return YES;
@@ -64,7 +65,6 @@
 
 /* Handle push from foreground: The method will be called on the delegate only if the application is in the foreground. The application can choose to have the notification presented as a sound, badge, alert and/or in the notification list. */
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler{
-    NSLog(@"User Info : %@",notification.request.content.userInfo);
     
     // Call public API trackNotificationReceive to notify the configured ACC server instance that the message was received
     [AEPMobileCampaignClassic trackNotificationReceiveWithUserInfo:notification.request.content.userInfo];
@@ -75,7 +75,6 @@
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler{
     NSDictionary *userInfo = response.notification.request.content.userInfo;
     [AEPMobileCampaignClassic trackNotificationClickWithUserInfo:userInfo];
-    NSLog(@"User Info : %@", userInfo);
     completionHandler();
 }
 
