@@ -84,7 +84,7 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
         XCTAssertEqual(String(payload.count), networkRequest.httpHeaders["Content-Length"])
     }
     
-    func test_registerDevice__when_networkSuccess_storeToken() throws {
+    func test_registerDevice_when_networkSuccess_storeToken() throws {
         // setup
         setConfigState()
         let expectedURL = "https://marketingServer/nms/mobile/1/registerIOS.jssp"

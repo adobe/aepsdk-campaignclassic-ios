@@ -35,6 +35,7 @@ class MockNetworking: Networking {
     }
 
     func reset() {
+        connectAsyncCalled = XCTestExpectation(description: "MockNetworking -  Expectation to call 'connectAsync' method")
         connectAsyncCalledWithNetworkRequest = nil
         connectAsyncCalledWithCompletionHandler = nil
         cachedNetworkRequests = []
