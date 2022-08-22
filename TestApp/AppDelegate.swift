@@ -80,6 +80,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         CampaignClassic.trackNotificationClick(withUserInfo: response.notification.request.content.userInfo)
     }
     
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        CampaignClassic.trackNotificationReceive(withUserInfo: userInfo)
+    }
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
         // handle user clicking on App's Notification Setting from Settings->TestApp->Notifications->TestApp Notification Settings
     }
