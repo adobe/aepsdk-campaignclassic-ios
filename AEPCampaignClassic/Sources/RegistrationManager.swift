@@ -15,9 +15,9 @@ import AEPServices
 import AEPCore
 
 ///
-/// Class that manages Campaign Classic device registration requests.
+/// Manages Campaign Classic device registration requests.
 ///
-class CampaignClassicRegistrationManager {
+class RegistrationManager {
 
     private var runtime: ExtensionRuntime
     private var systemInfoService: SystemInfoService {
@@ -37,6 +37,10 @@ class CampaignClassicRegistrationManager {
             datastore.getString(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH)
         }
         set {
+            guard let newValue = newValue else {
+                datastore.remove(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH)
+                return
+            }
             datastore.set(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH, value: newValue)
         }
     }
@@ -63,7 +67,7 @@ class CampaignClassicRegistrationManager {
             return
         }
 
-        /// bail out if the privacy is opted out.
+        /// bail out if the privacy is not opted In
         let configuration = CampaignClassicConfiguration.init(forEvent: event, runtime: runtime)
         guard configuration.privacyStatus == PrivacyStatus.optedIn else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, MobilePrivacyStatus is not optedIn.")
@@ -72,7 +76,7 @@ class CampaignClassicRegistrationManager {
 
         /// bail out if the required configuration for device registration request is unavailable
         guard let integrationKey = configuration.integrationKey, let marketingServer = configuration.marketingServer else {
-            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, `campaignclassic.ios.integrationKey` and/or campaignclassic.marketingServer` configuration keys are unavailable.")
+            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, `campaignclassic.ios.integrationKey` and/or `campaignclassic.marketingServer` configuration keys are unavailable.")
             return
         }
 
@@ -80,11 +84,11 @@ class CampaignClassicRegistrationManager {
         /// userKey is a string containing user identifier e.g. email
         let userKey = event.userKey ?? ""
         let additionalParametersXML = event.additionalParameters.serializeToXMLString()
-        let hashedData = String(format: "%@%@%@", deviceToken, userKey, additionalParametersXML).sha256()
+        let hashedData = "\(deviceToken)\(userKey)\(additionalParametersXML)".sha256()
 
         /// bail out, If the registration request data has not changed
         guard registrationInfoChanged(hashedData) else {
-            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration dropped, there is no change in registration info since last successful request.")
+            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration request not sent, there is no change in registration info since last successful request.")
             return
         }
 
@@ -102,29 +106,31 @@ class CampaignClassicRegistrationManager {
                              URLEncoder.encode(value: systemInfoService.getFormattedLocale()))
         payload.append(additionalParametersXML)
 
-        /// build url and header
+        /// build url
         let urlString = String(format: CampaignClassicConstants.REGISTRATION_API_URL_BASE, marketingServer)
-        let headers = buildHeaders(payload: payload)
         guard let url = URL(string: urlString) else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, Invalid network request URL : \(urlString)")
             return
         }
 
-        /// crearte a network request
+        /// build headers
+        let headers = buildHeaders(payload: payload)
+
+        /// create a network request
         let request = NetworkRequest(url: url, httpMethod: .post, connectPayload: payload, httpHeaders: headers, connectTimeout: configuration.timeout, readTimeout: configuration.timeout)
 
         Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration request initiated with \n URL : \(url.absoluteString) \n Headers: \(headers) \n Payload : \(payload)")
 
         /// make the network request
-        ServiceProvider.shared.networkService.connectAsync(networkRequest: request, completionHandler: { connection in
-            if connection.responseCode != 200 {
+        ServiceProvider.shared.networkService.connectAsync(networkRequest: request) { connection in
+            guard connection.responseCode == 200 else {
                 Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, Network Error. Response Code: \(String(describing: connection.responseCode)) URL : \(url.absoluteString)")
                 return
             }
 
-            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration success. URL : \(url.absoluteString)")
+            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration success. Saving the hashed registration data.")
             self.hashedRegistrationData = hashedData
-        })
+        }
 
         return
     }
@@ -139,6 +145,6 @@ class CampaignClassicRegistrationManager {
     /// Checks if persisted registration information has changed since last request.
     /// - Parameter hashedData : the current registration request's hashed data
     private func registrationInfoChanged(_ hashedData: String) -> Bool {
-        return !(hashedData == hashedRegistrationData)
+        return hashedData != hashedRegistrationData
     }
 }

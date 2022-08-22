@@ -14,7 +14,7 @@ import AEPCore
 import XCTest
 @testable import AEPCampaignClassic
 
-class MockRegistrationManager: CampaignClassicRegistrationManager {
+class MockRegistrationManager: RegistrationManager {
     
     public var registerDeviceCalled = XCTestExpectation(description: "MockRegistrationManager - Expectation to call 'registerDevice' method.")
     override init(_ runtime: ExtensionRuntime) {
