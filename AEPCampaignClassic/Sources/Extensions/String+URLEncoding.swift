@@ -14,7 +14,7 @@ import Foundation
 import AEPServices
 
 extension String {
-    func urlEncode() -> String {
+    var urlEncoded: String {
         URLEncoder.encode(value: self)
     }
 }
