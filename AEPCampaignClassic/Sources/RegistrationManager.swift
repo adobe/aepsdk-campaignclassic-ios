@@ -94,16 +94,16 @@ class RegistrationManager {
 
         /// build the payload
         var payload = String(format: CampaignClassicConstants.REGISTRATION_PAYLOAD_FORMAT,
-                             URLEncoder.encode(value: deviceToken),
-                             URLEncoder.encode(value: integrationKey),
-                             URLEncoder.encode(value: userKey),
-                             URLEncoder.encode(value: UIDevice.current.name),
-                             URLEncoder.encode(value: UIDevice.current.model),
-                             URLEncoder.encode(value: CampaignClassicConstants.REGISTER_PARAM_DEVICE_BRAND_APPLE),
-                             URLEncoder.encode(value: CampaignClassicConstants.REGISTER_PARAM_DEVICE_MANUFACTURER_APPLE),
-                             URLEncoder.encode(value: UIDevice.current.systemName),
-                             URLEncoder.encode(value: systemInfoService.getFormattedOperatingSystem()),
-                             URLEncoder.encode(value: systemInfoService.getFormattedLocale()))
+                             deviceToken.urlEncode(),
+                             integrationKey.urlEncode(),
+                             userKey.urlEncode(),
+                             UIDevice.current.name.urlEncode(),
+                             UIDevice.current.model.urlEncode(),
+                             CampaignClassicConstants.REGISTER_PARAM_DEVICE_BRAND_APPLE.urlEncode(),
+                             CampaignClassicConstants.REGISTER_PARAM_DEVICE_MANUFACTURER_APPLE.urlEncode(),
+                             UIDevice.current.systemName.urlEncode(),
+                             systemInfoService.getFormattedOperatingSystem().urlEncode(),
+                             systemInfoService.getFormattedLocale().urlEncode())
         payload.append(additionalParametersXML)
 
         /// build url
