@@ -34,6 +34,7 @@ class CampaignClassicTests: XCTestCase {
     let runtime = TestableExtensionRuntime()
     var campaignClassic: CampaignClassic!
     var networking: MockNetworking!
+    var registrationManager : MockRegistrationManager!
     
     var configurationSharedState: [String: Any]!
     
@@ -45,6 +46,8 @@ class CampaignClassicTests: XCTestCase {
         // Initiate Campaign Classic extension
         campaignClassic = CampaignClassic(runtime: runtime)
         campaignClassic.onRegistered()
+        
+        registrationManager = MockRegistrationManager(runtime)
     }
     
     //*******************************************************************
@@ -221,6 +224,21 @@ class CampaignClassicTests: XCTestCase {
     }
     
     //*******************************************************************
+    // Register Device Tests
+    //*******************************************************************
+    func test_registerDevice() throws {
+        // setup
+        setConfigState()
+        campaignClassic.registrationManager = registrationManager
+        
+        // test
+        runtime.simulateComingEvents(registerDeviceEvent())
+        
+        // verify
+        wait(for: [registrationManager.registerDeviceCalled], timeout: 1)
+    }
+    
+    //*******************************************************************
     // private methods
     //*******************************************************************
     
@@ -241,16 +259,22 @@ class CampaignClassicTests: XCTestCase {
                      data: [CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE: true,
                             CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO: userInfo] as [String: Any])
     }
+        
+    private func registerDeviceEvent() -> Event {
+        return Event(name: CampaignClassicConstants.EventName.REGISTER_DEVICE,
+                     type: EventType.campaign,
+                     source: EventSource.requestContent,
+                     data: [CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE: true,
+                            CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY: "userInfo",
+                            CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN: "deviceToken",
+                            CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS: [:]] as [String: Any])
+    }
     
     private func setConfigState(trackingServer : String? = TRACKING_SERVER,
-                                marketingServer : String? = MARKETING_SERVER,
-                                integrationKey : String? = INTEGRATION_KEY,
                                 privacyStatus : String = PrivacyStatus.optedIn.rawValue,
                                 networkTimeOut : Int = NETWORK_TIMEOUT) {
         configurationSharedState = [ CampaignClassicConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY: privacyStatus,
                                      CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_SERVER: trackingServer as Any,
-                                     CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_MARKETING_SERVER: marketingServer as Any,
-                                     CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_INTEGRATION_KEY: integrationKey as Any,
                                      CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_NETWORK_TIMEOUT: networkTimeOut]
         runtime.simulateSharedState(for: CampaignClassicConstants.EventDataKeys.Configuration.EXTENSION_NAME, data: (configurationSharedState, .set))
     }

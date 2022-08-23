@@ -16,7 +16,7 @@ import XCTest
 
 class MockNetworking: Networking {
     
-    public var connectAsyncCalled = XCTestExpectation(description: "Networking - connectAsync method not called")
+    public var connectAsyncCalled = XCTestExpectation(description: "MockNetworking -  Expectation to call 'connectAsync' method")
     public var connectAsyncCalledWithNetworkRequest: NetworkRequest?
     public var connectAsyncCalledWithCompletionHandler: ((HttpConnection) -> Void)?
     public var expectedResponse: HttpConnection?
@@ -40,4 +40,17 @@ class MockNetworking: Networking {
         cachedNetworkRequests = []
     }
     
+}
+
+extension NetworkRequest {
+    func payloadAsString() -> String {
+        return String(data: connectPayload, encoding: .utf8) ?? ""
+    }
+
+    func payloadAsDictionary() -> [String: String] {
+        guard let payload = try? JSONSerialization.jsonObject(with: self.connectPayload, options: .allowFragments) as? [String: String] else {
+            return [:]
+        }
+        return payload
+    }
 }

@@ -23,6 +23,13 @@ public class CampaignClassic: NSObject, Extension {
     public var runtime: ExtensionRuntime
     let dispatchQueue: DispatchQueue
 
+    /// following variable is made editable for testing purposes
+    #if DEBUG
+        var registrationManager: RegistrationManager
+    #else
+        let registrationManager: RegistrationManager
+    #endif
+
     private var networkService: Networking {
         return ServiceProvider.shared.networkService
     }
@@ -31,6 +38,7 @@ public class CampaignClassic: NSObject, Extension {
     public required init?(runtime: ExtensionRuntime) {
         self.runtime = runtime
         dispatchQueue = DispatchQueue(label: "\(CampaignClassicConstants.EXTENSION_NAME).dispatchqueue")
+        registrationManager = RegistrationManager(runtime)
         super.init()
     }
 
@@ -65,7 +73,7 @@ public class CampaignClassic: NSObject, Extension {
 
     /// Handles CampaignClassic's registerDevice, track notification click and track notification receive events.
     /// All other the campaign events are ignored
-    /// - Parameter event: the  Campaign Request content event to be handled
+    /// - Parameter event: the Campaign Request content event to be handled
     private func handleCampaignEvent(_ event: Event) {
         Log.trace(label: CampaignClassicConstants.LOG_TAG, "An event of type '\(event.type)' has been received.")
         dispatchQueue.async { [weak self] in
@@ -80,8 +88,10 @@ public class CampaignClassic: NSObject, Extension {
         }
     }
 
+    /// Uses `RegistrationManager` to send device registration request to configured Campaign Classic server.
+    /// - Parameter event: event initiating the Campaign Classic registration request
     private func handleRegisterDeviceEvent(event: Event) {
-        // todo - coming soon
+        registrationManager.registerDevice(event: event)
     }
 
     /// Sends a track request to the configured Campaign Classic tracking server upon notification receive or click.
