@@ -49,7 +49,7 @@ public extension CampaignClassic {
     ///
     /// - Parameter userInfo :  a dictionary containing `_mId` and `_dId` received in the push message payload, or in the
     ///                             launch options before opening the application
-    static func trackNotificationClick(withUserInfo userInfo: [String: Any]) {
+    static func trackNotificationClick(withUserInfo userInfo: [AnyHashable: Any]) {
         let eventData = [CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_CLICK: true,
                          CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO: userInfo] as [String: Any]
 
@@ -66,7 +66,7 @@ public extension CampaignClassic {
     ///
     /// - Parameter userInfo :  a dictionary containing `_mId` and `_dId` received in the push message payload, or in the
     ///                             launch options before opening the application
-    static func trackNotificationReceive(withUserInfo userInfo: [String: Any]) {
+    static func trackNotificationReceive(withUserInfo userInfo: [AnyHashable: Any]) {
         let eventData = [CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE: true,
                          CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO: userInfo] as [String: Any]
 
@@ -75,7 +75,6 @@ public extension CampaignClassic {
                           source: EventSource.requestContent,
                           data: eventData)
         MobileCore.dispatch(event: event)
-
     }
 }
 

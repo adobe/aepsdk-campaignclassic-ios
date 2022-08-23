@@ -66,8 +66,12 @@ public class CampaignClassic: NSObject, Extension {
     /// - Parameter event: the Configuration `Event` to be handled
     private func handleConfigurationEvent(_ event: Event) {
         Log.trace(label: CampaignClassicConstants.LOG_TAG, "An event of type '\(event.type)' has been received.")
-        dispatchQueue.async { [weak self] in
-            // todo handle config update
+        dispatchQueue.async { [self] in
+            let configuration = CampaignClassicConfiguration.init(forEvent: event, runtime: self.runtime)
+            if configuration.privacyStatus == PrivacyStatus.optedOut {
+                Log.debug(label: CampaignClassicConstants.LOG_TAG, "MobilePrivacyStatus optedOut, clearing out persisted registration data.")
+                self.registrationManager.clearRegistrationData()
+            }
         }
     }
 

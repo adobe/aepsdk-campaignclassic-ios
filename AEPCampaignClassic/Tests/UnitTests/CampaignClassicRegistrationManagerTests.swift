@@ -236,6 +236,24 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
         XCTAssertEqual(hashedToken, registrationManager.hashedRegistrationData)
     }
     
+    
+    //*******************************************************************
+    // clearRegistrationData Tests
+    //*******************************************************************
+    func test_clearRegistrationData() throws {
+        // setup
+        datastore.set(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH, value: "savedRegistrationData")
+        
+        // test
+        registrationManager.clearRegistrationData()
+        
+        // verify
+        XCTAssertNil(datastore.getString(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertNil(registrationManager.hashedRegistrationData)
+    }
+    
+
+    
     //*******************************************************************
     // private methods
     //*******************************************************************

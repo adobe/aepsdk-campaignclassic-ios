@@ -18,17 +18,17 @@ extension Event {
 
     /// Returns true if this event is a Campaign Classic register event
     var isRegisterEvent: Bool {
-        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE] as? Bool ?? false
+        data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE] as? Bool ?? false
     }
 
     /// Returns true if this event is a Campaign Classic TrackNotificationClick event
     var isTrackClickEvent: Bool {
-        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_CLICK] as? Bool ?? false
+        data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_CLICK] as? Bool ?? false
     }
 
     /// Returns true if this event is a Campaign Classic TrackNotificationReceive event
     var isTrackReceiveEvent: Bool {
-        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE] as? Bool ?? false
+        data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE] as? Bool ?? false
     }
 
     /// Retrieves the broadlogId string from the event data if available and not empty, nil otherwise
@@ -65,10 +65,10 @@ extension Event {
 
     /// Retrieves the `additionalParameters` anycodable dictionary from event data if available, empty dictionary otherwise
     var additionalParameters: [String: AnyCodable] {
-        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as? [String: AnyCodable] ?? [:]
+        data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as? [String: AnyCodable] ?? [:]
     }
 
-    private var trackingInfo: [String: Any]? {
-        return data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String: Any]
+    private var trackingInfo: [AnyHashable: Any]? {
+        data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [AnyHashable: Any]
     }
 }
