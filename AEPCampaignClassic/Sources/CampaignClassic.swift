@@ -69,8 +69,8 @@ public class CampaignClassic: NSObject, Extension {
         dispatchQueue.async { [self] in
             let configuration = CampaignClassicConfiguration.init(forEvent: event, runtime: self.runtime)
             if configuration.privacyStatus == PrivacyStatus.optedOut {
+                Log.debug(label: CampaignClassicConstants.LOG_TAG, "MobilePrivacyStatus optedOut, clearing out persisted registration data.")
                 self.registrationManager.clearRegistrationData()
-                return
             }
         }
     }

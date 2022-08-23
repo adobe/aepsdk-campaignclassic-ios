@@ -10,12 +10,11 @@
  governing permissions and limitations under the License.
  */
 
-
 import Foundation
 import AEPServices
 
 extension String {
     func urlEncode() -> String {
-        return URLEncoder.encode(value: self)
+        URLEncoder.encode(value: self)
     }
 }
