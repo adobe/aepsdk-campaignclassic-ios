@@ -25,9 +25,9 @@ public class CampaignClassic: NSObject, Extension {
 
     /// following variable is made editable for testing purposes
     #if DEBUG
-        var registrationManager: CampaignClassicRegistrationManager
+        var registrationManager: RegistrationManager
     #else
-        let registrationManager: CampaignClassicRegistrationManager
+        let registrationManager: RegistrationManager
     #endif
 
     private var networkService: Networking {
@@ -38,7 +38,7 @@ public class CampaignClassic: NSObject, Extension {
     public required init?(runtime: ExtensionRuntime) {
         self.runtime = runtime
         dispatchQueue = DispatchQueue(label: "\(CampaignClassicConstants.EXTENSION_NAME).dispatchqueue")
-        registrationManager = CampaignClassicRegistrationManager(runtime)
+        registrationManager = RegistrationManager(runtime)
         super.init()
     }
 
@@ -69,8 +69,8 @@ public class CampaignClassic: NSObject, Extension {
         dispatchQueue.async { [self] in
             let configuration = CampaignClassicConfiguration.init(forEvent: event, runtime: self.runtime)
             if configuration.privacyStatus == PrivacyStatus.optedOut {
+                Log.debug(label: CampaignClassicConstants.LOG_TAG, "MobilePrivacyStatus optedOut, clearing out persisted registration data.")
                 self.registrationManager.clearRegistrationData()
-                return
             }
         }
     }
@@ -92,7 +92,7 @@ public class CampaignClassic: NSObject, Extension {
         }
     }
 
-    /// Uses `CampaignClassicRegistrationManager` to send device registration request to configured Campaign Classic server.
+    /// Uses `RegistrationManager` to send device registration request to configured Campaign Classic server.
     /// - Parameter event: event initiating the Campaign Classic registration request
     private func handleRegisterDeviceEvent(event: Event) {
         registrationManager.registerDevice(event: event)

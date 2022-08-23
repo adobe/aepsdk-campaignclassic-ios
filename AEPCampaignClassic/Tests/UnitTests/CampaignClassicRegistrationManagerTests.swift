@@ -27,13 +27,13 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
     static let ADDITIONAL_DATA = ["string" : "abc", "number" : 4, "boolean" : true] as [String : Any]
         
     let runtime = TestableExtensionRuntime()
-    var registrationManager: CampaignClassicRegistrationManager!
+    var registrationManager: RegistrationManager!
     var networking: MockNetworking!
     let datastore = NamedCollectionDataStore(name: CampaignClassicConstants.EXTENSION_NAME)
     let systemInfoService = ServiceProvider.shared.systemInfoService
     
     override func setUp() {
-        registrationManager = CampaignClassicRegistrationManager(runtime)
+        registrationManager = RegistrationManager(runtime)
         
         // Mock Networking
         networking = MockNetworking()
