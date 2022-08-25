@@ -12,7 +12,6 @@
 
 @testable import AEPCampaignClassic
 @testable import AEPCore
-@testable import AEPLifecycle
 @testable import AEPServices
 import Foundation
 import XCTest
@@ -41,7 +40,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
     func initExtensionsAndWait() {
         let initExpectation = XCTestExpectation(description: "init extensions")
         MobileCore.setLogLevel(.trace)
-        MobileCore.registerExtensions([CampaignClassic.self, Lifecycle.self]) {
+        MobileCore.registerExtensions([CampaignClassic.self]) {
             initExpectation.fulfill()
         }
         wait(for: [initExpectation], timeout: 2)
