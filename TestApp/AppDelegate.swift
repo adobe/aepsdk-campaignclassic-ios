@@ -15,11 +15,8 @@ import UIKit
 import UserNotifications
 import AEPCore
 import AEPServices
-import AEPLifecycle
 import AEPAssurance
 import AEPCampaignClassic
-
-
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
@@ -27,8 +24,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         MobileCore.setLogLevel(.trace)
-        let extensions = [Lifecycle.self,
-                          Assurance.self,
+        let extensions = [Assurance.self,
                           CampaignClassic.self
         ]
         MobileCore.registerExtensions(extensions, {
@@ -45,6 +41,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         center.requestAuthorization(options: [.alert, .sound, .badge, .providesAppNotificationSettings]) { granted, error in
             if let error = error {
                 print("Error retrieving notification permission \(error.localizedDescription)")
+                return
             }
             guard granted else { return }
             self.getNotificationSettings()
@@ -62,13 +59,13 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
         
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        CampaignClassic.registerDevice(token: deviceToken, userKey: "johnDoe", additionalParameters: ["email" : "john@email.com"])
-        let token = deviceToken.reduce("") {$0 + String(format: "%02X", $1)}
+        CampaignClassic.registerDevice(token: deviceToken, userKey: "deadpool@swim.com", additionalParameters: nil)
+        let token = deviceToken.reduce("") {$0 + String(format: "%02x", $1)}
         pushDetails.pushToken = token
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Fail to Register for Remote Notification with Error \(error.localizedDescription)")
+        print("Failed to Register for Remote Notification with Error \(error.localizedDescription)")
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -78,6 +75,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         CampaignClassic.trackNotificationClick(withUserInfo: response.notification.request.content.userInfo)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        CampaignClassic.trackNotificationReceive(withUserInfo: userInfo)
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {

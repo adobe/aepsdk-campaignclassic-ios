@@ -9,7 +9,6 @@ pod 'SwiftLint', '0.44.0'
 def campaignclassic_dependencies
    pod 'AEPCore'
    pod 'AEPServices'
-   pod 'AEPLifecycle'
 end
 
 target 'AEPCampaignClassic' do

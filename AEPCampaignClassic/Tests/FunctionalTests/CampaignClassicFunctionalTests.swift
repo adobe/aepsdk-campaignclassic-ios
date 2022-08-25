@@ -12,7 +12,6 @@
 
 @testable import AEPCampaignClassic
 @testable import AEPCore
-@testable import AEPLifecycle
 @testable import AEPServices
 import Foundation
 import XCTest

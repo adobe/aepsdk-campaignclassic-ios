@@ -16,13 +16,12 @@ import AEPCampaignClassic
 import UserNotifications
 
 struct ContentView: View {
-    @EnvironmentObject private var pushDetail: PushNotificationDetailClass
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             Heading()
             CampaignClassicMockAPICard()
             MobileCorePrivacyAPICard()
-            NotificationSettingsCard(pushDetail: pushDetail)
+            NotificationSettingsCard()
         }
     }
 }
@@ -48,11 +47,15 @@ struct MobileCorePrivacyAPICard: View {
                 Button("Privacy opt out"){
                     MobileCore.setPrivacyStatus(PrivacyStatus.optedOut)
                 }.buttonStyle(CustomButton())
-
                 Button("Privacy opt in"){
                     MobileCore.setPrivacyStatus(PrivacyStatus.optedIn)
                 }.buttonStyle(CustomButton())
-            }.padding()
+            }.padding(.top)
+            HStack{
+                Button("Privacy opt Unknown"){
+                    MobileCore.setPrivacyStatus(PrivacyStatus.unknown)
+                }.buttonStyle(CustomButton())
+            }.padding(.bottom)
         }
     }
 }
@@ -60,7 +63,7 @@ struct MobileCorePrivacyAPICard: View {
 struct NotificationSettingsCard: View {
     @State var currentNotificationSettings = ""
     @State var unreadNotificationCount = 0
-    @ObservedObject var pushDetail : PushNotificationDetailClass
+    @EnvironmentObject private var pushDetail: PushNotificationDetailClass
     var body: some View {
         VStack {
             Spacer(minLength: 20)
@@ -120,15 +123,15 @@ struct CampaignClassicMockAPICard: View {
                 Button("Register Device"){
                     CampaignClassic.registerDevice(token: "6dbc896cf883febf53b2a1c643435bd183c3fdbab35e2bac4310dab23283cd25".data(using: .utf8)!, userKey: "johnDoe", additionalParameters: ["email" : "johnDoe@email.com", "points" : 35773, "isPremiumUser" : true])
                 }.buttonStyle(CustomButton())
-
+            }.padding(.top)
+            HStack {
                 Button("Track Receive"){
                     CampaignClassic.trackNotificationReceive(withUserInfo: ["_mId" : "beca3338-1dd9-4559-ac52-b82ad32c255c", "_dId" : "marketingID"])
                 }.buttonStyle(CustomButton())
-
                 Button("Track Click"){
                     CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : "beca3338-1dd9-4559-ac52-b82ad32c255c", "_dId" : "marketingID"])
                 }.buttonStyle(CustomButton())
-            }
+            }.padding(.bottom)
         }.padding()
     }
 }

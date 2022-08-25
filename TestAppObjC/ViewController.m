@@ -34,4 +34,8 @@
     [AEPMobileCore setPrivacyStatus:AEPPrivacyStatusOptedIn];
 }
 
+- (IBAction)privacyOptUnknownClicked:(id)sender {
+    [AEPMobileCore setPrivacyStatus:AEPPrivacyStatusUnknown];
+}
+
 @end
