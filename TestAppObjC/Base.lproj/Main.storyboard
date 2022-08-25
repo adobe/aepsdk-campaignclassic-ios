@@ -69,6 +69,19 @@
                                     <action selector="privacyOptOutClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Exj-ki-dKj"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rsj-uR-XGC">
+                                <rect key="frame" x="116" y="314" width="158" height="45"/>
+                                <color key="backgroundColor" red="0.19327542189999999" green="0.29907739160000002" blue="0.69953554870000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="a3I-1w-rTO"/>
+                                </constraints>
+                                <color key="tintColor" red="0.92084878680000004" green="0.93849831819999996" blue="0.97500389809999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Privacy opt unknown"/>
+                                <connections>
+                                    <action selector="privacyOptUnknownClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tgN-Op-A63"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -83,8 +96,11 @@
                             <constraint firstItem="DPE-cx-DzZ" firstAttribute="top" secondItem="pW1-Cn-F3P" secondAttribute="bottom" constant="20" id="G32-fs-Td2"/>
                             <constraint firstItem="74n-Fh-rAa" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="G8s-7a-sFf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qpo-Ye-dxI" secondAttribute="trailing" constant="10" id="N9h-SM-SII"/>
+                            <constraint firstItem="Rsj-uR-XGC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="116" id="QNd-0I-Ibw"/>
+                            <constraint firstItem="Rsj-uR-XGC" firstAttribute="top" secondItem="DPE-cx-DzZ" secondAttribute="bottom" constant="18" id="bFj-rn-kmt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WV2-VA-Aa7" secondAttribute="trailing" constant="25" id="cIs-eb-D0M"/>
                             <constraint firstItem="74n-Fh-rAa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="cca-ng-5cd"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Rsj-uR-XGC" secondAttribute="trailing" constant="116" id="fIy-Iu-pB9"/>
                             <constraint firstItem="pW1-Cn-F3P" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="116" id="l0v-hJ-qYU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="74n-Fh-rAa" secondAttribute="trailing" constant="10" id="uyi-3f-4Sh"/>
                             <constraint firstItem="qpo-Ye-dxI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="xeu-v6-EeJ"/>
