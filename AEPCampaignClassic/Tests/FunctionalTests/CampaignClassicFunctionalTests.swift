@@ -88,6 +88,33 @@ class CampaignClassicFunctionalTests: XCTestCase {
         XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
     }
     
+    func test_registerDevice_noUserKeyAndAdditionalParameter() {
+        // setup
+        initExtensionsAndWait()
+        setConfiguration()
+        let expectedURL = "https://marketingServer/nms/mobile/1/registerIOS.jssp"
+        mockNetwork.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
+        
+        // test
+        CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: nil, additionalParameters: nil)
+            
+        // verify network call
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
+        XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
+        XCTAssertEqual(expectedURL, mockNetwork.cachedNetworkRequests[0].url.absoluteString)
+        
+        // verify network payload
+        let payload = mockNetwork.cachedNetworkRequests[0].payloadAsString()
+        XCTAssertTrue(payload.contains("registrationToken=70757368546f6b656e"))
+        XCTAssertTrue(payload.contains("userKey=&"))
+        XCTAssertTrue(payload.contains("additionalParams%3E%3C%2FadditionalParams%3E"))
+        
+        // verify persisted registered data hash
+        // following is the constant hash generated for the given pushToken, userKey and additional data
+        XCTAssertEqual("08d813a01055453f331f330931661452b23e14148b43efa757e815dede4bf09d" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+        
+    }
+    
     func test_registerDevice_whenPrivacyOptedOut() {
         // setup
         initExtensionsAndWait()
