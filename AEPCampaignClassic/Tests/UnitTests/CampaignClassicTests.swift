@@ -273,20 +273,20 @@ class CampaignClassicTests: XCTestCase {
     
     private func trackNotificationClickEvent(broadLogID : String? = V8_BROADLOG_ID, deliveryID : String? = DELIVERY_ID) -> Event {
         let userInfo = ["_mId" : broadLogID, "_dId" : deliveryID]
-        return Event(name: CampaignClassicConstants.EventName.TRACK_NOTIFICATION_CLICK,
+        return Event(name: TestConstants.EventName.TRACK_NOTIFICATION_CLICK,
                      type: EventType.campaign,
                      source: EventSource.requestContent,
-                     data: [CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_CLICK: true,
-                            CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO: userInfo] as [String: Any])
+                     data: [TestConstants.EventDataKeys.CampaignClassic.TRACK_CLICK: true,
+                            TestConstants.EventDataKeys.CampaignClassic.TRACK_INFO: userInfo] as [String: Any])
     }
     
     private func trackNotificationReceiveEvent(broadLogID : String = V8_BROADLOG_ID, deliveryID : String? = DELIVERY_ID) -> Event {
         let userInfo = ["_mId" : broadLogID, "_dId" : deliveryID]
-        return Event(name: CampaignClassicConstants.EventName.TRACK_NOTIFICATION_CLICK,
+        return Event(name: TestConstants.EventName.TRACK_NOTIFICATION_CLICK,
                      type: EventType.campaign,
                      source: EventSource.requestContent,
-                     data: [CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE: true,
-                            CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO: userInfo] as [String: Any])
+                     data: [TestConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE: true,
+                            TestConstants.EventDataKeys.CampaignClassic.TRACK_INFO: userInfo] as [String: Any])
     }
     
     private func configurationResponseEvent() -> Event {
@@ -297,21 +297,21 @@ class CampaignClassicTests: XCTestCase {
     }
         
     private func registerDeviceEvent() -> Event {
-        return Event(name: CampaignClassicConstants.EventName.REGISTER_DEVICE,
+        return Event(name: TestConstants.EventName.REGISTER_DEVICE,
                      type: EventType.campaign,
                      source: EventSource.requestContent,
-                     data: [CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE: true,
-                            CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY: "userInfo",
-                            CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN: "deviceToken",
-                            CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS: [:]] as [String: Any])
+                     data: [TestConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE: true,
+                            TestConstants.EventDataKeys.CampaignClassic.USER_KEY: "userInfo",
+                            TestConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN: "deviceToken",
+                            TestConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS: [:]] as [String: Any])
     }
     
     private func setConfigState(trackingServer : String? = TRACKING_SERVER,
                                 privacyStatus : String = PrivacyStatus.optedIn.rawValue,
                                 networkTimeOut : Int = NETWORK_TIMEOUT) {
-        configurationSharedState = [ CampaignClassicConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY: privacyStatus,
-                                     CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_SERVER: trackingServer as Any,
-                                     CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_NETWORK_TIMEOUT: networkTimeOut]
-        runtime.simulateSharedState(for: CampaignClassicConstants.EventDataKeys.Configuration.EXTENSION_NAME, data: (configurationSharedState, .set))
+        configurationSharedState = [ TestConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY: privacyStatus,
+                                     TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_SERVER: trackingServer as Any,
+                                     TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_NETWORK_TIMEOUT: networkTimeOut]
+        runtime.simulateSharedState(for: TestConstants.EventDataKeys.Configuration.EXTENSION_NAME, data: (configurationSharedState, .set))
     }
 }

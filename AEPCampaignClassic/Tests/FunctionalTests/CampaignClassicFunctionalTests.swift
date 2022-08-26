@@ -10,9 +10,10 @@
  governing permissions and limitations under the License.
  */
 
-@testable import AEPCampaignClassic
+
 @testable import AEPCore
 @testable import AEPServices
+import AEPCampaignClassic
 import Foundation
 import XCTest
 
@@ -28,7 +29,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
     let V8_BROADLOG_ID = UUID().uuidString
     let V7_BROADLOG_ID = "55336"
     let DELIVERY_ID = "deliveryId"
-    let v7BROADLOG_ID_HEX = "D828"
+    let V7_BROADLOG_ID_HEX = "D828"
     
     static let V8_BROADLOG_ID = UUID().uuidString
     var mockNetwork: MockNetworking!
@@ -38,7 +39,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
         UserDefaults.clear()
         ServiceProvider.shared.reset()
         EventHub.reset()
-        datastore = NamedCollectionDataStore(name: CampaignClassicConstants.EXTENSION_NAME)
+        datastore = NamedCollectionDataStore(name: TestConstants.EXTENSION_NAME)
         mockNetwork = MockNetworking()
         ServiceProvider.shared.networkService = mockNetwork
         sleep(1)
@@ -84,7 +85,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
         
         // verify persisted registered data hash
         // following is the constant hash generated for the given pushToken, userKey and additional data
-        XCTAssertEqual("049dd429b573e8f5bb1b6d805e1785afa24bb48a2489acd397fd8ec15c37d1b7" , datastore.getString(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertEqual("049dd429b573e8f5bb1b6d805e1785afa24bb48a2489acd397fd8ec15c37d1b7" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
     }
     
     func test_registerDevice_whenPrivacyOptedOut() {
@@ -97,7 +98,20 @@ class CampaignClassicFunctionalTests: XCTestCase {
             
         // verify no network call
         verifyNoNetworkCall()
-        XCTAssertNil(datastore.getString(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+    }
+    
+    func test_registerDevice_whenPrivacyUnknown() {
+        // setup
+        initExtensionsAndWait()
+        setConfiguration(privacyStatus: "optunknown")
+        
+        // test
+        CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters: nil)
+            
+        // verify no network call
+        verifyNoNetworkCall()
+        XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
     }
     
     func test_registerDevice_whenNoMarketingServer() {
@@ -110,7 +124,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
             
         // verify no network call
         verifyNoNetworkCall()
-        XCTAssertNil(datastore.getString(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
     }
     
     func test_registerDevice_whenNoIntegrationKey() {
@@ -123,7 +137,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
             
         // verify no network call
         verifyNoNetworkCall()
-        XCTAssertNil(datastore.getString(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
     }
     
     func test_registerDevice_whenNoConfiguration() {
@@ -135,7 +149,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
             
         // verify no network call
         verifyNoNetworkCall()
-        XCTAssertNil(datastore.getString(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
     }
     
     func test_registerDevice_whenMultipleRegisterCallsWithSameData() {
@@ -151,7 +165,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
         // verify network call is made
         wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
-        XCTAssertEqual("049dd429b573e8f5bb1b6d805e1785afa24bb48a2489acd397fd8ec15c37d1b7" , datastore.getString(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertEqual("049dd429b573e8f5bb1b6d805e1785afa24bb48a2489acd397fd8ec15c37d1b7" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         
         // reset
         mockNetwork.reset()
@@ -178,7 +192,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
         
         // verify
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
-        XCTAssertEqual("049dd429b573e8f5bb1b6d805e1785afa24bb48a2489acd397fd8ec15c37d1b7" , datastore.getString(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertEqual("049dd429b573e8f5bb1b6d805e1785afa24bb48a2489acd397fd8ec15c37d1b7" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
             
         
         // test again
@@ -188,23 +202,22 @@ class CampaignClassicFunctionalTests: XCTestCase {
         wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
         XCTAssertEqual(2, mockNetwork.cachedNetworkRequests.count)
         // verify that the registration data is changed
-        XCTAssertEqual("999f4058edd26c21d639f81441c6139e4f04130151daa6f756e9f9aabe9e4598" , datastore.getString(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertEqual("999f4058edd26c21d639f81441c6139e4f04130151daa6f756e9f9aabe9e4598" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
     }
     
     
     //*******************************************************************
     // Tracking API
     //*******************************************************************
-    func test_trackNotificationRequest_happy() {
+    func test_trackNotificationReceive_happy() {
         // setup
         initExtensionsAndWait()
         setConfiguration()
-        let broadLogID = V8_BROADLOG_ID
-        let expectedURL = "https://trackserver/r/?id=h\(broadLogID),deliveryId,1"
+        let expectedURL = "https://trackserver/r/?id=h\(V8_BROADLOG_ID),deliveryId,1"
         mockNetwork.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
         
         // test
-        CampaignClassic.trackNotificationReceive(withUserInfo: ["_mId" : broadLogID, "_dId" : DELIVERY_ID])
+        CampaignClassic.trackNotificationReceive(withUserInfo: ["_mId" : V8_BROADLOG_ID, "_dId" : DELIVERY_ID])
 
         // verify
         wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
@@ -216,13 +229,12 @@ class CampaignClassicFunctionalTests: XCTestCase {
         // setup
         initExtensionsAndWait()
         setConfiguration()
-        let broadLogID = V8_BROADLOG_ID
-        let expectedURL = "https://trackserver/r/?id=h\(broadLogID),deliveryId,2"
+        let expectedURL = "https://trackserver/r/?id=h\(V8_BROADLOG_ID),deliveryId,2"
         mockNetwork.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
         
         
         // test
-        CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : broadLogID, "_dId" : DELIVERY_ID])
+        CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : V8_BROADLOG_ID, "_dId" : DELIVERY_ID])
 
         // verify
         wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
@@ -230,17 +242,16 @@ class CampaignClassicFunctionalTests: XCTestCase {
         XCTAssertEqual(expectedURL, mockNetwork.cachedNetworkRequests[0].url.absoluteString)
     }
     
-    func test_trackNotification_withV7BroadLogId() {
+    func test_trackNotification_withV7BroadlogId() {
         // setup
         initExtensionsAndWait()
         setConfiguration()
-        let broadLogID = V7_BROADLOG_ID
-        let expectedURL = "https://trackserver/r/?id=h\(v7BROADLOG_ID_HEX),deliveryId,2"
+        let expectedURL = "https://trackserver/r/?id=h\(V7_BROADLOG_ID_HEX),deliveryId,2"
         mockNetwork.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
         
         
         // test
-        CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : broadLogID, "_dId" : DELIVERY_ID])
+        CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : V7_BROADLOG_ID, "_dId" : DELIVERY_ID])
 
         // verify
         wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
@@ -252,10 +263,9 @@ class CampaignClassicFunctionalTests: XCTestCase {
         // setup
         initExtensionsAndWait()
         setConfiguration(trackingServer: nil)
-        let broadLogID = V8_BROADLOG_ID
                 
         // test
-        CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : broadLogID, "_dId" : DELIVERY_ID])
+        CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : V8_BROADLOG_ID, "_dId" : DELIVERY_ID])
 
         // verify
         verifyNoNetworkCall()
@@ -264,10 +274,9 @@ class CampaignClassicFunctionalTests: XCTestCase {
     func test_trackNotification_NoConfiguration() {
         // setup
         initExtensionsAndWait()
-        let broadLogID = V8_BROADLOG_ID
                 
         // test
-        CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : broadLogID, "_dId" : DELIVERY_ID])
+        CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : V8_BROADLOG_ID, "_dId" : DELIVERY_ID])
 
         // verify
         verifyNoNetworkCall()
@@ -297,16 +306,39 @@ class CampaignClassicFunctionalTests: XCTestCase {
         verifyNoNetworkCall()
     }
     
+    func test_trackNotification_whenPrivacyOptOut() {
+        // setup
+        initExtensionsAndWait()
+        setConfiguration(privacyStatus: "optedout")
+                
+        // test
+        CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : V8_BROADLOG_ID])
+
+        // verify
+        verifyNoNetworkCall()
+    }
+    
+    func test_trackNotification_whenPrivacyUnknown() {
+        // setup
+        initExtensionsAndWait()
+        setConfiguration(privacyStatus: "optunknown")
+                
+        // test
+        CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : V8_BROADLOG_ID])
+
+        // verify
+        verifyNoNetworkCall()
+    }
+    
     func test_trackNotification_multipleTrackCalls() {
         // setup
         initExtensionsAndWait()
         setConfiguration()
-        let broadLogID = V8_BROADLOG_ID
         mockNetwork.connectAsyncCalled.expectedFulfillmentCount = 2
                 
         // test
-        CampaignClassic.trackNotificationReceive(withUserInfo: ["_mId" : broadLogID, "_dId" : DELIVERY_ID])
-        CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : broadLogID, "_dId" : DELIVERY_ID])
+        CampaignClassic.trackNotificationReceive(withUserInfo: ["_mId" : V8_BROADLOG_ID, "_dId" : DELIVERY_ID])
+        CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : V8_BROADLOG_ID, "_dId" : DELIVERY_ID])
 
         // verify
         wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
@@ -340,12 +372,12 @@ class CampaignClassicFunctionalTests: XCTestCase {
                                   integrationKey: String? = INTEGRATION_KEY,
                                   trackingServer : String? = TRACKING_SERVER,
                                   privacyStatus : String = PrivacyStatus.optedIn.rawValue,
-                                  networkTimeOut : Int = NETWORK_TIMEOUT) {
-        let config = [ CampaignClassicConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY: privacyStatus,
-                       CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_SERVER: trackingServer as Any,
-                       CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_MARKETING_SERVER: marketingServer as Any,
-                       CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_INTEGRATION_KEY: integrationKey as Any,
-                       CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_NETWORK_TIMEOUT: networkTimeOut]
+                                  networkTimeout : Int = NETWORK_TIMEOUT) {
+        let config = [ TestConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY: privacyStatus,
+                       TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_SERVER: trackingServer as Any,
+                       TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_MARKETING_SERVER: marketingServer as Any,
+                       TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_INTEGRATION_KEY: integrationKey as Any,
+                       TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_NETWORK_TIMEOUT: networkTimeout]
         MobileCore.updateConfigurationWith(configDict: config)
         sleep(1)
     }

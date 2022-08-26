@@ -29,7 +29,7 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
     let runtime = TestableExtensionRuntime()
     var registrationManager: RegistrationManager!
     var networking: MockNetworking!
-    let datastore = NamedCollectionDataStore(name: CampaignClassicConstants.EXTENSION_NAME)
+    let datastore = NamedCollectionDataStore(name: TestConstants.EXTENSION_NAME)
     let systemInfoService = ServiceProvider.shared.systemInfoService
     
     override func setUp() {
@@ -41,7 +41,7 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
     }
     
     override func tearDown() {
-        datastore.remove(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH)
+        datastore.remove(key: TestConstants.DatastoreKeys.TOKEN_HASH)
     }
     
     //*******************************************************************
@@ -230,7 +230,7 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
     func test_registrationToken_isReadFromDatastore() throws {
         // test
         let hashedToken = "howdy"
-        datastore.set(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH, value: hashedToken)
+        datastore.set(key: TestConstants.DatastoreKeys.TOKEN_HASH, value: hashedToken)
         
         // verify
         XCTAssertEqual(hashedToken, registrationManager.hashedRegistrationData)
@@ -242,13 +242,13 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
     //*******************************************************************
     func test_clearRegistrationData() throws {
         // setup
-        datastore.set(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH, value: "savedRegistrationData")
+        datastore.set(key: TestConstants.DatastoreKeys.TOKEN_HASH, value: "savedRegistrationData")
         
         // test
         registrationManager.clearRegistrationData()
         
         // verify
-        XCTAssertNil(datastore.getString(key: CampaignClassicConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         XCTAssertNil(registrationManager.hashedRegistrationData)
     }
     
@@ -268,24 +268,24 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
                                 integrationKey: String? = INTEGRATION_KEY,
                                 privacyStatus: String = PrivacyStatus.optedIn.rawValue,
                                 networkTimeOut: Int = NETWORK_TIMEOUT) {
-        let configurationSharedState = [ CampaignClassicConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY: privacyStatus,
-                                     CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_MARKETING_SERVER: marketingServer as Any,
-                                     CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_INTEGRATION_KEY: integrationKey as Any,
-                                     CampaignClassicConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_NETWORK_TIMEOUT: networkTimeOut]
-        runtime.simulateSharedState(for: CampaignClassicConstants.EventDataKeys.Configuration.EXTENSION_NAME, data: (configurationSharedState, .set))
+        let configurationSharedState = [ TestConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY: privacyStatus,
+                                     TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_MARKETING_SERVER: marketingServer as Any,
+                                     TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_INTEGRATION_KEY: integrationKey as Any,
+                                     TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_NETWORK_TIMEOUT: networkTimeOut]
+        runtime.simulateSharedState(for: TestConstants.EventDataKeys.Configuration.EXTENSION_NAME, data: (configurationSharedState, .set))
     }
         
     private func registerDeviceEvent(userKey: String? = USER_KEY,
                                      deviceToken: String? = DEVICE_TOKEN,
                                      additionalParameter: [String: Any]? = ADDITIONAL_DATA) -> Event {
         let anyCodableAdditionalData = AnyCodable.from(dictionary: additionalParameter)
-        return Event(name: CampaignClassicConstants.EventName.REGISTER_DEVICE,
+        return Event(name: TestConstants.EventName.REGISTER_DEVICE,
                      type: EventType.campaign,
                      source: EventSource.requestContent,
-                     data: [CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE: true,
-                            CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY: userKey as Any,
-                            CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN: deviceToken as Any,
-                            CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS: anyCodableAdditionalData as Any] as [String: Any])
+                     data: [TestConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE: true,
+                            TestConstants.EventDataKeys.CampaignClassic.USER_KEY: userKey as Any,
+                            TestConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN: deviceToken as Any,
+                            TestConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS: anyCodableAdditionalData as Any] as [String: Any])
     }
 
 }

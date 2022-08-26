@@ -40,10 +40,10 @@ class CampaignClassicPublicAPITests: XCTestCase {
         EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: EventType.campaign,
                                                                                     source: EventSource.requestContent) { event in
             // unwrap optionals
-            let isRegisterDeviceEvent = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE] as? Bool)
-            let deviceToken = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN] as? String)
-            let userKey = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY] as? String)
-            let additionalParameters = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as? [String : AnyCodable])
+            let isRegisterDeviceEvent = try? XCTUnwrap(event.data?[TestConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE] as? Bool)
+            let deviceToken = try? XCTUnwrap(event.data?[TestConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN] as? String)
+            let userKey = try? XCTUnwrap(event.data?[TestConstants.EventDataKeys.CampaignClassic.USER_KEY] as? String)
+            let additionalParameters = try? XCTUnwrap(event.data?[TestConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as? [String : AnyCodable])
             
             // verify
             XCTAssertEqual(isRegisterDeviceEvent, true)
@@ -69,8 +69,8 @@ class CampaignClassicPublicAPITests: XCTestCase {
         EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: EventType.campaign,
                                                                                     source: EventSource.requestContent) { event in
             // unwrap optionals
-            let isTrackClickEvent = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_CLICK] as? Bool)
-            let trackInfo = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String : String])
+            let isTrackClickEvent = try? XCTUnwrap(event.data?[TestConstants.EventDataKeys.CampaignClassic.TRACK_CLICK] as? Bool)
+            let trackInfo = try? XCTUnwrap(event.data?[TestConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String : String])
             
             // verify
             XCTAssertEqual(isTrackClickEvent, true)
@@ -93,8 +93,8 @@ class CampaignClassicPublicAPITests: XCTestCase {
         EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: EventType.campaign,
                                                                                     source: EventSource.requestContent) { event in
             // unwrap optionals
-            let isTrackReceiveEvent = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE] as? Bool)
-            let trackInfo = try? XCTUnwrap(event.data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String : String])
+            let isTrackReceiveEvent = try? XCTUnwrap(event.data?[TestConstants.EventDataKeys.CampaignClassic.TRACK_RECEIVE] as? Bool)
+            let trackInfo = try? XCTUnwrap(event.data?[TestConstants.EventDataKeys.CampaignClassic.TRACK_INFO] as? [String : String])
             
             // verify
             XCTAssertEqual(isTrackReceiveEvent, true)

@@ -1,6 +1,6 @@
 /*
  Copyright 2022 Adobe. All rights reserved.
- This file is licensed to you under the Apache License, Version 2.0 (the "License")
+ This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
 
@@ -10,14 +10,13 @@
  governing permissions and limitations under the License.
  */
 
-import Foundation
-import AEPCore
 
-enum CampaignClassicConstants {
+import Foundation
+
+enum TestConstants {
     static let EXTENSION_NAME                           = "com.adobe.module.campaignclassic"
     static let FRIENDLY_NAME                            = "CampaignClassic"
     static let EXTENSION_VERSION                        = "3.0.0"
-    static let LOG_TAG                                  = FRIENDLY_NAME
 
     // general strings
     static let DATASTORE_KEY = "ADOBEMOBILE_CAMPAIGNCLASSIC"
@@ -39,11 +38,6 @@ enum CampaignClassicConstants {
         static let REGISTER_DEVICE = "CampaignClassic Device Registration"
         static let TRACK_NOTIFICATION_CLICK = "CampaignClassic Track Notification Click"
         static let TRACK_NOTIFICATION_RECEIVE = "CampaignClassic Track Notification Receive"
-    }
-
-    enum Default {
-        static let PRIVACY_STATUS: PrivacyStatus = .unknown
-        static let NETWORK_TIMEOUT = TimeInterval(30)
     }
 
     enum EventDataKeys {
