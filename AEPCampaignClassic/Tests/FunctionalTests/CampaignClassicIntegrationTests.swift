@@ -17,7 +17,7 @@ import AEPCampaignClassic
 import Foundation
 import XCTest
 
-class CampaignClassicFunctionalTests: XCTestCase {
+class CampaignClassicIntegrationTests: XCTestCase {
     
     // Configuration test constants
     static let TRACKING_SERVER = "trackserver"

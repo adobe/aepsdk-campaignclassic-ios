@@ -67,7 +67,7 @@
 		D609F883284AC7CE0007EAA7 /* TestableExtensionRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F876284AC7CE0007EAA7 /* TestableExtensionRuntime.swift */; };
 		D609F884284AC7CE0007EAA7 /* MockNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F877284AC7CE0007EAA7 /* MockNetworking.swift */; };
 		D609F888284AC7CE0007EAA7 /* MockExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F87B284AC7CE0007EAA7 /* MockExtension.swift */; };
-		D609F890284AC7E60007EAA7 /* CampaignClassicFunctionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F88F284AC7E60007EAA7 /* CampaignClassicFunctionalTests.swift */; };
+		D609F890284AC7E60007EAA7 /* CampaignClassicIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D609F88F284AC7E60007EAA7 /* CampaignClassicIntegrationTests.swift */; };
 		D62CB118284AC0020008C0F2 /* AEPCampaignClassic.h in Headers */ = {isa = PBXBuildFile; fileRef = D62CB117284AC0020008C0F2 /* AEPCampaignClassic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D6E12ADE284A5EA100C7FEFE /* CampaignClassic+PublicAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E12AD7284A5EA100C7FEFE /* CampaignClassic+PublicAPI.swift */; };
 		D6E12AE0284A5EA100C7FEFE /* CampaignClassicConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E12AD9284A5EA100C7FEFE /* CampaignClassicConstants.swift */; };
@@ -203,7 +203,7 @@
 		D609F876284AC7CE0007EAA7 /* TestableExtensionRuntime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestableExtensionRuntime.swift; sourceTree = "<group>"; };
 		D609F877284AC7CE0007EAA7 /* MockNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNetworking.swift; sourceTree = "<group>"; };
 		D609F87B284AC7CE0007EAA7 /* MockExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockExtension.swift; sourceTree = "<group>"; };
-		D609F88F284AC7E60007EAA7 /* CampaignClassicFunctionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignClassicFunctionalTests.swift; sourceTree = "<group>"; };
+		D609F88F284AC7E60007EAA7 /* CampaignClassicIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignClassicIntegrationTests.swift; sourceTree = "<group>"; };
 		D62CB117284AC0020008C0F2 /* AEPCampaignClassic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AEPCampaignClassic.h; sourceTree = "<group>"; };
 		D655170E2667F6FB00A152CF /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		D655170F2667F72600A152CF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -443,7 +443,7 @@
 		D609F872284AC7CE0007EAA7 /* FunctionalTests */ = {
 			isa = PBXGroup;
 			children = (
-				D609F88F284AC7E60007EAA7 /* CampaignClassicFunctionalTests.swift */,
+				D609F88F284AC7E60007EAA7 /* CampaignClassicIntegrationTests.swift */,
 			);
 			path = FunctionalTests;
 			sourceTree = "<group>";
@@ -895,7 +895,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D609F890284AC7E60007EAA7 /* CampaignClassicFunctionalTests.swift in Sources */,
+				D609F890284AC7E60007EAA7 /* CampaignClassicIntegrationTests.swift in Sources */,
 				B611769728B8A174009C6ADE /* TestConstants.swift in Sources */,
 				B655521128B54D2B00E8C445 /* TestHelper.swift in Sources */,
 				D609F888284AC7CE0007EAA7 /* MockExtension.swift in Sources */,
