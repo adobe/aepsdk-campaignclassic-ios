@@ -17,7 +17,7 @@ import XCTest
 class CampaignClassicPublicAPITests: XCTestCase {
     
     let SAMPLE_PUSHTOKEN_DATA = "PushToken".data(using: .utf8)!
-    let SAMPLE_PUSHTOKEN_AS_HEXSTRING = "50757368546F6B656E"
+    let SAMPLE_PUSHTOKEN_AS_HEXSTRING = "50757368546f6b656e"
     let SAMPLE_INFO : [String : String] = ["key" : "value"]
     
 
@@ -61,7 +61,31 @@ class CampaignClassicPublicAPITests: XCTestCase {
         wait(for: [expectation], timeout: 1)
     }
     
-    
+    func test_registerDevice_withNilUserKeyAndAdditionalData() throws {
+        let expectation = XCTestExpectation(description: "Register Device API should dispatch appropriate event")
+        
+        // event dispatch verification
+        EventHub.shared.getExtensionContainer(MockExtension.self)?.registerListener(type: EventType.campaign,
+                                                                                    source: EventSource.requestContent) { event in
+            // unwrap optionals
+            let isRegisterDeviceEvent = try? XCTUnwrap(event.data?[TestConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE] as? Bool)
+            let userKey = try? XCTUnwrap(event.data?[TestConstants.EventDataKeys.CampaignClassic.USER_KEY] as? String)
+            
+            // verify
+            XCTAssertEqual(isRegisterDeviceEvent, true)
+            XCTAssertEqual("", userKey)
+            XCTAssertNil(event.data?[TestConstants.EventDataKeys.CampaignClassic.ADDITIONAL_PARAMETERS] as? [String : AnyCodable])
+               
+            expectation.fulfill()
+        }
+        
+        // test
+        CampaignClassic.registerDevice(token: SAMPLE_PUSHTOKEN_DATA, userKey: nil, additionalParameters: nil)
+        
+        // verify
+        wait(for: [expectation], timeout: 1)
+    }
+        
     func test_trackNotificationClick() throws {
         let expectation = XCTestExpectation(description: "CampaignClassic Track Notification Click should dispatch appropriate event")
         

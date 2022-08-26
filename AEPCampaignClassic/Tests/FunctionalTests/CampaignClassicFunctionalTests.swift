@@ -71,7 +71,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
         
         // verify network payload
         let payload = mockNetwork.cachedNetworkRequests[0].payloadAsString()
-        XCTAssertTrue(payload.contains("registrationToken=70757368546F6B656"))
+        XCTAssertTrue(payload.contains("registrationToken=70757368546f6b656e"))
         XCTAssertTrue(payload.contains("mobileAppUuid=integrationKey&"))
         XCTAssertTrue(payload.contains("userKey=userkey&"))
         XCTAssertTrue(payload.contains("deviceName=\(URLEncoder.encode(value: UIDevice.current.name))&"))
@@ -85,7 +85,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
         
         // verify persisted registered data hash
         // following is the constant hash generated for the given pushToken, userKey and additional data
-        XCTAssertEqual("049dd429b573e8f5bb1b6d805e1785afa24bb48a2489acd397fd8ec15c37d1b7" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
     }
     
     func test_registerDevice_whenPrivacyOptedOut() {
@@ -165,7 +165,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
         // verify network call is made
         wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
-        XCTAssertEqual("049dd429b573e8f5bb1b6d805e1785afa24bb48a2489acd397fd8ec15c37d1b7" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         
         // reset
         mockNetwork.reset()
@@ -192,7 +192,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
         
         // verify
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
-        XCTAssertEqual("049dd429b573e8f5bb1b6d805e1785afa24bb48a2489acd397fd8ec15c37d1b7" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
             
         
         // test again
@@ -202,7 +202,7 @@ class CampaignClassicFunctionalTests: XCTestCase {
         wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
         XCTAssertEqual(2, mockNetwork.cachedNetworkRequests.count)
         // verify that the registration data is changed
-        XCTAssertEqual("999f4058edd26c21d639f81441c6139e4f04130151daa6f756e9f9aabe9e4598" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+        XCTAssertEqual("6c78a6175d527e5d620285b86f718cfd524c0a26e65c4a8db5a0f8aa5b67e4f1" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
     }
     
     
