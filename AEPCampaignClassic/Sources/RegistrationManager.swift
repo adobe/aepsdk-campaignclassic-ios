@@ -64,40 +64,40 @@ class RegistrationManager {
     /// - Parameter event: the campaign registration request event containing all the device/user details
     func registerDevice(event: Event) {
 
-        /// retrieve the device token from the event
-        /// device token is the unique token received from Apple push notification service through the application
-        /// bail out from the registration request if device token is unavailable
+        // retrieve the device token from the event
+        // device token is the unique token received from Apple push notification service through the application
+        // bail out from the registration request if device token is unavailable
         guard let deviceToken = event.deviceToken else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, device token is not available.")
             return
         }
 
-        /// bail out if the privacy is not opted In
+        // bail out if the privacy is not opted In
         let configuration = CampaignClassicConfiguration.init(forEvent: event, runtime: runtime)
         guard configuration.privacyStatus == PrivacyStatus.optedIn else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, MobilePrivacyStatus is not optedIn.")
             return
         }
 
-        /// bail out if the required configuration for device registration request is unavailable
+        // bail out if the required configuration for device registration request is unavailable
         guard let integrationKey = configuration.integrationKey, let marketingServer = configuration.marketingServer else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, `campaignclassic.ios.integrationKey` and/or `campaignclassic.marketingServer` configuration keys are unavailable.")
             return
         }
 
-        /// retrieve the userKey from the event
-        /// userKey is a string containing user identifier e.g. email
+        // retrieve the userKey from the event
+        // userKey is a string containing user identifier e.g. email
         let userKey = event.userKey ?? ""
         let additionalParametersXML = event.additionalParameters.serializeToXMLString()
         let hashedData = "\(deviceToken)\(userKey)\(additionalParametersXML)".sha256()
 
-        /// bail out, If the registration request data has not changed
+        // bail out, If the registration request data has not changed
         guard registrationInfoChanged(hashedData) else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration request not sent, there is no change in registration info since last successful request.")
             return
         }
 
-        /// build the payload
+        // build the payload
         var payload = String(format: CampaignClassicConstants.REGISTRATION_PAYLOAD_FORMAT,
                              deviceToken.urlEncoded,
                              integrationKey.urlEncoded,
@@ -111,29 +111,31 @@ class RegistrationManager {
                              systemInfoService.getFormattedLocale().urlEncoded)
         payload.append(additionalParametersXML)
 
-        /// build url
+        // build url
         let urlString = String(format: CampaignClassicConstants.REGISTRATION_API_URL_BASE, marketingServer)
         guard let url = URL(string: urlString) else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, Invalid network request URL : \(urlString)")
             return
         }
 
-        /// build headers
+        // build headers
         let headers = buildHeaders(payload: payload)
 
-        /// create a network request
+        // create a network request
         let request = NetworkRequest(url: url, httpMethod: .post, connectPayload: payload, httpHeaders: headers, connectTimeout: configuration.timeout, readTimeout: configuration.timeout)
 
         Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration request initiated with \n URL : \(url.absoluteString) \n Headers: \(headers) \n Payload : \(payload)")
 
-        /// make the network request
+        // make the network request
         ServiceProvider.shared.networkService.connectAsync(networkRequest: request) { connection in
             guard connection.responseCode == 200 else {
                 Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, Network Error. Response Code: \(String(describing: connection.responseCode)) URL : \(url.absoluteString)")
                 return
             }
 
-            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration success. Saving the hashed registration data.")
+            // retrieve the response message from the body
+            let responseMessage = String(data: connection.data ?? Data(), encoding: .utf8) ?? ""
+            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration success. Saving the hashed registration data. Response message : \(responseMessage)")
             self.hashedRegistrationData = hashedData
         }
 

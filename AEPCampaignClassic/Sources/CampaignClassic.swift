@@ -23,7 +23,7 @@ public class CampaignClassic: NSObject, Extension {
     public var runtime: ExtensionRuntime
     let dispatchQueue: DispatchQueue
 
-    /// following variable is made editable for testing purposes
+    // following variable is made editable for testing purposes
     #if DEBUG
         var registrationManager: RegistrationManager
     #else
@@ -149,25 +149,26 @@ public class CampaignClassic: NSObject, Extension {
                 Log.debug(label: CampaignClassicConstants.LOG_TAG, "Unable to trackNotification, Network Error. Response Code: \(String(describing: connection.responseCode)) URL : \(trackingUrl.absoluteString)")
                 return
             }
-            Log.debug(label: CampaignClassicConstants.LOG_TAG, "TrackNotification success. URL : \(trackingUrl.absoluteString)")
+            let responseMessage = String(data: connection.data ?? Data(), encoding: .utf8) ?? ""
+            Log.debug(label: CampaignClassicConstants.LOG_TAG, "TrackNotification success. Response message: \(responseMessage)")
         })
     }
 
     /// Validates and transforms the broadlogId into the required format
     /// - Parameter broadlogId : the broadlogId string to be validated
     private func transformBroadLogId(_ broadlogId: String) -> String? {
-        /// if this is a valid UUID (v8 messageId format), return the string without modification
+        // if this is a valid UUID (v8 messageId format), return the string without modification
         if let _ = UUID(uuidString: broadlogId) {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Track Notification - BroadlogId detected in v8 format: \(broadlogId)")
             return broadlogId
         }
 
-        /// if not a valid UUID and neither in v7 format (Integer), return nil
+        // if not a valid UUID and neither in v7 format (Integer), return nil
         guard let broadLogIdInt = Int(broadlogId) else {
             return nil
         }
 
-        /// return the hex representation of integer for v7 format messageId
+        // return the hex representation of integer for v7 format messageId
         let hexBroadLogId = String(format: "%02X", broadLogIdInt)
         Log.debug(label: CampaignClassicConstants.LOG_TAG, "Track Notification - BroadlogId detected in v7 format: \(hexBroadLogId)")
         return hexBroadLogId
