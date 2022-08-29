@@ -29,7 +29,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
     let V8_BROADLOG_ID = UUID().uuidString
     let V7_BROADLOG_ID = "55336"
     let DELIVERY_ID = "deliveryId"
-    let V7_BROADLOG_ID_HEX = "D828"
+    let V7_BROADLOG_ID_HEX = "d828"
     
     static let V8_BROADLOG_ID = UUID().uuidString
     var mockNetwork: MockNetworking!

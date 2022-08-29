@@ -28,7 +28,7 @@ class CampaignClassicTests: XCTestCase {
     static let V8_BROADLOG_ID = UUID().uuidString
     static let V7_BROADLOG_ID = "55336"
     static let DELIVERY_ID = "deliveryId"
-    let v7BROADLOG_ID_HEX = "D828"
+    let v7BROADLOG_ID_HEX = "d828"
       
     // instance variables
     let runtime = TestableExtensionRuntime()
