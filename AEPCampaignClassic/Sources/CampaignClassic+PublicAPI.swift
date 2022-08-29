@@ -22,7 +22,7 @@ public extension CampaignClassic {
     ///
     /// - Parameters:
     ///    - token : A unique device token received after registering your app with APNs servers
-    ///    - userKey : An optional `string` containing the user identifier
+    ///    - userKey : An optional `String` containing the user identifier
     ///    - additionalParameters : a dictionary of custom key-value pairs to be sent along with the registration call
     static func registerDevice(token: Data, userKey: String?, additionalParameters: [String: Any]?) {
 

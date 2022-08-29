@@ -134,7 +134,7 @@ class RegistrationManager {
             }
 
             // retrieve the response message from the body
-            let responseMessage = String(data: connection.data ?? Data(), encoding: .utf8) ?? ""
+            let responseMessage = String(data: connection.data ?? Data(), encoding: .utf8) ?? "Unable to read response message."
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration success. Saving the hashed registration data. Response message : \(responseMessage)")
             self.hashedRegistrationData = hashedData
         }

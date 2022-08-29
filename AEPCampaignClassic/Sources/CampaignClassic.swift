@@ -149,7 +149,7 @@ public class CampaignClassic: NSObject, Extension {
                 Log.debug(label: CampaignClassicConstants.LOG_TAG, "Unable to trackNotification, Network Error. Response Code: \(String(describing: connection.responseCode)) URL : \(trackingUrl.absoluteString)")
                 return
             }
-            let responseMessage = String(data: connection.data ?? Data(), encoding: .utf8) ?? ""
+            let responseMessage = String(data: connection.data ?? Data(), encoding: .utf8) ?? "Unable to read response message."
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "TrackNotification success. Response message: \(responseMessage)")
         })
     }
@@ -164,14 +164,14 @@ public class CampaignClassic: NSObject, Extension {
         }
 
         // if not a valid UUID and neither in v7 format (Integer), return nil
-        guard let broadLogIdInt = Int(broadlogId) else {
+        guard let broadlogIdInt = Int(broadlogId) else {
             return nil
         }
 
         // return the hex representation of integer for v7 format messageId
-        let hexBroadLogId = String(format: "%02X", broadLogIdInt)
-        Log.debug(label: CampaignClassicConstants.LOG_TAG, "Track Notification - BroadlogId detected in v7 format: \(hexBroadLogId)")
-        return hexBroadLogId
+        let broadlogIdHex = String(format: "%02x", broadlogIdInt)
+        Log.debug(label: CampaignClassicConstants.LOG_TAG, "Track Notification - BroadlogId detected in v7 format: \(broadlogIdHex)")
+        return broadlogIdHex
     }
 
 }
