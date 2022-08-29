@@ -22,13 +22,13 @@ public extension CampaignClassic {
     ///
     /// - Parameters:
     ///    - token : A unique device token received after registering your app with APNs servers
-    ///    - userKey : A `string` containing the user identifier
+    ///    - userKey : An optional `String` containing the user identifier
     ///    - additionalParameters : a dictionary of custom key-value pairs to be sent along with the registration call
-    static func registerDevice(token: Data, userKey: String, additionalParameters: [String: Any]?) {
+    static func registerDevice(token: Data, userKey: String?, additionalParameters: [String: Any]?) {
 
         var eventData = [CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTER_DEVICE: true,
                          CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN: token.hexDescription,
-                         CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY: userKey] as [String: Any]
+                         CampaignClassicConstants.EventDataKeys.CampaignClassic.USER_KEY: userKey ?? ""] as [String: Any]
 
         // attach additional parameters only if they are available
         if let additionalParameters = additionalParameters {
@@ -81,6 +81,6 @@ public extension CampaignClassic {
 private extension Data {
     /// Returns a hex representation of the data
     var hexDescription: String {
-        return reduce("") {$0 + String(format: "%02X", $1)}
+        return reduce("") {$0 + String(format: "%02x", $1)}
     }
 }
