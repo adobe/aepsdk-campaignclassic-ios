@@ -149,8 +149,7 @@ public class CampaignClassic: NSObject, Extension {
                 Log.debug(label: CampaignClassicConstants.LOG_TAG, "Unable to trackNotification, Network Error. Response Code: \(String(describing: connection.responseCode)) URL : \(trackingUrl.absoluteString)")
                 return
             }
-            let responseMessage = String(data: connection.data ?? Data(), encoding: .utf8) ?? "Unable to read response message."
-            Log.debug(label: CampaignClassicConstants.LOG_TAG, "TrackNotification success. Response message: \(responseMessage)")
+            Log.debug(label: CampaignClassicConstants.LOG_TAG, "TrackNotification success.")
         })
     }
 
