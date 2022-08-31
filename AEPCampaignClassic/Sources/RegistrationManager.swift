@@ -13,6 +13,7 @@
 import Foundation
 import AEPServices
 import AEPCore
+import UIKit
 
 ///
 /// Manages Campaign Classic device registration requests.
