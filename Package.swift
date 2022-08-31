@@ -24,7 +24,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "AEPCampaignClassic",
-                dependencies: ["AEPCore", .product(name: "AEPServices", package: "AEPCore"), .product(name: "AEPLifecycle", package: "AEPCore")],
+                dependencies: ["AEPCore", .product(name: "AEPServices", package: "AEPCore")],
                 path: "AEPCampaignClassic/Sources")
     ]
 )
