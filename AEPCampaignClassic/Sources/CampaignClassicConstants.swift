@@ -16,7 +16,7 @@ import AEPCore
 enum CampaignClassicConstants {
     static let EXTENSION_NAME                           = "com.adobe.module.campaignclassic"
     static let FRIENDLY_NAME                            = "CampaignClassic"
-    static let EXTENSION_VERSION                        = "3.0.0"
+    static let EXTENSION_VERSION                        = "3.0.1"
     static let LOG_TAG                                  = FRIENDLY_NAME
 
     // general strings
@@ -36,6 +36,7 @@ enum CampaignClassicConstants {
     }
 
     enum EventName {
+        static let DEVICE_REGISTRATION_STATUS = "Device Registration Status"
         static let REGISTER_DEVICE = "CampaignClassic Device Registration"
         static let TRACK_NOTIFICATION_CLICK = "CampaignClassic Track Notification Click"
         static let TRACK_NOTIFICATION_RECEIVE = "CampaignClassic Track Notification Receive"
