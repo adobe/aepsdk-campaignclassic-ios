@@ -30,6 +30,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         MobileCore.registerExtensions(extensions, {
             // For testing use the appID from tag property "Pravin ACC (For Swift SDK)" in org "OBUMobile5"
             MobileCore.configureWith(appId: "")
+            // listen for campaign response event
+            MobileCore.registerEventListener(type: EventType.campaign, source: EventSource.responseContent, listener: { event in
+                print("ACCRegistrationStatus: \(event.data?["registrationstatus"] ?? "unknown")")
+            })
         })
         UNUserNotificationCenter.current().delegate = self
         requestNotificationPermission()

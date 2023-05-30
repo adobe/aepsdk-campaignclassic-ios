@@ -29,6 +29,10 @@
     [AEPMobileCore registerExtensions:@[AEPMobileCampaignClassic.class] completion:^{
         // For testing use the appID from tag property "Pravin ACC (For Swift SDK)" in org "OBUMobile5"
         [AEPMobileCore configureWithAppId:@""];
+        // listen for campaign response event
+        [AEPMobileCore registerEventListenerWithType: AEPEventType.campaign source: AEPEventSource.responseContent listener:^(AEPEvent * _Nonnull event)  {
+            NSLog(@"ACCRegistrationStatus: %@", event.data[@"registrationstatus"]);
+        }];
     }];
     [self registerForRemoteNotifications];
     return YES;

@@ -13,7 +13,6 @@
 import Foundation
 import AEPServices
 import AEPCore
-import UIKit
 
 ///
 /// Manages Campaign Classic device registration requests.
@@ -129,18 +128,25 @@ class RegistrationManager {
 
         // make the network request
         ServiceProvider.shared.networkService.connectAsync(networkRequest: request) { connection in
-            guard connection.responseCode == 200 else {
+            if connection.responseCode == 200 {
+                // retrieve the response message from the body
+                let responseMessage = String(data: connection.data ?? Data(), encoding: .utf8) ?? "Unable to read response message."
+                Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration success. Saving the hashed registration data. Response message : \(responseMessage)")
+                self.hashedRegistrationData = hashedData
+                self.dispatchRegistrationStatus(registrationStatus: true)
+            } else {
                 Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, Network Error. Response Code: \(String(describing: connection.responseCode)) URL : \(url.absoluteString)")
-                return
+                self.dispatchRegistrationStatus(registrationStatus: false)
             }
-
-            // retrieve the response message from the body
-            let responseMessage = String(data: connection.data ?? Data(), encoding: .utf8) ?? "Unable to read response message."
-            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration success. Saving the hashed registration data. Response message : \(responseMessage)")
-            self.hashedRegistrationData = hashedData
         }
+    }
 
-        return
+    private func dispatchRegistrationStatus(registrationStatus: Bool) {
+        let eventData = [CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTRATION_STATUS: registrationStatus] as [String: Any]
+        runtime.dispatch(event: Event(name: CampaignClassicConstants.EventName.DEVICE_REGISTRATION_STATUS,
+                                      type: EventType.campaign,
+                                      source: EventSource.responseContent,
+                                      data: eventData))
     }
 
     /// Returns the network headers required for device registration request for the given payload
