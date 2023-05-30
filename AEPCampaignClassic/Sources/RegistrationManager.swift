@@ -126,7 +126,6 @@ class RegistrationManager {
 
         Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration request initiated with \n URL : \(url.absoluteString) \n Headers: \(headers) \n Payload : \(payload)")
 
-        var registrationSuccessful = false
         // make the network request
         ServiceProvider.shared.networkService.connectAsync(networkRequest: request) { connection in
             if connection.responseCode == 200 {
@@ -134,12 +133,12 @@ class RegistrationManager {
                 let responseMessage = String(data: connection.data ?? Data(), encoding: .utf8) ?? "Unable to read response message."
                 Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration success. Saving the hashed registration data. Response message : \(responseMessage)")
                 self.hashedRegistrationData = hashedData
-                registrationSuccessful = true
+                self.dispatchRegistrationStatus(registrationStatus: true)
             } else {
                 Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, Network Error. Response Code: \(String(describing: connection.responseCode)) URL : \(url.absoluteString)")
+                self.dispatchRegistrationStatus(registrationStatus: false)
             }
         }
-        dispatchRegistrationStatus(registrationStatus: registrationSuccessful)
     }
 
     private func dispatchRegistrationStatus(registrationStatus: Bool) {
