@@ -187,9 +187,11 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify no network call
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
-        // verify no registration status event dispatched
+        // verify registration status event dispatched with status false
         sleep(1)
-        XCTAssertEqual(0, capturedRegistrationEvents.count)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        let eventData = capturedRegistrationEvents[0].data
+        XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
 
     func test_registerDevice_whenPrivacyUnknown() {
@@ -203,9 +205,11 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify no network call
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
-        // verify no registration status event dispatched
+        // verify registration status event dispatched with status false
         sleep(1)
-        XCTAssertEqual(0, capturedRegistrationEvents.count)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        let eventData = capturedRegistrationEvents[0].data
+        XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
 
     func test_registerDevice_whenNoMarketingServer() {
@@ -219,9 +223,11 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify no network call
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
-        // verify no registration status event dispatched
+        // verify registration status event dispatched with status false
         sleep(1)
-        XCTAssertEqual(0, capturedRegistrationEvents.count)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        let eventData = capturedRegistrationEvents[0].data
+        XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
 
     func test_registerDevice_whenNoIntegrationKey() {
@@ -235,9 +241,11 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify no network call
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
-        // verify no registration status event dispatched
+        // verify registration status event dispatched with status false
         sleep(1)
-        XCTAssertEqual(0, capturedRegistrationEvents.count)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        let eventData = capturedRegistrationEvents[0].data
+        XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
 
     func test_registerDevice_whenNoConfiguration() {
@@ -272,7 +280,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify registration status event dispatched with status true
         sleep(1)
         XCTAssertEqual(1, capturedRegistrationEvents.count)
-        let eventData = capturedRegistrationEvents[0].data
+        var eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
 
         // reset
@@ -284,9 +292,11 @@ class CampaignClassicIntegrationTests: XCTestCase {
 
         // verify
         verifyNoNetworkCall()
-        // verify no registration status event dispatched
+        // verify registration status event dispatched with status true as previous registration with same data was successful
         sleep(1)
-        XCTAssertEqual(0, capturedRegistrationEvents.count)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        eventData = capturedRegistrationEvents[0].data
+        XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
     }
 
     func test_registerDevice_whenMultipleRegisterCallsWithDifferentData() {
