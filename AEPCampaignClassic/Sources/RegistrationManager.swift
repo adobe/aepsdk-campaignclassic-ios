@@ -69,6 +69,7 @@ class RegistrationManager {
         // bail out from the registration request if device token is unavailable
         guard let deviceToken = event.deviceToken else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, device token is not available.")
+            dispatchRegistrationStatus(registrationStatus: false)
             return
         }
 
@@ -76,12 +77,14 @@ class RegistrationManager {
         let configuration = CampaignClassicConfiguration.init(forEvent: event, runtime: runtime)
         guard configuration.privacyStatus == PrivacyStatus.optedIn else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, MobilePrivacyStatus is not optedIn.")
+            dispatchRegistrationStatus(registrationStatus: false)
             return
         }
 
         // bail out if the required configuration for device registration request is unavailable
         guard let integrationKey = configuration.integrationKey, let marketingServer = configuration.marketingServer else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, `campaignclassic.ios.integrationKey` and/or `campaignclassic.marketingServer` configuration keys are unavailable.")
+            dispatchRegistrationStatus(registrationStatus: false)
             return
         }
 
@@ -94,6 +97,7 @@ class RegistrationManager {
         // bail out, If the registration request data has not changed
         guard registrationInfoChanged(hashedData) else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration request not sent, there is no change in registration info since last successful request.")
+            dispatchRegistrationStatus(registrationStatus: true)
             return
         }
 
@@ -115,6 +119,7 @@ class RegistrationManager {
         let urlString = String(format: CampaignClassicConstants.REGISTRATION_API_URL_BASE, marketingServer)
         guard let url = URL(string: urlString) else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, Invalid network request URL : \(urlString)")
+            dispatchRegistrationStatus(registrationStatus: false)
             return
         }
 
