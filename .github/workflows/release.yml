@@ -16,10 +16,10 @@ on:
       release_AEPCampaignClassic:
         description: 'release AEPCampaignClassic Pod? ("no" to skip)'
         required: true
-        default: 'no'
+        default: 'yes'
 
 jobs:
-  release_campaignclassic:
+  release_campaign:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -42,7 +42,7 @@ jobs:
         make check-version VERSION=${{ github.event.inputs.tag }}
     
     - name: Pod repo update
-      run: | 
+      run: |
         pod repo update
     
     - name: SPM integration test
