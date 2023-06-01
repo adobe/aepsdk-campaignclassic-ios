@@ -10,7 +10,7 @@ workflows:
   build-test-deploy:
     jobs:
       - validate-code
-      - test-ios
+      - test-ios:
           requires:
             - validate-code
       - test-spm-podspec-archive:
