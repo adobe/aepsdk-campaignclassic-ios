@@ -38,7 +38,7 @@ jobs:
     - name: Check version in Podspec
       run: |
         set -eo pipefail
-        echo AEPCampaignClassic version: ${{ github.event.inputs.tag }}
+        echo Target version: ${{ github.event.inputs.tag }}
         make check-version VERSION=${{ github.event.inputs.tag }}
     
     - name: Pod repo update
