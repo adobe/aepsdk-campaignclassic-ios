@@ -16,7 +16,7 @@ on:
       release_AEPCampaignClassic:
         description: 'release AEPCampaignClassic Pod? ("no" to skip)'
         required: true
-        default: 'yes'
+        default: 'no'
 
 jobs:
   release_campaignclassic:
