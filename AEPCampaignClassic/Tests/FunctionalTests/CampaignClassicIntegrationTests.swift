@@ -38,6 +38,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
     var semaphore = DispatchSemaphore(value: 0)
 
     override func setUp() {
+        continueAfterFailure = false
         UserDefaults.clear()
         ServiceProvider.shared.reset()
         EventHub.reset()
