@@ -1,10 +1,9 @@
 # Adobe Experience Platform Campaign Classic SDK
 
-[![Cocoapods](https://img.shields.io/github/v/release/adobe/aepsdk-campaignclassic-ios?style=flat&label=AEPCampaignClassic)](https://cocoapods.org/pods/AEPCampaignClassic)
-
-[![SPM](https://img.shields.io/badge/SPM-Supported-orange.svg?logo=apple&logoColor=white)](https://swift.org/package-manager/)
-[![CircleCI](https://img.shields.io/circleci/project/github/adobe/aepsdk-campaignclassic-ios/main.svg?logo=circleci)](https://circleci.com/gh/adobe/workflows/aepsdk-campaignclassic-ios)
-[![Code Coverage](https://img.shields.io/codecov/c/github/adobe/aepsdk-campaignclassic-ios/main.svg?logo=codecov)](https://codecov.io/gh/adobe/aepsdk-campaignclassic-ios/branch/main)
+[![Cocoapods](https://img.shields.io/github/v/release/adobe/aepsdk-campaignclassic-ios?color=orange&label=CocoaPods&logo=apple&logoColor=white&sort=semver)](https://cocoapods.org/pods/AEPCampaignClassic)
+[![SPM](https://img.shields.io/github/v/release/adobe/aepsdk-campaignclassic-ios?color=orange&label=SPM&logo=apple&logoColor=white&sort=semver)](https://github.com/adobe/aepsdk-campaignclassic-ios/releases)
+[![CircleCI](https://img.shields.io/circleci/project/github/adobe/aepsdk-campaignclassic-ios/main.svg?logo=circleci&label=Build)](https://circleci.com/gh/adobe/workflows/aepsdk-campaignclassic-ios)
+[![Code Coverage](https://img.shields.io/codecov/c/github/adobe/aepsdk-campaignclassic-ios/main.svg?logo=codecov&label=Coverage)](https://codecov.io/gh/adobe/aepsdk-campaignclassic-ios/branch/main)
 
 ## About this project
 
