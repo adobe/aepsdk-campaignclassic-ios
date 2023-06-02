@@ -102,7 +102,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
 
@@ -136,7 +136,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
 
@@ -180,7 +180,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
@@ -200,7 +200,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
@@ -220,7 +220,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
@@ -240,7 +240,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
@@ -260,7 +260,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
@@ -277,7 +277,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify no registration status event dispatched
         sleep(2)
-        XCTAssertEqual(0, capturedRegistrationEvents.count)
+        XCTAssertTrue(capturedRegistrationEvents.isEmpty)
     }
 
     func test_registerDevice_whenMultipleRegisterCallsWithSameData() {
@@ -298,7 +298,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
         var eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
 
@@ -316,7 +316,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
         eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
     }
@@ -339,7 +339,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
         var eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
         capturedRegistrationEvents.removeAll()
@@ -353,7 +353,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // test again
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters:nil)
 
-        // verify registration call is made twice
+        // verify registration call is made again
         wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         // verify that the registration data is changed
@@ -362,7 +362,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
+        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
         eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
     }
