@@ -4,7 +4,7 @@ use_frameworks!
 workspace 'AEPCampaignClassic'
 project 'AEPCampaignClassic.xcodeproj'
 
-pod 'SwiftLint', '0.44.0'
+pod 'SwiftLint', '0.52.0'
 
 def campaignclassic_dependencies
    pod 'AEPCore', '~> 4.0.0'
