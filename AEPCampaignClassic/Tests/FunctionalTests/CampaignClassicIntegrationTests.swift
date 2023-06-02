@@ -513,7 +513,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
     //*******************************************************************
     func verifyNoNetworkCall() {
         mockNetwork.connectAsyncCalled.isInverted = true
-        wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: 2)
         XCTAssertEqual(0, mockNetwork.cachedNetworkRequests.count)
     }
 
