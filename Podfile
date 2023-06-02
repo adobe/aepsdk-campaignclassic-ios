@@ -7,8 +7,8 @@ project 'AEPCampaignClassic.xcodeproj'
 pod 'SwiftLint', '0.52.0'
 
 def campaignclassic_dependencies
-   pod 'AEPCore', '~> 4.0.0'
-   pod 'AEPServices', '~> 4.0.0'
+   pod 'AEPCore', '~> 4.0'
+   pod 'AEPServices', '~> 4.0'
 end
 
 target 'AEPCampaignClassic' do
@@ -25,10 +25,10 @@ end
 
 target 'TestApp' do
   campaignclassic_dependencies
-  pod 'AEPAssurance', '~> 4.0.0'
+  pod 'AEPAssurance', '~> 4.0'
 end
 
 target 'TestAppObjC' do
   campaignclassic_dependencies
-  pod 'AEPAssurance', '~> 4.0.0'
+  pod 'AEPAssurance', '~> 4.0'
 end
