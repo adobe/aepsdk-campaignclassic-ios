@@ -35,6 +35,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
     var mockNetwork: MockNetworking!
     var datastore: NamedCollectionDataStore!
     var capturedRegistrationEvents = [Event]()
+    var semaphore = DispatchSemaphore(value: 0)
 
     override func setUp() {
         UserDefaults.clear()
@@ -49,11 +50,13 @@ class CampaignClassicIntegrationTests: XCTestCase {
 
     private func registrationEventListener(_ event: Event) {
         capturedRegistrationEvents.append(event)
+        semaphore.signal()
     }
 
 
     override func tearDown() {
         capturedRegistrationEvents.removeAll()
+        semaphore = DispatchSemaphore(value: 0)
     }
 
     //*******************************************************************
@@ -96,7 +99,9 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // following is the constant hash generated for the given pushToken, userKey and additional data
         XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status true
-        sleep(2)
+        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+            XCTFail("timed out waiting for registration status event")
+        }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
@@ -128,7 +133,9 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // following is the constant hash generated for the given pushToken, userKey and additional data
         XCTAssertEqual("08d813a01055453f331f330931661452b23e14148b43efa757e815dede4bf09d" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status true
-        sleep(2)
+        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+            XCTFail("timed out waiting for registration status event")
+        }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
@@ -170,7 +177,9 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify no persisted registered data hash
         XCTAssertEqual(nil , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status false
-        sleep(2)
+        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+            XCTFail("timed out waiting for registration status event")
+        }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
@@ -188,7 +197,9 @@ class CampaignClassicIntegrationTests: XCTestCase {
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status false
-        sleep(2)
+        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+            XCTFail("timed out waiting for registration status event")
+        }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
@@ -206,7 +217,9 @@ class CampaignClassicIntegrationTests: XCTestCase {
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status false
-        sleep(2)
+        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+            XCTFail("timed out waiting for registration status event")
+        }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
@@ -224,7 +237,9 @@ class CampaignClassicIntegrationTests: XCTestCase {
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status false
-        sleep(2)
+        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+            XCTFail("timed out waiting for registration status event")
+        }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
@@ -242,7 +257,9 @@ class CampaignClassicIntegrationTests: XCTestCase {
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status false
-        sleep(2)
+        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+            XCTFail("timed out waiting for registration status event")
+        }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
@@ -278,12 +295,15 @@ class CampaignClassicIntegrationTests: XCTestCase {
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status true
-        sleep(2)
+        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+            XCTFail("timed out waiting for registration status event")
+        }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
         var eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
 
         // reset
+        semaphore = DispatchSemaphore(value: 0)
         capturedRegistrationEvents.removeAll()
         mockNetwork.reset()
 
@@ -293,7 +313,9 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify
         verifyNoNetworkCall()
         // verify registration status event dispatched with status true as previous registration with same data was successful
-        sleep(2)
+        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+            XCTFail("timed out waiting for registration status event")
+        }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
         eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
@@ -305,35 +327,41 @@ class CampaignClassicIntegrationTests: XCTestCase {
         setConfiguration()
         let expectedURL = "https://marketingServer/nms/mobile/1/registerIOS.jssp"
         mockNetwork.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
-        mockNetwork.connectAsyncCalled.expectedFulfillmentCount = 2
 
         // test
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters: ["email" : "email@email.com" , "userPoints" : 3233])
-        sleep(2)
-
 
         // verify
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: 5)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status true
-        sleep(2)
+        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+            XCTFail("timed out waiting for registration status event")
+        }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
         var eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
         capturedRegistrationEvents.removeAll()
-        sleep(2)
+        semaphore = DispatchSemaphore(value: 0)
 
+        // reset
+        semaphore = DispatchSemaphore(value: 0)
+        capturedRegistrationEvents.removeAll()
+        mockNetwork.reset()
 
         // test again
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters:nil)
 
         // verify registration call is made twice
         wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
-        XCTAssertEqual(2, mockNetwork.cachedNetworkRequests.count)
+        XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         // verify that the registration data is changed
         XCTAssertEqual("6c78a6175d527e5d620285b86f718cfd524c0a26e65c4a8db5a0f8aa5b67e4f1" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status true
-        sleep(2)
+        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+            XCTFail("timed out waiting for registration status event")
+        }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
         eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
