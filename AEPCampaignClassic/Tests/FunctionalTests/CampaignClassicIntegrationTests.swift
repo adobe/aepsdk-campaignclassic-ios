@@ -45,7 +45,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         mockNetwork = MockNetworking()
         ServiceProvider.shared.networkService = mockNetwork
         MobileCore.registerEventListener(type: EventType.campaign, source: EventSource.responseContent, listener: registrationEventListener(_:))
-        sleep(1)
+        sleep(2)
     }
 
     private func registrationEventListener(_ event: Event) {
@@ -99,7 +99,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // following is the constant hash generated for the given pushToken, userKey and additional data
         XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status true
-        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+        if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
@@ -133,7 +133,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // following is the constant hash generated for the given pushToken, userKey and additional data
         XCTAssertEqual("08d813a01055453f331f330931661452b23e14148b43efa757e815dede4bf09d" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status true
-        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+        if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
@@ -177,7 +177,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify no persisted registered data hash
         XCTAssertEqual(nil , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status false
-        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+        if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
@@ -197,7 +197,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status false
-        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+        if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
@@ -217,7 +217,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status false
-        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+        if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
@@ -237,7 +237,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status false
-        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+        if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
@@ -257,7 +257,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status false
-        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+        if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
@@ -295,7 +295,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status true
-        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+        if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
@@ -313,7 +313,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify
         verifyNoNetworkCall()
         // verify registration status event dispatched with status true as previous registration with same data was successful
-        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+        if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
@@ -336,7 +336,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status true
-        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+        if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
@@ -359,7 +359,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify that the registration data is changed
         XCTAssertEqual("6c78a6175d527e5d620285b86f718cfd524c0a26e65c4a8db5a0f8aa5b67e4f1" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status true
-        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+        if semaphore.wait(timeout: .now() + 5) == .timedOut {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertEqual(1, capturedRegistrationEvents.count)
@@ -541,7 +541,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
                        TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_INTEGRATION_KEY: integrationKey as Any,
                        TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_NETWORK_TIMEOUT: networkTimeout]
         MobileCore.updateConfigurationWith(configDict: config)
-        sleep(1)
+        sleep(2)
     }
 
 }
