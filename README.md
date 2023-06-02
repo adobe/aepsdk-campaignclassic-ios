@@ -1,6 +1,6 @@
 # Adobe Experience Platform Campaign Classic SDK
 
-[![Cocoapods](https://img.shields.io/cocoapods/v/AEPCampaignClassic.svg?color=orange&label=AEPCampaignClassic&logo=apple&logoColor=white)](https://cocoapods.org/pods/AEPCampaignClassic)
+[![Cocoapods](https://img.shields.io/github/v/release/adobe/aepsdk-campaignclassic-ios?style=flat&label=AEPCampaignClassic)](https://cocoapods.org/pods/AEPCampaignClassic)
 
 [![SPM](https://img.shields.io/badge/SPM-Supported-orange.svg?logo=apple&logoColor=white)](https://swift.org/package-manager/)
 [![CircleCI](https://img.shields.io/circleci/project/github/adobe/aepsdk-campaignclassic-ios/main.svg?logo=circleci)](https://circleci.com/gh/adobe/workflows/aepsdk-campaignclassic-ios)
