@@ -104,6 +104,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertFalse(capturedRegistrationEvents.isEmpty)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
 
@@ -138,6 +139,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertFalse(capturedRegistrationEvents.isEmpty)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
 
@@ -182,6 +184,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertFalse(capturedRegistrationEvents.isEmpty)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
@@ -202,6 +205,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertFalse(capturedRegistrationEvents.isEmpty)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
@@ -222,6 +226,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertFalse(capturedRegistrationEvents.isEmpty)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
@@ -242,6 +247,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertFalse(capturedRegistrationEvents.isEmpty)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
@@ -262,6 +268,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertFalse(capturedRegistrationEvents.isEmpty)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
         let eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
     }
@@ -279,6 +286,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify no registration status event dispatched
         sleep(2)
         XCTAssertTrue(capturedRegistrationEvents.isEmpty)
+        XCTAssertEqual(0, capturedRegistrationEvents.count)
     }
 
     func test_registerDevice_whenMultipleRegisterCallsWithSameData() {
@@ -300,6 +308,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertFalse(capturedRegistrationEvents.isEmpty)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
         var eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
 
@@ -318,6 +327,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertFalse(capturedRegistrationEvents.isEmpty)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
         eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
     }
@@ -341,6 +351,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertFalse(capturedRegistrationEvents.isEmpty)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
         var eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
         capturedRegistrationEvents.removeAll()
@@ -364,6 +375,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
             XCTFail("timed out waiting for registration status event")
         }
         XCTAssertFalse(capturedRegistrationEvents.isEmpty)
+        XCTAssertEqual(1, capturedRegistrationEvents.count)
         eventData = capturedRegistrationEvents[0].data
         XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
     }
