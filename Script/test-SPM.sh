@@ -39,7 +39,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: \"https://github.com/adobe/aepsdk-core-ios.git\", .upToNextMajor(from:\"4.0.0\")),
+        .package(name: \"AEPCore\", url: \"https://github.com/adobe/aepsdk-core-ios.git\", .upToNextMajor(from:\"4.0.0\")),
         .package(name: \"AEPCampaignClassic\", path: \"../\"),
     ],
     targets: [
@@ -58,6 +58,7 @@ let package = Package(
 " >Package.swift
 
 swift package update
+swift package resolve
 
 # This is a workaround for SPM issue https://github.com/apple/swift-package-manager/issues/5767
 swift package dump-pif > /dev/null || true
@@ -70,10 +71,6 @@ xcodebuild archive -scheme TestProject -destination 'generic/platform=iOS'
 # Build for generic iOS device
 echo '############# Build for generic iOS device ###############'
 xcodebuild build -scheme TestProject -destination 'generic/platform=iOS'
-
-# Build for i386 simulator
-echo '############# Build for i386 simulator ###############'
-xcodebuild build -scheme TestProject -destination 'generic/platform=iOS Simulator' ARCHS=i386
 
 # Build for x86_64 simulator
 echo '############# Build for x86_64 simulator ###############'
