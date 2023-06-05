@@ -10,9 +10,9 @@
  governing permissions and limitations under the License.
  */
 
-import Foundation
-import AEPServices
 import AEPCore
+import AEPServices
+import Foundation
 
 ///
 /// Manages Campaign Classic device registration requests.

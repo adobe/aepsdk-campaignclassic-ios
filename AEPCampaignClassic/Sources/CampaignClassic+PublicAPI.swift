@@ -81,6 +81,6 @@ public extension CampaignClassic {
 private extension Data {
     /// Returns a hex representation of the data
     var hexDescription: String {
-        return reduce("") {$0 + String(format: "%02x", $1)}
+        return reduce("") { $0 + String(format: "%02x", $1) }
     }
 }
