@@ -30,7 +30,7 @@ let package = Package(
     name: \"TestProject\",
     defaultLocalization: \"en-US\",
     platforms: [
-        .iOS(.v10)
+        .iOS(.v11)
     ],
     products: [
         .library(
@@ -39,7 +39,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: \"https://github.com/adobe/aepsdk-core-ios.git\", .upToNextMajor(from:\"3.7.0\")),
+        .package(url: \"https://github.com/adobe/aepsdk-core-ios.git\", .upToNextMajor(from:\"4.0.0\")),
         .package(name: \"AEPCampaignClassic\", path: \"../\"),
     ],
     targets: [
@@ -58,6 +58,10 @@ let package = Package(
 " >Package.swift
 
 swift package update
+
+# This is a workaround for SPM issue https://github.com/apple/swift-package-manager/issues/5767
+swift package dump-pif > /dev/null || true
+xcodebuild clean -scheme TestProject -destination 'generic/platform=iOS' > /dev/null || true
 
 # Archive for generic iOS device
 echo '############# Archive for generic iOS device ###############'
