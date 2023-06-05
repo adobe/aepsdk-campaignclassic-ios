@@ -10,8 +10,8 @@
  governing permissions and limitations under the License.
  */
 
-import Foundation
 import AEPCore
+import Foundation
 
 struct CampaignClassicConfiguration {
     var configSharedState: [String: Any]?

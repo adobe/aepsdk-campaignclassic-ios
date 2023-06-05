@@ -10,9 +10,9 @@
  governing permissions and limitations under the License.
  */
 
-import Foundation
-import AEPServices
 import AEPCore
+import AEPServices
+import Foundation
 import UIKit
 
 ///
@@ -70,6 +70,7 @@ class RegistrationManager {
         // bail out from the registration request if device token is unavailable
         guard let deviceToken = event.deviceToken else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, device token is not available.")
+            dispatchRegistrationStatus(registrationStatus: false)
             return
         }
 
@@ -77,12 +78,14 @@ class RegistrationManager {
         let configuration = CampaignClassicConfiguration.init(forEvent: event, runtime: runtime)
         guard configuration.privacyStatus == PrivacyStatus.optedIn else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, MobilePrivacyStatus is not optedIn.")
+            dispatchRegistrationStatus(registrationStatus: false)
             return
         }
 
         // bail out if the required configuration for device registration request is unavailable
         guard let integrationKey = configuration.integrationKey, let marketingServer = configuration.marketingServer else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, `campaignclassic.ios.integrationKey` and/or `campaignclassic.marketingServer` configuration keys are unavailable.")
+            dispatchRegistrationStatus(registrationStatus: false)
             return
         }
 
@@ -95,6 +98,7 @@ class RegistrationManager {
         // bail out, If the registration request data has not changed
         guard registrationInfoChanged(hashedData) else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration request not sent, there is no change in registration info since last successful request.")
+            dispatchRegistrationStatus(registrationStatus: true)
             return
         }
 
@@ -116,6 +120,7 @@ class RegistrationManager {
         let urlString = String(format: CampaignClassicConstants.REGISTRATION_API_URL_BASE, marketingServer)
         guard let url = URL(string: urlString) else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, Invalid network request URL : \(urlString)")
+            dispatchRegistrationStatus(registrationStatus: false)
             return
         }
 
@@ -129,18 +134,25 @@ class RegistrationManager {
 
         // make the network request
         ServiceProvider.shared.networkService.connectAsync(networkRequest: request) { connection in
-            guard connection.responseCode == 200 else {
+            if connection.responseCode == 200 {
+                // retrieve the response message from the body
+                let responseMessage = String(data: connection.data ?? Data(), encoding: .utf8) ?? "Unable to read response message."
+                Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration success. Saving the hashed registration data. Response message : \(responseMessage)")
+                self.hashedRegistrationData = hashedData
+                self.dispatchRegistrationStatus(registrationStatus: true)
+            } else {
                 Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, Network Error. Response Code: \(String(describing: connection.responseCode)) URL : \(url.absoluteString)")
-                return
+                self.dispatchRegistrationStatus(registrationStatus: false)
             }
-
-            // retrieve the response message from the body
-            let responseMessage = String(data: connection.data ?? Data(), encoding: .utf8) ?? "Unable to read response message."
-            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration success. Saving the hashed registration data. Response message : \(responseMessage)")
-            self.hashedRegistrationData = hashedData
         }
+    }
 
-        return
+    private func dispatchRegistrationStatus(registrationStatus: Bool) {
+        let eventData = [CampaignClassicConstants.EventDataKeys.CampaignClassic.REGISTRATION_STATUS: registrationStatus] as [String: Any]
+        runtime.dispatch(event: Event(name: CampaignClassicConstants.EventName.DEVICE_REGISTRATION_STATUS,
+                                      type: EventType.campaign,
+                                      source: EventSource.responseContent,
+                                      data: eventData))
     }
 
     /// Returns the network headers required for device registration request for the given payload
