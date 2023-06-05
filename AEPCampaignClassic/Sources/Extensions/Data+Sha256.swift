@@ -10,8 +10,8 @@
  governing permissions and limitations under the License.
  */
 
-import Foundation
 import CommonCrypto
+import Foundation
 
 extension Data {
     func sha256() -> String {

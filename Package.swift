@@ -15,12 +15,12 @@ import PackageDescription
 
 let package = Package(
     name: "AEPCampaignClassic",
-    platforms: [.iOS(.v10)],
+    platforms: [.iOS(.v11)],
     products: [
         .library(name: "AEPCampaignClassic", targets: ["AEPCampaignClassic"])
     ],
     dependencies: [
-        .package(url: "https://github.com/adobe/aepsdk-core-ios.git", .upToNextMajor(from: "3.7.0"))
+        .package(url: "https://github.com/adobe/aepsdk-core-ios.git", .upToNextMajor(from: "4.0.0"))
     ],
     targets: [
         .target(name: "AEPCampaignClassic",
