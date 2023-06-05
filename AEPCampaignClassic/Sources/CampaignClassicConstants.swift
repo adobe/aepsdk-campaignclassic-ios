@@ -10,8 +10,8 @@
  governing permissions and limitations under the License.
  */
 
-import Foundation
 import AEPCore
+import Foundation
 
 enum CampaignClassicConstants {
     static let EXTENSION_NAME                           = "com.adobe.module.campaignclassic"

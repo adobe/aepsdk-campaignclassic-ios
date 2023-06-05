@@ -10,8 +10,8 @@
  governing permissions and limitations under the License.
  */
 
-import Foundation
 import AEPServices
+import Foundation
 
 extension AnyCodable {
 
@@ -28,16 +28,22 @@ extension AnyCodable {
         switch value {
         case let stringValue as String:
             return stringValue
+
         case let intValue as Int:
             return String(intValue)
+
         case let longValue as Int64:
             return String(longValue)
+
         case let floatValue as Float:
             return String(floatValue)
+
         case let doubleValue as Double:
             return String(doubleValue)
+
         case let boolValue as Bool:
             return String(boolValue)
+
         default:
             return nil
         }
