@@ -1,4 +1,4 @@
-platform :ios, '11.0'
+platform :ios, '12.0'
 use_frameworks!
 
 workspace 'AEPCampaignClassic'
@@ -7,8 +7,9 @@ project 'AEPCampaignClassic.xcodeproj'
 pod 'SwiftLint', '0.52.0'
 
 def campaignclassic_dependencies
-   pod 'AEPCore', '~> 4.0'
-   pod 'AEPServices', '~> 4.0'
+   pod 'AEPCore', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v5.0.0'
+   pod 'AEPServices', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'dev-v5.0.0'
+   pod 'AEPRulesEngine', :git => 'https://github.com/adobe/aepsdk-rulesengine-ios.git', :branch => 'dev-v5.0.0'
 end
 
 target 'AEPCampaignClassic' do
