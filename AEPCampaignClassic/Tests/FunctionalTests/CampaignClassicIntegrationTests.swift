@@ -39,7 +39,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
 
     override func setUp() {
         continueAfterFailure = false
-        UserDefaults.clear()
+        NamedCollectionDataStore.clear()
         ServiceProvider.shared.reset()
         EventHub.reset()
         datastore = NamedCollectionDataStore(name: TestConstants.EXTENSION_NAME)

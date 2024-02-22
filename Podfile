@@ -26,10 +26,10 @@ end
 
 target 'TestApp' do
   campaignclassic_dependencies
-  pod 'AEPAssurance', '~> 4.0'
+#  pod 'AEPAssurance', '~> 4.0'
 end
 
 target 'TestAppObjC' do
   campaignclassic_dependencies
-  pod 'AEPAssurance', '~> 4.0'
+#  pod 'AEPAssurance', '~> 4.0'
 end
