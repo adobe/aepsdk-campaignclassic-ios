@@ -107,7 +107,7 @@ jobs:
       - codecov/upload:
           flags: aepcampaignclassic-ios-tests
           upload_name: Coverage Report for AEPCampaignClassic iOS Tests
-          xtra_args: -c -v --xc --xp build/AEPCampaignClassic.xcresult
+          cli_args: -c -v --xc --xp build/AEPCampaignClassic.xcresult
 
   test-spm-podspec-archive:  
     macos:
