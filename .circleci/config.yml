@@ -4,7 +4,7 @@
 version: 2.1
 
 orbs:
-  codecov: codecov/codecov@4.0.0
+  codecov: codecov/codecov@3.3.0
   macos: circleci/macos@2
 
 workflows:
@@ -107,7 +107,7 @@ jobs:
       - codecov/upload:
           flags: aepcampaignclassic-ios-tests
           upload_name: Coverage Report for AEPCampaignClassic iOS Tests
-          cli_args: -c -v --xc --xp build/AEPCampaignClassic.xcresult
+          xtra_args: -c -v --xc --xp build/AEPCampaignClassic.xcresult
 
   test-spm-podspec-archive:  
     macos:
