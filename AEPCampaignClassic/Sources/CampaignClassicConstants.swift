@@ -16,14 +16,16 @@ import Foundation
 enum CampaignClassicConstants {
     static let EXTENSION_NAME                           = "com.adobe.module.campaignclassic"
     static let FRIENDLY_NAME                            = "CampaignClassic"
-    static let EXTENSION_VERSION                        = "4.0.0"
+    static let EXTENSION_VERSION                        = "5.0.0"
     static let LOG_TAG                                  = FRIENDLY_NAME
 
     // general strings
     static let DATASTORE_KEY = "ADOBEMOBILE_CAMPAIGNCLASSIC"
     static let REGISTRATION_API_URL_BASE = "https://%@/nms/mobile/1/registerIOS.jssp"
     static let TRACKING_API_URL_BASE = "https://%@/r/?id=h%@,%@,%@"
+    // swiftlint:disable line_length
     static let REGISTRATION_PAYLOAD_FORMAT = "registrationToken=%@&mobileAppUuid=%@&userKey=%@&deviceName=%@&deviceModel=%@&deviceBrand=%@&deviceManufacturer=%@&osName=%@&osVersion=%@&osLanguage=%@&additionalParams="
+    // swiftlint:enable line_length
     static let REGISTER_PARAM_DEVICE_BRAND_APPLE = "Apple"
     static let REGISTER_PARAM_DEVICE_MANUFACTURER_APPLE = REGISTER_PARAM_DEVICE_BRAND_APPLE
     static let TRACK_RECEIVE_TAG_ID = "1"

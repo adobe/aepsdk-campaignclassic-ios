@@ -59,8 +59,9 @@ struct CampaignClassicConfiguration {
     /// Returns the configured privacy status
     /// Return default OptUnknown, if the value is not found in configuration, or not of type String
     var privacyStatus: PrivacyStatus {
-        if let privacyStatusString = configSharedState?[CampaignClassicConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY] as? String {
-            return PrivacyStatus(rawValue: privacyStatusString)!
+        if let privacyStatusString = configSharedState?[CampaignClassicConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY] as? String,
+           let privacyStatus = PrivacyStatus(rawValue: privacyStatusString) {
+            return privacyStatus
         }
         return CampaignClassicConstants.Default.PRIVACY_STATUS
     }

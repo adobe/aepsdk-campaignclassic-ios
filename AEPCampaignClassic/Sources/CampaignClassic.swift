@@ -55,7 +55,9 @@ public class CampaignClassic: NSObject, Extension {
     /// - Parameter event: event that will be processed next
     /// - Returns: `true` if Configuration shared state is available
     public func readyForEvent(_ event: Event) -> Bool {
-        guard let configurationSharedState = getSharedState(extensionName: CampaignClassicConstants.EventDataKeys.Configuration.EXTENSION_NAME, event: event), configurationSharedState.status == .set else {
+        guard let configurationSharedState =
+            getSharedState(extensionName: CampaignClassicConstants.EventDataKeys.Configuration.EXTENSION_NAME, event: event),
+            configurationSharedState.status == .set else {
             Log.trace(label: CampaignClassicConstants.LOG_TAG, "Event processing is paused, waiting for valid configuration - '\(event.id.uuidString)'.")
             return false
         }
@@ -132,7 +134,9 @@ public class CampaignClassic: NSObject, Extension {
         // V8 messageId is received in UUID format while V7 still comes as an integer(decimal) represented as a string.
         // No transformation is required for the V8 UUID however for V7, message Id is parsed as an integer and converted to hex string.
         guard let transformedBroadlogId = transformBroadLogId(broadlogId) else {
-            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Unable to process TrackNotification request, TrackingInfo broadLogId is invalid. Should be an UUID String (v8) or an integer string (v7). BroadlogId : \(broadlogId)")
+            Log.debug(label: CampaignClassicConstants.LOG_TAG, """
+                Unable to process TrackNotification request, TrackingInfo broadLogId is invalid. Should be an UUID String (v8) or an integer string (v7). BroadlogId : \(broadlogId)
+            """)
             return
         }
 
@@ -144,20 +148,22 @@ public class CampaignClassic: NSObject, Extension {
         Log.debug(label: CampaignClassicConstants.LOG_TAG, "TrackingNotification network call initiated with URL : \(trackingUrl.absoluteString)")
         let request = NetworkRequest(url: trackingUrl, httpMethod: .get, connectPayload: "", httpHeaders: [:], connectTimeout: configuration.timeout, readTimeout: configuration.timeout)
 
-        networkService.connectAsync(networkRequest: request, completionHandler: { connection in
+        networkService.connectAsync(networkRequest: request) { connection in
             if connection.responseCode != 200 {
-                Log.debug(label: CampaignClassicConstants.LOG_TAG, "Unable to trackNotification, Network Error. Response Code: \(String(describing: connection.responseCode)) URL : \(trackingUrl.absoluteString)")
+                Log.debug(label: CampaignClassicConstants.LOG_TAG, """
+                    Unable to trackNotification, Network Error. Response Code: \(String(describing: connection.responseCode)) URL : \(trackingUrl.absoluteString)
+                """)
                 return
             }
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "TrackNotification success.")
-        })
+        }
     }
 
     /// Validates and transforms the broadlogId into the required format
     /// - Parameter broadlogId : the broadlogId string to be validated
     private func transformBroadLogId(_ broadlogId: String) -> String? {
         // if this is a valid UUID (v8 messageId format), return the string without modification
-        if let _ = UUID(uuidString: broadlogId) {
+        if UUID(uuidString: broadlogId) != nil {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Track Notification - BroadlogId detected in v8 format: \(broadlogId)")
             return broadlogId
         }

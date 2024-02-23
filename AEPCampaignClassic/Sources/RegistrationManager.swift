@@ -84,7 +84,9 @@ class RegistrationManager {
 
         // bail out if the required configuration for device registration request is unavailable
         guard let integrationKey = configuration.integrationKey, let marketingServer = configuration.marketingServer else {
-            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, `campaignclassic.ios.integrationKey` and/or `campaignclassic.marketingServer` configuration keys are unavailable.")
+            Log.debug(label: CampaignClassicConstants.LOG_TAG, """
+                Device Registration failed, `campaignclassic.ios.integrationKey` and/or `campaignclassic.marketingServer` configuration keys are unavailable.
+            """)
             dispatchRegistrationStatus(registrationStatus: false)
             return
         }
@@ -141,7 +143,9 @@ class RegistrationManager {
                 self.hashedRegistrationData = hashedData
                 self.dispatchRegistrationStatus(registrationStatus: true)
             } else {
-                Log.debug(label: CampaignClassicConstants.LOG_TAG, "Device Registration failed, Network Error. Response Code: \(String(describing: connection.responseCode)) URL : \(url.absoluteString)")
+                Log.debug(label: CampaignClassicConstants.LOG_TAG, """
+                    Device Registration failed, Network Error. Response Code: \(String(describing: connection.responseCode)) URL : \(url.absoluteString)
+                """)
                 self.dispatchRegistrationStatus(registrationStatus: false)
             }
         }
@@ -158,8 +162,12 @@ class RegistrationManager {
     /// Returns the network headers required for device registration request for the given payload
     /// - Parameter payload : the registration request payload
     private func buildHeaders(payload: String) -> [String: String] {
-        return [HttpConnectionConstants.Header.HTTP_HEADER_KEY_CONTENT_TYPE: HttpConnectionConstants.Header.HTTP_HEADER_CONTENT_TYPE_WWW_FORM_URLENCODED + ";" + CampaignClassicConstants.HEADER_CONTENT_TYPE_UTF8_CHARSET,
-                CampaignClassicConstants.HEADER_KEY_CONTENT_LENGTH: String(payload.count)]
+        return [
+            HttpConnectionConstants.Header.HTTP_HEADER_KEY_CONTENT_TYPE:
+                HttpConnectionConstants.Header.HTTP_HEADER_CONTENT_TYPE_WWW_FORM_URLENCODED +
+                ";" + CampaignClassicConstants.HEADER_CONTENT_TYPE_UTF8_CHARSET,
+            CampaignClassicConstants.HEADER_KEY_CONTENT_LENGTH: String(payload.count)
+        ]
     }
 
     /// Checks if persisted registration information has changed since last request.
