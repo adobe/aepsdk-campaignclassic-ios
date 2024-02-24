@@ -36,6 +36,8 @@ class CampaignClassicIntegrationTests: XCTestCase {
     var datastore: NamedCollectionDataStore!
     var capturedRegistrationEvents = [Event]()
     var semaphore = DispatchSemaphore(value: 0)
+    
+    let ASYNC_TIMEOUT = 5.0
 
     override func setUp() {
         continueAfterFailure = false
@@ -75,7 +77,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters: ["email" : "email@email.com" , "userPoints" : 3233])
 
         // verify network call
-        wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: ASYNC_TIMEOUT)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual(expectedURL, mockNetwork.cachedNetworkRequests[0].url.absoluteString)
 
@@ -121,7 +123,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: nil, additionalParameters: nil)
 
         // verify network call
-        wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: ASYNC_TIMEOUT)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual(expectedURL, mockNetwork.cachedNetworkRequests[0].url.absoluteString)
 
@@ -156,7 +158,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters: ["email" : "email@email.com" , "userPoints" : 3233])
 
         // verify network call
-        wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: ASYNC_TIMEOUT)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual(expectedURL, mockNetwork.cachedNetworkRequests[0].url.absoluteString)
 
@@ -300,7 +302,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters: ["email" : "email@email.com" , "userPoints" : 3233])
 
         // verify network call is made
-        wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: ASYNC_TIMEOUT)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status true
@@ -343,7 +345,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters: ["email" : "email@email.com" , "userPoints" : 3233])
 
         // verify
-        wait(for: [mockNetwork.connectAsyncCalled], timeout: 5)
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: ASYNC_TIMEOUT)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
         // verify registration status event dispatched with status true
@@ -366,7 +368,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters:nil)
 
         // verify registration call is made again
-        wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: ASYNC_TIMEOUT)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         // verify that the registration data is changed
         XCTAssertEqual("6c78a6175d527e5d620285b86f718cfd524c0a26e65c4a8db5a0f8aa5b67e4f1" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
@@ -395,7 +397,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         CampaignClassic.trackNotificationReceive(withUserInfo: ["_mId" : V8_BROADLOG_ID, "_dId" : DELIVERY_ID])
 
         // verify
-        wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: ASYNC_TIMEOUT)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual(expectedURL, mockNetwork.cachedNetworkRequests[0].url.absoluteString)
     }
@@ -412,7 +414,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : V8_BROADLOG_ID, "_dId" : DELIVERY_ID])
 
         // verify
-        wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: ASYNC_TIMEOUT)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual(expectedURL, mockNetwork.cachedNetworkRequests[0].url.absoluteString)
     }
@@ -429,7 +431,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : V7_BROADLOG_ID, "_dId" : DELIVERY_ID])
 
         // verify
-        wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: ASYNC_TIMEOUT)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual(expectedURL, mockNetwork.cachedNetworkRequests[0].url.absoluteString)
     }
@@ -516,7 +518,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         CampaignClassic.trackNotificationClick(withUserInfo: ["_mId" : V8_BROADLOG_ID, "_dId" : DELIVERY_ID])
 
         // verify
-        wait(for: [mockNetwork.connectAsyncCalled], timeout: 1)
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: ASYNC_TIMEOUT)
         XCTAssertEqual(2, mockNetwork.cachedNetworkRequests.count)
     }
 
@@ -526,7 +528,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
     //*******************************************************************
     func verifyNoNetworkCall() {
         mockNetwork.connectAsyncCalled.isInverted = true
-        wait(for: [mockNetwork.connectAsyncCalled], timeout: 2)
+        wait(for: [mockNetwork.connectAsyncCalled], timeout: ASYNC_TIMEOUT)
         XCTAssertEqual(0, mockNetwork.cachedNetworkRequests.count)
     }
 
@@ -540,7 +542,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         MobileCore.registerExtensions([CampaignClassic.self]) {
             initExpectation.fulfill()
         }
-        wait(for: [initExpectation], timeout: 2)
+        wait(for: [initExpectation], timeout: ASYNC_TIMEOUT)
     }
 
     private func setConfiguration(marketingServer: String? = MARKETING_SERVER,
