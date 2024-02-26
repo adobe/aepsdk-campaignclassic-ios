@@ -424,7 +424,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         XCTAssertEqual(expectedURL, mockNetwork.cachedNetworkRequests[0].url.absoluteString)
     }
 
-    func test_trackNotification_withV7BroadlogId() { // TODO
+    func test_trackNotification_withV7BroadlogId() {
         // setup
         initExtensionsAndWait()
         setConfiguration()
@@ -512,7 +512,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         verifyNoNetworkCall()
     }
 
-    func test_trackNotification_multipleTrackCalls() { // TODO
+    func test_trackNotification_multipleTrackCalls() {
         // setup
         initExtensionsAndWait()
         setConfiguration()
