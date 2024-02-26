@@ -34,8 +34,6 @@ class CampaignClassicIntegrationTests: XCTestCase {
     static let V8_BROADLOG_ID = UUID().uuidString
     var mockNetwork: MockNetworking!
     var datastore: NamedCollectionDataStore!
-    var capturedRegistrationEvents = [Event]()
-    var semaphore = DispatchSemaphore(value: 0)
     
     let ASYNC_TIMEOUT = 5.0
 
@@ -47,19 +45,11 @@ class CampaignClassicIntegrationTests: XCTestCase {
         datastore = NamedCollectionDataStore(name: TestConstants.EXTENSION_NAME)
         mockNetwork = MockNetworking()
         ServiceProvider.shared.networkService = mockNetwork
-        MobileCore.registerEventListener(type: EventType.campaign, source: EventSource.responseContent, listener: registrationEventListener(_:))
         sleep(2)
-    }
-
-    private func registrationEventListener(_ event: Event) {
-        capturedRegistrationEvents.append(event)
-        semaphore.signal()
     }
 
 
     override func tearDown() {
-        capturedRegistrationEvents.removeAll()
-        semaphore = DispatchSemaphore(value: 0)
     }
 
     //*******************************************************************
@@ -70,6 +60,14 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // setup
         initExtensionsAndWait()
         setConfiguration()
+        let campaignResponseContentExpectation = XCTestExpectation(description: "Campaign response content listener called")
+        campaignResponseContentExpectation.assertForOverFulfill = true
+        MobileCore.registerEventListener(type: EventType.campaign, source: EventSource.responseContent) { event in
+            XCTAssertNotNil(event)
+            XCTAssertEqual(true, event.data?["registrationstatus"] as? Bool)
+            campaignResponseContentExpectation.fulfill()
+        }
+
         let expectedURL = "https://marketingServer/nms/mobile/1/registerIOS.jssp"
         mockNetwork.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
 
@@ -101,14 +99,9 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify persisted registered data hash
         // following is the constant hash generated for the given pushToken, userKey and additional data
         XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+
         // verify registration status event dispatched with status true
-        if semaphore.wait(timeout: .now() + 5) == .timedOut {
-            XCTFail("timed out waiting for registration status event")
-        }
-        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
-        let eventData = capturedRegistrationEvents[0].data
-        XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
+        wait(for: [campaignResponseContentExpectation], timeout: ASYNC_TIMEOUT)
 
     }
 
@@ -116,6 +109,14 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // setup
         initExtensionsAndWait()
         setConfiguration()
+        let campaignResponseContentExpectation = XCTestExpectation(description: "Campaign response content listener called")
+        campaignResponseContentExpectation.assertForOverFulfill = true
+        MobileCore.registerEventListener(type: EventType.campaign, source: EventSource.responseContent) { event in
+            XCTAssertNotNil(event)
+            XCTAssertEqual(true, event.data?["registrationstatus"] as? Bool)
+            campaignResponseContentExpectation.fulfill()
+        }
+        
         let expectedURL = "https://marketingServer/nms/mobile/1/registerIOS.jssp"
         mockNetwork.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
 
@@ -136,14 +137,9 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify persisted registered data hash
         // following is the constant hash generated for the given pushToken, userKey and additional data
         XCTAssertEqual("08d813a01055453f331f330931661452b23e14148b43efa757e815dede4bf09d" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+
         // verify registration status event dispatched with status true
-        if semaphore.wait(timeout: .now() + 5) == .timedOut {
-            XCTFail("timed out waiting for registration status event")
-        }
-        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
-        let eventData = capturedRegistrationEvents[0].data
-        XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
+        wait(for: [campaignResponseContentExpectation], timeout: ASYNC_TIMEOUT)
 
     }
 
@@ -151,6 +147,14 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // setup
         initExtensionsAndWait()
         setConfiguration()
+        let campaignResponseContentExpectation = XCTestExpectation(description: "Campaign response content listener called")
+        campaignResponseContentExpectation.assertForOverFulfill = true
+        MobileCore.registerEventListener(type: EventType.campaign, source: EventSource.responseContent) { event in
+            XCTAssertNotNil(event)
+            XCTAssertEqual(false, event.data?["registrationstatus"] as? Bool)
+            campaignResponseContentExpectation.fulfill()
+        }
+        
         let expectedURL = "https://marketingServer/nms/mobile/1/registerIOS.jssp"
         mockNetwork.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 404, httpVersion: nil, headerFields: nil), error: nil)
 
@@ -181,20 +185,22 @@ class CampaignClassicIntegrationTests: XCTestCase {
 
         // verify no persisted registered data hash
         XCTAssertEqual(nil , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+
         // verify registration status event dispatched with status false
-        if semaphore.wait(timeout: .now() + 5) == .timedOut {
-            XCTFail("timed out waiting for registration status event")
-        }
-        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
-        let eventData = capturedRegistrationEvents[0].data
-        XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
+        wait(for: [campaignResponseContentExpectation], timeout: ASYNC_TIMEOUT)
     }
 
     func test_registerDevice_whenPrivacyOptedOut() {
         // setup
         initExtensionsAndWait()
         setConfiguration(privacyStatus: "optedout")
+        let campaignResponseContentExpectation = XCTestExpectation(description: "Campaign response content listener called")
+        campaignResponseContentExpectation.assertForOverFulfill = true
+        MobileCore.registerEventListener(type: EventType.campaign, source: EventSource.responseContent) { event in
+            XCTAssertNotNil(event)
+            XCTAssertEqual(false, event.data?["registrationstatus"] as? Bool)
+            campaignResponseContentExpectation.fulfill()
+        }
 
         // test
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters: nil)
@@ -202,41 +208,45 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify no network call
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+        
         // verify registration status event dispatched with status false
-        if semaphore.wait(timeout: .now() + 5) == .timedOut {
-            XCTFail("timed out waiting for registration status event")
-        }
-        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
-        let eventData = capturedRegistrationEvents[0].data
-        XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
+        wait(for: [campaignResponseContentExpectation], timeout: ASYNC_TIMEOUT)
     }
 
     func test_registerDevice_whenPrivacyUnknown() {
         // setup
         initExtensionsAndWait()
         setConfiguration(privacyStatus: "optunknown")
-
+        let campaignResponseContentExpectation = XCTestExpectation(description: "Campaign response content listener called")
+        campaignResponseContentExpectation.assertForOverFulfill = true
+        MobileCore.registerEventListener(type: EventType.campaign, source: EventSource.responseContent) { event in
+            XCTAssertNotNil(event)
+            XCTAssertEqual(false, event.data?["registrationstatus"] as? Bool)
+            campaignResponseContentExpectation.fulfill()
+        }
+        
         // test
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters: nil)
 
         // verify no network call
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+        
         // verify registration status event dispatched with status false
-        if semaphore.wait(timeout: .now() + 5) == .timedOut {
-            XCTFail("timed out waiting for registration status event")
-        }
-        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
-        let eventData = capturedRegistrationEvents[0].data
-        XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
+        wait(for: [campaignResponseContentExpectation], timeout: ASYNC_TIMEOUT)
     }
 
     func test_registerDevice_whenNoMarketingServer() {
         // setup
         initExtensionsAndWait()
         setConfiguration(marketingServer: nil)
+        let campaignResponseContentExpectation = XCTestExpectation(description: "Campaign response content listener called")
+        campaignResponseContentExpectation.assertForOverFulfill = true
+        MobileCore.registerEventListener(type: EventType.campaign, source: EventSource.responseContent) { event in
+            XCTAssertNotNil(event)
+            XCTAssertEqual(false, event.data?["registrationstatus"] as? Bool)
+            campaignResponseContentExpectation.fulfill()
+        }
 
         // test
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters: nil)
@@ -244,20 +254,22 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify no network call
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+
         // verify registration status event dispatched with status false
-        if semaphore.wait(timeout: .now() + 5) == .timedOut {
-            XCTFail("timed out waiting for registration status event")
-        }
-        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
-        let eventData = capturedRegistrationEvents[0].data
-        XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
+        wait(for: [campaignResponseContentExpectation], timeout: ASYNC_TIMEOUT)
     }
 
     func test_registerDevice_whenNoIntegrationKey() {
         // setup
         initExtensionsAndWait()
         setConfiguration(integrationKey: nil)
+        let campaignResponseContentExpectation = XCTestExpectation(description: "Campaign response content listener called")
+        campaignResponseContentExpectation.assertForOverFulfill = true
+        MobileCore.registerEventListener(type: EventType.campaign, source: EventSource.responseContent) { event in
+            XCTAssertNotNil(event)
+            XCTAssertEqual(false, event.data?["registrationstatus"] as? Bool)
+            campaignResponseContentExpectation.fulfill()
+        }
 
         // test
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters: nil)
@@ -265,19 +277,19 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify no network call
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+
         // verify registration status event dispatched with status false
-        if semaphore.wait(timeout: .now() + 5) == .timedOut {
-            XCTFail("timed out waiting for registration status event")
-        }
-        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
-        let eventData = capturedRegistrationEvents[0].data
-        XCTAssertEqual(false, eventData?["registrationstatus"] as? Bool)
+        wait(for: [campaignResponseContentExpectation], timeout: ASYNC_TIMEOUT)
     }
 
     func test_registerDevice_whenNoConfiguration() {
         // setup
         initExtensionsAndWait()
+        let campaignResponseContentExpectation = XCTestExpectation(description: "Campaign response content listener called")
+        campaignResponseContentExpectation.isInverted = true
+        MobileCore.registerEventListener(type: EventType.campaign, source: EventSource.responseContent) { event in
+            campaignResponseContentExpectation.fulfill()
+        }
 
         // test
         CampaignClassic.registerDevice(token: "pushToken".data(using: .utf8)! , userKey: "userkey", additionalParameters: nil)
@@ -285,16 +297,23 @@ class CampaignClassicIntegrationTests: XCTestCase {
         // verify no network call
         verifyNoNetworkCall()
         XCTAssertNil(datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+        
         // verify no registration status event dispatched
-        sleep(2)
-        XCTAssertTrue(capturedRegistrationEvents.isEmpty)
-        XCTAssertEqual(0, capturedRegistrationEvents.count)
+        wait(for: [campaignResponseContentExpectation], timeout: ASYNC_TIMEOUT)
     }
 
     func test_registerDevice_whenMultipleRegisterCallsWithSameData() {
         // setup
         initExtensionsAndWait()
         setConfiguration()
+        var campaignResponseContentExpectation = XCTestExpectation(description: "Campaign response content listener called")
+        campaignResponseContentExpectation.assertForOverFulfill = true
+        MobileCore.registerEventListener(type: EventType.campaign, source: EventSource.responseContent) { event in
+            XCTAssertNotNil(event)
+            XCTAssertEqual(true, event.data?["registrationstatus"] as? Bool)
+            campaignResponseContentExpectation.fulfill()
+        }
+
         let expectedURL = "https://marketingServer/nms/mobile/1/registerIOS.jssp"
         mockNetwork.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
 
@@ -305,18 +324,13 @@ class CampaignClassicIntegrationTests: XCTestCase {
         wait(for: [mockNetwork.connectAsyncCalled], timeout: ASYNC_TIMEOUT)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+
         // verify registration status event dispatched with status true
-        if semaphore.wait(timeout: .now() + 5) == .timedOut {
-            XCTFail("timed out waiting for registration status event")
-        }
-        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
-        var eventData = capturedRegistrationEvents[0].data
-        XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
+        wait(for: [campaignResponseContentExpectation], timeout: ASYNC_TIMEOUT)
 
         // reset
-        semaphore = DispatchSemaphore(value: 0)
-        capturedRegistrationEvents.removeAll()
+        campaignResponseContentExpectation = XCTestExpectation(description: "Campaign response content listener called again")
+        campaignResponseContentExpectation.assertForOverFulfill = true
         mockNetwork.reset()
 
         // test
@@ -324,20 +338,23 @@ class CampaignClassicIntegrationTests: XCTestCase {
 
         // verify
         verifyNoNetworkCall()
+
         // verify registration status event dispatched with status true as previous registration with same data was successful
-        if semaphore.wait(timeout: .now() + 5) == .timedOut {
-            XCTFail("timed out waiting for registration status event")
-        }
-        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
-        eventData = capturedRegistrationEvents[0].data
-        XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
+        wait(for: [campaignResponseContentExpectation], timeout: ASYNC_TIMEOUT)
     }
 
     func test_registerDevice_whenMultipleRegisterCallsWithDifferentData() {
         // setup
         initExtensionsAndWait()
         setConfiguration()
+        var campaignResponseContentExpectation = XCTestExpectation(description: "Campaign response content listener called")
+        campaignResponseContentExpectation.assertForOverFulfill = true
+        MobileCore.registerEventListener(type: EventType.campaign, source: EventSource.responseContent) { event in
+            XCTAssertNotNil(event)
+            XCTAssertEqual(true, event.data?["registrationstatus"] as? Bool)
+            campaignResponseContentExpectation.fulfill()
+        }
+
         let expectedURL = "https://marketingServer/nms/mobile/1/registerIOS.jssp"
         mockNetwork.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
 
@@ -348,20 +365,13 @@ class CampaignClassicIntegrationTests: XCTestCase {
         wait(for: [mockNetwork.connectAsyncCalled], timeout: ASYNC_TIMEOUT)
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         XCTAssertEqual("a40276d0637e4e22d9b41fbe24437e2f5c642c38653b57131cbb3660bfcb745f" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+
         // verify registration status event dispatched with status true
-        if semaphore.wait(timeout: .now() + 5) == .timedOut {
-            XCTFail("timed out waiting for registration status event")
-        }
-        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
-        var eventData = capturedRegistrationEvents[0].data
-        XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
-        capturedRegistrationEvents.removeAll()
-        semaphore = DispatchSemaphore(value: 0)
+        wait(for: [campaignResponseContentExpectation], timeout: ASYNC_TIMEOUT)
 
         // reset
-        semaphore = DispatchSemaphore(value: 0)
-        capturedRegistrationEvents.removeAll()
+        campaignResponseContentExpectation = XCTestExpectation(description: "Campaign response content listener called again")
+        campaignResponseContentExpectation.assertForOverFulfill = true
         mockNetwork.reset()
 
         // test again
@@ -372,14 +382,9 @@ class CampaignClassicIntegrationTests: XCTestCase {
         XCTAssertEqual(1, mockNetwork.cachedNetworkRequests.count)
         // verify that the registration data is changed
         XCTAssertEqual("6c78a6175d527e5d620285b86f718cfd524c0a26e65c4a8db5a0f8aa5b67e4f1" , datastore.getString(key: TestConstants.DatastoreKeys.TOKEN_HASH))
+
         // verify registration status event dispatched with status true
-        if semaphore.wait(timeout: .now() + 5) == .timedOut {
-            XCTFail("timed out waiting for registration status event")
-        }
-        XCTAssertFalse(capturedRegistrationEvents.isEmpty)
-        XCTAssertEqual(1, capturedRegistrationEvents.count)
-        eventData = capturedRegistrationEvents[0].data
-        XCTAssertEqual(true, eventData?["registrationstatus"] as? Bool)
+        wait(for: [campaignResponseContentExpectation], timeout: ASYNC_TIMEOUT)
     }
 
 
@@ -419,7 +424,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         XCTAssertEqual(expectedURL, mockNetwork.cachedNetworkRequests[0].url.absoluteString)
     }
 
-    func test_trackNotification_withV7BroadlogId() {
+    func test_trackNotification_withV7BroadlogId() { // TODO
         // setup
         initExtensionsAndWait()
         setConfiguration()
@@ -507,7 +512,7 @@ class CampaignClassicIntegrationTests: XCTestCase {
         verifyNoNetworkCall()
     }
 
-    func test_trackNotification_multipleTrackCalls() {
+    func test_trackNotification_multipleTrackCalls() { // TODO
         // setup
         initExtensionsAndWait()
         setConfiguration()
