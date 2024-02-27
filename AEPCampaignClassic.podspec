@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "AEPCampaignClassic"
-  s.version          = "4.0.0"
+  s.version          = "4.0.1"
   s.summary          = "Campaign Classic library for Adobe Experience Platform SDK. Written and maintained by Adobe."
   s.description      = <<-DESC
                         The Campaign Classic library provides APIs that allow use of the Campaign Classic product in the Adobe Experience Platform SDK.
@@ -16,8 +16,8 @@ Pod::Spec.new do |s|
 
   s.pod_target_xcconfig = { 'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES' }
 
-  s.dependency 'AEPCore', '>= 4.0.0'
-  s.dependency 'AEPServices', '>= 4.0.0'
+  s.dependency 'AEPCore', '>= 4.0.0', '< 5.0.0'
+  s.dependency 'AEPServices', '>= 4.0.0', '< 5.0.0'
 
   s.source_files     = 'AEPCampaignClassic/Sources/**/*.swift'
 
