@@ -26,10 +26,10 @@ end
 
 target 'TestApp' do
   campaignclassic_dependencies
-  pod 'AEPAssurance', :git => 'https://github.com/adobe/aepsdk-assurance-ios.git', :branch => 'staging'
+  pod 'AEPAssurance'
 end
 
 target 'TestAppObjC' do
   campaignclassic_dependencies
-  pod 'AEPAssurance', :git => 'https://github.com/adobe/aepsdk-assurance-ios.git', :branch => 'staging'
+  pod 'AEPAssurance'
 end

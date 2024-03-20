@@ -10,7 +10,7 @@ PODS:
   - SwiftLint (0.52.0)
 
 DEPENDENCIES:
-  - AEPAssurance (from `https://github.com/adobe/aepsdk-assurance-ios.git`, branch `staging`)
+  - AEPAssurance
   - AEPCore
   - AEPRulesEngine
   - AEPServices
@@ -18,20 +18,11 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AEPAssurance
     - AEPCore
     - AEPRulesEngine
     - AEPServices
     - SwiftLint
-
-EXTERNAL SOURCES:
-  AEPAssurance:
-    :branch: staging
-    :git: https://github.com/adobe/aepsdk-assurance-ios.git
-
-CHECKOUT OPTIONS:
-  AEPAssurance:
-    :commit: 6098c48a067daf4c70cb630b0000564552ad3bc7
-    :git: https://github.com/adobe/aepsdk-assurance-ios.git
 
 SPEC CHECKSUMS:
   AEPAssurance: 7f260ded4df38a70a06efebade8c33a3e3221984
@@ -40,6 +31,6 @@ SPEC CHECKSUMS:
   AEPServices: e42e5118128e81c0f797fdfb1dc9c4a714d644b8
   SwiftLint: 13280e21cdda6786ad908dc6e416afe5acd1fcb7
 
-PODFILE CHECKSUM: b0a8d413308f988e45a09b2f764ef9c812040b23
+PODFILE CHECKSUM: 72207c67f02731c366f35f2e699dc0315cc62c74
 
-COCOAPODS: 1.15.0
+COCOAPODS: 1.14.3

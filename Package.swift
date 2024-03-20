@@ -25,7 +25,8 @@ let package = Package(
     targets: [
         .target(name: "AEPCampaignClassic",
                 dependencies: [
-                   .product(name: "AEPCore", package: "aepsdk-core-ios")
+                   .product(name: "AEPCore", package: "aepsdk-core-ios"),
+                   .product(name: "AEPServices", package: "aepsdk-core-ios")
                    ],
                 path: "AEPCampaignClassic/Sources")
     ]
