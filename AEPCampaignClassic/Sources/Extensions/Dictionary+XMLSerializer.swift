@@ -17,7 +17,7 @@ extension Dictionary where Key == String, Value == AnyCodable {
 
     /// - Returns  : A serialized campaign classic xml formatted string.
     func serializeToXMLString() -> String {
-        let sortedDict = self.sorted(by: { $0.0 < $1.0 })
+        let sortedDict = self.sorted { $0.0 < $1.0 }
         var xmlString = ""
         for(key, value) in sortedDict {
             if let stringValue = value.getString() {

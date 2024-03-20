@@ -1,18 +1,19 @@
 PODS:
-  - AEPAssurance (4.0.0):
-    - AEPCore (>= 4.0.0)
-    - AEPServices (>= 4.0.0)
-  - AEPCore (4.0.0):
-    - AEPRulesEngine (>= 4.0.0)
-    - AEPServices (>= 4.0.0)
-  - AEPRulesEngine (4.0.0)
-  - AEPServices (4.0.0)
+  - AEPAssurance (5.0.0):
+    - AEPCore (< 6.0.0, >= 5.0.0)
+    - AEPServices (< 6.0.0, >= 5.0.0)
+  - AEPCore (5.0.0):
+    - AEPRulesEngine (< 6.0.0, >= 5.0.0)
+    - AEPServices (< 6.0.0, >= 5.0.0)
+  - AEPRulesEngine (5.0.0)
+  - AEPServices (5.0.0)
   - SwiftLint (0.52.0)
 
 DEPENDENCIES:
-  - AEPAssurance (~> 4.0)
-  - AEPCore (~> 4.0)
-  - AEPServices (~> 4.0)
+  - AEPAssurance
+  - AEPCore
+  - AEPRulesEngine
+  - AEPServices
   - SwiftLint (= 0.52.0)
 
 SPEC REPOS:
@@ -24,12 +25,12 @@ SPEC REPOS:
     - SwiftLint
 
 SPEC CHECKSUMS:
-  AEPAssurance: 4fa3138ddd7308c1f9923570f4d2b0b8526a916f
-  AEPCore: dd7cd69696c768c610e6adc0307032985a381c7e
-  AEPRulesEngine: 458450a34922823286ead045a0c2bd8c27e224c6
-  AEPServices: ca493988df250d84fda050124ff7549bcc43c65f
+  AEPAssurance: 7f260ded4df38a70a06efebade8c33a3e3221984
+  AEPCore: f1c3e9238bb12e7e1103f4407c341ebc65aeab5b
+  AEPRulesEngine: fe5800653a4bee07b1e41e61b4d5551f0dba557b
+  AEPServices: e42e5118128e81c0f797fdfb1dc9c4a714d644b8
   SwiftLint: 13280e21cdda6786ad908dc6e416afe5acd1fcb7
 
-PODFILE CHECKSUM: bc52c98020c6b6c93d12200f067ee09726262ab9
+PODFILE CHECKSUM: 72207c67f02731c366f35f2e699dc0315cc62c74
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.14.3
