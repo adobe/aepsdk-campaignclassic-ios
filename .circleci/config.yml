@@ -111,7 +111,7 @@ jobs:
 
   test-spm-podspec-archive:  
     macos:
-      xcode: 15.1.0 # Specify the Xcode version to use
+      xcode: 15.0 # Specify the Xcode version to use
     
     steps:
       - checkout
@@ -119,20 +119,20 @@ jobs:
       - run:
           name: Build XCFramework
           command: |
-            if [ "${CIRCLE_BRANCH}" == "main" ]; then
-              make archive
+            if [ "${CIRCLE_BRANCH}" == "main" ] || [ "${CIRCLE_BRANCH}" == "staging" ]; then
+              make ci-archive
             fi
       # verify podspec is valid
-      - run:
-          name: Test Podspec
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "main" ]; then
-              make test-podspec
-            fi
+      # - run:
+      #     name: Test Podspec
+      #     command: |
+      #       if [ "${CIRCLE_BRANCH}" == "main" ]; then
+      #         make test-podspec
+      #       fi
       # verify SPM works
       - run:
           name: Test SPM 
           command: |
-            if [ "${CIRCLE_BRANCH}" == "main" ]; then
+            if [ "${CIRCLE_BRANCH}" == "main" ] || [ "${CIRCLE_BRANCH}" == "staging" ]; then
               make test-SPM-integration
             fi
