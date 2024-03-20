@@ -16,7 +16,7 @@ import Foundation
 enum TestConstants {
     static let EXTENSION_NAME                           = "com.adobe.module.campaignclassic"
     static let FRIENDLY_NAME                            = "CampaignClassic"
-    static let EXTENSION_VERSION                        = "3.0.0"
+    static let EXTENSION_VERSION                        = "5.0.0"
 
     // general strings
     static let DATASTORE_KEY = "ADOBEMOBILE_CAMPAIGNCLASSIC"
