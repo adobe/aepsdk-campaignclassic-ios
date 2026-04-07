@@ -104,6 +104,8 @@ public class CampaignClassic: NSObject, Extension {
     /// If Configuration is not available or Campaign Classic is not configured, no track request shall be sent.
     /// Tracking identifiers messageId (_mId) and deliveryId (_dId), retrieved from the message payload, are
     /// required for track request to be sent.
+    /// If an instanceName (_iNm) is provided in the tracking info and a matching endpoint exists in the
+    /// trackingEndpointMapping configuration, that endpoint will be used instead of the default tracking server.
     ///
     /// - Parameters:
     ///   - event : the incoming track event
@@ -140,7 +142,18 @@ public class CampaignClassic: NSObject, Extension {
             return
         }
 
-        guard let trackingUrl = URL(string: String(format: CampaignClassicConstants.TRACKING_API_URL_BASE, trackingServer, transformedBroadlogId, deliveryId, tagId)) else {
+        // Determine the tracking endpoint based on instanceName and trackingEndpointsMap
+        let instanceName = event.instanceName
+        let trackEndpoint: String
+        if let instanceName = instanceName, let mappedEndpoint = configuration.trackingEndpointsMap?[instanceName] {
+            trackEndpoint = mappedEndpoint
+            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Using mapped tracking endpoint for instanceName '\(instanceName)': \(trackEndpoint)")
+        } else {
+            trackEndpoint = trackingServer
+            Log.debug(label: CampaignClassicConstants.LOG_TAG, "Using default tracking server: \(trackingServer) (instanceName: \(String(describing: instanceName)))")
+        }
+
+        guard let trackingUrl = URL(string: String(format: CampaignClassicConstants.TRACKING_API_URL_BASE, trackEndpoint, transformedBroadlogId, deliveryId, tagId)) else {
             Log.debug(label: CampaignClassicConstants.LOG_TAG, "Unable to process TrackNotification request, Unable to form a valid trackingURL.")
             return
         }

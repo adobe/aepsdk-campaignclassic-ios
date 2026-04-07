@@ -47,6 +47,14 @@ extension Event {
         return deliveryId
     }
 
+    /// Retrieves the instance name string from the event data if available and not empty, nil otherwise
+    var instanceName: String? {
+        guard let instanceName = trackingInfo?[CampaignClassicConstants.EventDataKeys.CampaignClassic.TRACK_INFO_KEY_INSTANCE_NAME] as? String, !instanceName.isEmpty else {
+            return nil
+        }
+        return instanceName
+    }
+
     /// Retrieves the deviceToken string from the event data if available and not empty, nil otherwise
     var deviceToken: String? {
         guard let deviceToken = data?[CampaignClassicConstants.EventDataKeys.CampaignClassic.DEVICE_TOKEN] as? String, !deviceToken.isEmpty else {

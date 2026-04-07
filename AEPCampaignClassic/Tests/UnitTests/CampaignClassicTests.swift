@@ -21,8 +21,13 @@ class CampaignClassicTests: XCTestCase {
     // Configuration test constants
     static let TRACKING_SERVER = "trackserver"
     static let MARKETING_SERVER = "marketingServer"
+    static let RT_SERVER = "rtserver"
     static let INTEGRATION_KEY = "integrationKey"
     static let NETWORK_TIMEOUT = 10
+    
+    // Instance name test constants
+    static let MARKETING_INSTANCE_NAME = "marketing_mid_prod"
+    static let RT_INSTANCE_NAME = "rt_mid_prod"
     
     // broadLogID and deliveryID test constants
     static let V8_BROADLOG_ID = UUID().uuidString
@@ -224,6 +229,103 @@ class CampaignClassicTests: XCTestCase {
     }
     
     //*******************************************************************
+    // Tracking Endpoint Mapping Tests
+    //*******************************************************************
+    func test_trackNotificationClick_withoutInstanceName_fallbackToDefaultEndpoint() throws {
+        // setup - no instanceName in payload, should use default tracking server
+        let expectedURL = "https://trackserver/r/?id=h\(CampaignClassicTests.V8_BROADLOG_ID),deliveryId,2"
+        let endpointMapping = [
+            CampaignClassicTests.MARKETING_INSTANCE_NAME: CampaignClassicTests.MARKETING_SERVER,
+            CampaignClassicTests.RT_INSTANCE_NAME: CampaignClassicTests.RT_SERVER
+        ]
+        setConfigState(trackingEndpointMapping: endpointMapping)
+        networking.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
+
+        // test - event without instanceName
+        runtime.simulateComingEvents(trackNotificationClickEvent())
+        
+        // verify - should use default trackserver
+        wait(for: [networking.connectAsyncCalled], timeout: 1)
+        XCTAssertEqual(networking.cachedNetworkRequests.count, 1)
+        XCTAssertEqual(networking.cachedNetworkRequests[0].url.absoluteString, expectedURL)
+    }
+    
+    func test_trackNotificationClick_withMarketingInstanceName_sendsToMarketingServer() throws {
+        // setup - instanceName matches marketing server in mapping
+        let expectedURL = "https://\(CampaignClassicTests.MARKETING_SERVER)/r/?id=h\(CampaignClassicTests.V8_BROADLOG_ID),deliveryId,2"
+        let endpointMapping = [
+            CampaignClassicTests.MARKETING_INSTANCE_NAME: CampaignClassicTests.MARKETING_SERVER,
+            CampaignClassicTests.RT_INSTANCE_NAME: CampaignClassicTests.RT_SERVER
+        ]
+        setConfigState(trackingEndpointMapping: endpointMapping)
+        networking.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
+
+        // test - event with marketing instanceName
+        runtime.simulateComingEvents(trackNotificationClickEvent(instanceName: CampaignClassicTests.MARKETING_INSTANCE_NAME))
+        
+        // verify - should use marketing server
+        wait(for: [networking.connectAsyncCalled], timeout: 1)
+        XCTAssertEqual(networking.cachedNetworkRequests.count, 1)
+        XCTAssertEqual(networking.cachedNetworkRequests[0].url.absoluteString, expectedURL)
+    }
+    
+    func test_trackNotificationClick_withRTInstanceName_sendsToRTServer() throws {
+        // setup - instanceName matches RT server in mapping
+        let expectedURL = "https://\(CampaignClassicTests.RT_SERVER)/r/?id=h\(CampaignClassicTests.V8_BROADLOG_ID),deliveryId,2"
+        let endpointMapping = [
+            CampaignClassicTests.MARKETING_INSTANCE_NAME: CampaignClassicTests.MARKETING_SERVER,
+            CampaignClassicTests.RT_INSTANCE_NAME: CampaignClassicTests.RT_SERVER
+        ]
+        setConfigState(trackingEndpointMapping: endpointMapping)
+        networking.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
+
+        // test - event with RT instanceName
+        runtime.simulateComingEvents(trackNotificationClickEvent(instanceName: CampaignClassicTests.RT_INSTANCE_NAME))
+        
+        // verify - should use RT server
+        wait(for: [networking.connectAsyncCalled], timeout: 1)
+        XCTAssertEqual(networking.cachedNetworkRequests.count, 1)
+        XCTAssertEqual(networking.cachedNetworkRequests[0].url.absoluteString, expectedURL)
+    }
+    
+    func test_trackNotificationClick_withUnknownInstanceName_fallbackToDefaultEndpoint() throws {
+        // setup - instanceName not found in mapping, should fallback to default
+        let expectedURL = "https://trackserver/r/?id=h\(CampaignClassicTests.V8_BROADLOG_ID),deliveryId,2"
+        let endpointMapping = [
+            CampaignClassicTests.MARKETING_INSTANCE_NAME: CampaignClassicTests.MARKETING_SERVER,
+            CampaignClassicTests.RT_INSTANCE_NAME: CampaignClassicTests.RT_SERVER
+        ]
+        setConfigState(trackingEndpointMapping: endpointMapping)
+        networking.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
+
+        // test - event with unknown instanceName
+        runtime.simulateComingEvents(trackNotificationClickEvent(instanceName: "unknown_instance"))
+        
+        // verify - should fallback to default trackserver
+        wait(for: [networking.connectAsyncCalled], timeout: 1)
+        XCTAssertEqual(networking.cachedNetworkRequests.count, 1)
+        XCTAssertEqual(networking.cachedNetworkRequests[0].url.absoluteString, expectedURL)
+    }
+    
+    func test_trackNotificationReceive_withMarketingInstanceName_sendsToMarketingServer() throws {
+        // setup - verify receive events also use endpoint mapping
+        let expectedURL = "https://\(CampaignClassicTests.MARKETING_SERVER)/r/?id=h\(CampaignClassicTests.V8_BROADLOG_ID),deliveryId,1"
+        let endpointMapping = [
+            CampaignClassicTests.MARKETING_INSTANCE_NAME: CampaignClassicTests.MARKETING_SERVER
+        ]
+        setConfigState(trackingEndpointMapping: endpointMapping)
+        networking.expectedResponse = HttpConnection(data: nil, response: HTTPURLResponse(url: URL(string: expectedURL)!, statusCode: 200, httpVersion: nil, headerFields: nil), error: nil)
+
+        // test - receive event with marketing instanceName
+        runtime.simulateComingEvents(trackNotificationReceiveEvent(instanceName: CampaignClassicTests.MARKETING_INSTANCE_NAME))
+        
+        // verify - should use marketing server
+        wait(for: [networking.connectAsyncCalled], timeout: 1)
+        XCTAssertEqual(networking.cachedNetworkRequests.count, 1)
+        XCTAssertEqual(networking.cachedNetworkRequests[0].url.absoluteString, expectedURL)
+    }
+    
+    //*******************************************************************
     // Register Device Tests
     //*******************************************************************
     func test_registerDevice() throws {
@@ -271,8 +373,11 @@ class CampaignClassicTests: XCTestCase {
     // private methods
     //*******************************************************************
     
-    private func trackNotificationClickEvent(broadLogID : String? = V8_BROADLOG_ID, deliveryID : String? = DELIVERY_ID) -> Event {
-        let userInfo = ["_mId" : broadLogID, "_dId" : deliveryID]
+    private func trackNotificationClickEvent(broadLogID : String? = V8_BROADLOG_ID, deliveryID : String? = DELIVERY_ID, instanceName: String? = nil) -> Event {
+        var userInfo: [String: Any?] = ["_mId" : broadLogID, "_dId" : deliveryID]
+        if let instanceName = instanceName {
+            userInfo["_iNm"] = instanceName
+        }
         return Event(name: TestConstants.EventName.TRACK_NOTIFICATION_CLICK,
                      type: EventType.campaign,
                      source: EventSource.requestContent,
@@ -280,8 +385,11 @@ class CampaignClassicTests: XCTestCase {
                             TestConstants.EventDataKeys.CampaignClassic.TRACK_INFO: userInfo] as [String: Any])
     }
     
-    private func trackNotificationReceiveEvent(broadLogID : String = V8_BROADLOG_ID, deliveryID : String? = DELIVERY_ID) -> Event {
-        let userInfo = ["_mId" : broadLogID, "_dId" : deliveryID]
+    private func trackNotificationReceiveEvent(broadLogID : String = V8_BROADLOG_ID, deliveryID : String? = DELIVERY_ID, instanceName: String? = nil) -> Event {
+        var userInfo: [String: Any?] = ["_mId" : broadLogID, "_dId" : deliveryID]
+        if let instanceName = instanceName {
+            userInfo["_iNm"] = instanceName
+        }
         return Event(name: TestConstants.EventName.TRACK_NOTIFICATION_CLICK,
                      type: EventType.campaign,
                      source: EventSource.requestContent,
@@ -308,10 +416,19 @@ class CampaignClassicTests: XCTestCase {
     
     private func setConfigState(trackingServer : String? = TRACKING_SERVER,
                                 privacyStatus : String = PrivacyStatus.optedIn.rawValue,
-                                networkTimeOut : Int = NETWORK_TIMEOUT) {
+                                networkTimeOut : Int = NETWORK_TIMEOUT,
+                                trackingEndpointMapping: [String: String]? = nil) {
         configurationSharedState = [ TestConstants.EventDataKeys.Configuration.GLOBAL_CONFIG_PRIVACY: privacyStatus,
                                      TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_SERVER: trackingServer as Any,
                                      TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_NETWORK_TIMEOUT: networkTimeOut]
+        if let trackingEndpointMapping = trackingEndpointMapping {
+            // Config value is a JSON string: "[{\"identifier\":\"...\",\"endpoint\":\"...\"}]"
+            let array = trackingEndpointMapping.map { ["identifier": $0.key, "endpoint": $0.value] }
+            if let jsonData = try? JSONSerialization.data(withJSONObject: array),
+               let jsonString = String(data: jsonData, encoding: .utf8) {
+                configurationSharedState[TestConstants.EventDataKeys.Configuration.CAMPAIGNCLASSIC_TRACKING_ENDPOINT_MAPPING] = jsonString
+            }
+        }
         runtime.simulateSharedState(for: TestConstants.EventDataKeys.Configuration.EXTENSION_NAME, data: (configurationSharedState, .set))
     }
 }
