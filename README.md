@@ -12,6 +12,7 @@ The AEPCampaignClassic extension represents the Campaign Classic Adobe Experienc
 ## Requirements
 - Xcode 15 (or newer)
 - Swift 5+
+- iOS 12 to 27
 
 ## Installation
 These are currently the supported installation options:
