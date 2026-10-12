@@ -63,6 +63,7 @@ enum CampaignClassicConstants {
             static let TRACK_INFO = "trackinfo"
             static let TRACK_INFO_KEY_DELIVERY_ID = "_dId"
             static let TRACK_INFO_KEY_BROADLOG_ID = "_mId"
+            static let TRACK_INFO_KEY_INSTANCE_NAME = "_iNm"
         }
 
         enum Configuration {
@@ -72,6 +73,7 @@ enum CampaignClassicConstants {
             static let CAMPAIGNCLASSIC_MARKETING_SERVER = "campaignclassic.marketingServer"
             static let CAMPAIGNCLASSIC_TRACKING_SERVER = "campaignclassic.trackingServer"
             static let CAMPAIGNCLASSIC_INTEGRATION_KEY = "campaignclassic.ios.integrationKey"
+            static let CAMPAIGNCLASSIC_TRACKING_ENDPOINT_MAPPING = "campaignclassic.trackingEndpointsMapping"
         }
 
     }
