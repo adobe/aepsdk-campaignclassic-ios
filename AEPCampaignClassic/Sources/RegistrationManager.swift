@@ -53,6 +53,17 @@ class RegistrationManager {
         self.runtime = runtime
     }
 
+    /// Device values sent in the registration payload.
+    private var deviceInfo: DeviceInfo {
+        // UIDevice is main actor only in Swift 6 and registration runs on the extension queue. The values are read on the main actor, and the main hop is skipped when already on main.
+        if Thread.isMainThread {
+            return MainActor.assumeIsolated { DeviceInfo(name: UIDevice.current.name, model: UIDevice.current.model, systemName: UIDevice.current.systemName) }
+        }
+        return DispatchQueue.main.sync {
+            MainActor.assumeIsolated { DeviceInfo(name: UIDevice.current.name, model: UIDevice.current.model, systemName: UIDevice.current.systemName) }
+        }
+    }
+
     /// Clears the stored hashed registration data from memory and persistence.
     func clearRegistrationData() {
         hashedRegistrationData = nil
@@ -105,15 +116,16 @@ class RegistrationManager {
         }
 
         // build the payload
+        let deviceInfo = self.deviceInfo
         var payload = String(format: CampaignClassicConstants.REGISTRATION_PAYLOAD_FORMAT,
                              deviceToken.urlEncoded,
                              integrationKey.urlEncoded,
                              userKey.urlEncoded,
-                             UIDevice.current.name.urlEncoded,
-                             UIDevice.current.model.urlEncoded,
+                             deviceInfo.name.urlEncoded,
+                             deviceInfo.model.urlEncoded,
                              CampaignClassicConstants.REGISTER_PARAM_DEVICE_BRAND_APPLE.urlEncoded,
                              CampaignClassicConstants.REGISTER_PARAM_DEVICE_MANUFACTURER_APPLE.urlEncoded,
-                             UIDevice.current.systemName.urlEncoded,
+                             deviceInfo.systemName.urlEncoded,
                              systemInfoService.getFormattedOperatingSystem().urlEncoded,
                              systemInfoService.getFormattedLocale().urlEncoded)
         payload.append(additionalParametersXML)
@@ -175,4 +187,11 @@ class RegistrationManager {
     private func registrationInfoChanged(_ hashedData: String) -> Bool {
         return hashedData != hashedRegistrationData
     }
+}
+
+/// Device values read from UIDevice for the registration payload.
+private struct DeviceInfo {
+    let name: String
+    let model: String
+    let systemName: String
 }
