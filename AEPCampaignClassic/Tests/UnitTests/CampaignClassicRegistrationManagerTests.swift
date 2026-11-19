@@ -24,7 +24,8 @@ final class CampaignClassicRegistrationManagerTests: XCTestCase {
     // sample user inputs
     static let USER_KEY = "userKey"
     static let DEVICE_TOKEN = "deviceToken"
-    static let ADDITIONAL_DATA = ["string" : "abc", "number" : 4, "boolean" : true] as [String : Any]
+    // The dictionary is never mutated, so sharing it across tests is safe in Swift 6.
+    nonisolated(unsafe) static let ADDITIONAL_DATA = ["string" : "abc", "number" : 4, "boolean" : true] as [String : Any]
         
     let runtime = TestableExtensionRuntime()
     var registrationManager: RegistrationManager!
