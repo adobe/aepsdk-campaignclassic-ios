@@ -90,13 +90,16 @@ struct NotificationSettingsCard: View {
     
     func readOtherNotificationDetails() {
         UNUserNotificationCenter.current().getDeliveredNotifications(completionHandler: { notifications in
-            unreadNotificationCount = notifications.count
+            // The callback runs on a background queue so the UI state is updated on main.
+            let count = notifications.count
+            DispatchQueue.main.async { unreadNotificationCount = count }
         })
     }
     
     func loadNotificationSettings() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
-            currentNotificationSettings = """
+            // The callback runs on a background queue so the text is built here and the UI state is updated on main.
+            let text = """
             Authorization status \t \t: \(getAuthorizationStatusString(settings.authorizationStatus))
             Notification Center Setting \t: \(getUNNotificationSettingString(settings.notificationCenterSetting))
             Sound Setting \t \t \t: \(getUNNotificationSettingString(settings.soundSetting))
@@ -107,6 +110,7 @@ struct NotificationSettingsCard: View {
             Critical Alert Setting \t \t: \(getUNNotificationSettingString(settings.criticalAlertSetting))
             TimeSensitive Setting \t \t: \(getUNNotificationSettingString(settings.timeSensitiveSetting))
             """
+            DispatchQueue.main.async { currentNotificationSettings = text }
         }
     }
 }
