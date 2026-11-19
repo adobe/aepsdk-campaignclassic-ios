@@ -45,7 +45,8 @@ enum CampaignClassicConstants {
     }
 
     enum Default {
-        static let PRIVACY_STATUS: PrivacyStatus = .unknown
+        // Released AEPCore does not mark PrivacyStatus as Sendable, so a stored static fails in Swift 6. A computed property returns the same value without shared state.
+        static var PRIVACY_STATUS: PrivacyStatus { .unknown }
         static let NETWORK_TIMEOUT = TimeInterval(30)
     }
 

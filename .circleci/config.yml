@@ -18,6 +18,12 @@ workflows:
       - test-spm-podspec-archive:
           requires:
             - validate-code
+      - build-swift6:
+          requires:
+            - validate-code
+      - build-min-toolchain:
+          requires:
+            - validate-code
 
 commands:
   install_dependencies:
@@ -31,7 +37,9 @@ commands:
       # make sure we're on the right version of cocoapods
       - run:
           name: Verify Cocoapods Version
-          command: bundle check || bundle install --path vendor/bundle
+          command: |
+            bundle config set path 'vendor/bundle'
+            bundle check || bundle install
 
       # save cocoapods version gem data
       - save_cache:
@@ -53,13 +61,14 @@ commands:
     steps:
       - macos/preboot-simulator:
           platform: "iOS"
-          version: "17.2"
-          device: "iPhone 15"
+          version: "27.0"
+          device: "iPhone 18 Pro"
 
 jobs:
   validate-code:
+    resource_class: m4pro.medium
     macos:
-      xcode: 15.1.0 # Specify the Xcode version to use
+      xcode: 27.0.0 # Specify the Xcode version to use
 
     steps:
       - checkout
@@ -76,8 +85,9 @@ jobs:
 
 
   test-ios:
+    resource_class: m4pro.medium
     macos:
-      xcode: 15.1.0 # Specify the Xcode version to use
+      xcode: 27.0.0 # Specify the Xcode version to use
 
     steps:
       - checkout
@@ -97,9 +107,10 @@ jobs:
       #     upload_name: Coverage Report for AEPCampaignClassic iOS Tests
       #     xtra_args: -c -v --xc --xp build/AEPCampaignClassic.xcresult
 
-  test-spm-podspec-archive:  
+  test-spm-podspec-archive:
+    resource_class: m4pro.medium
     macos:
-      xcode: 15.0 # Specify the Xcode version to use
+      xcode: 27.0.0 # Specify the Xcode version to use
     
     steps:
       - checkout
@@ -125,3 +136,38 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "main" ] || [ "${CIRCLE_BRANCH}" == "staging" ]; then
               make test-SPM-integration
             fi
+
+  # Swift 6 language mode coverage. Xcode 27 does not select Swift 6 mode because the
+  # checked in targets stay on Swift 5, so this lane builds the AEPCampaignClassic target
+  # in Swift 6 through AEPCAMPAIGNCLASSIC_SWIFT_VERSION (referenced only by that target),
+  # then compiles a Swift 6 consumer that calls the public APIs from @MainActor code.
+  # Dependencies keep their own declared language modes, matching a real Swift 6 app.
+  build-swift6:
+    resource_class: m4pro.medium
+    macos:
+      xcode: 27.0.0
+
+    steps:
+      - checkout
+      - install_dependencies
+      - run:
+          name: Build AEPCampaignClassic in Swift 6 language mode (dependencies keep their modes)
+          command: make build-swift6
+      - run:
+          name: Build Swift 6 consumer (public APIs called from @MainActor)
+          command: make test-swift6-consumer
+
+  # Minimum supported toolchain coverage. README advertises Xcode 15.3+ / Swift 5.10 as the
+  # floor; 15.4 is the oldest 15.x image CircleCI still hosts and ships the same Swift 5.10
+  # compiler. Compile only, to catch use of APIs or features newer than the advertised minimum.
+  build-min-toolchain:
+    resource_class: m4pro.medium
+    macos:
+      xcode: 15.4.0
+
+    steps:
+      - checkout
+      - install_dependencies
+      - run:
+          name: Build SDK on minimum supported toolchain (Xcode 15.4 / Swift 5.10)
+          command: make build-min-toolchain

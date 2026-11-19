@@ -171,4 +171,6 @@ extension TestableExtensionRuntime {
     }
 
     func getHistoricalEvents(_ requests: [EventHistoryRequest], enforceOrder: Bool, handler: @escaping ([EventHistoryResult]) -> Void) {}
+
+    func recordHistoricalEvent(_ event: Event, handler: ((Bool) -> Void)?) {}
 }

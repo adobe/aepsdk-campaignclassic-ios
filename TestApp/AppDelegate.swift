@@ -48,7 +48,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
                 return
             }
             guard granted else { return }
-            self.getNotificationSettings()
+            // The authorization callback runs on a background queue so the follow up call is made on the main actor.
+            Task { @MainActor in self.getNotificationSettings() }
         }
     }
     
@@ -72,12 +73,13 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         print("Failed to Register for Remote Notification with Error \(error.localizedDescription)")
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    // These delegate methods only call thread safe SDK APIs, so they are nonisolated to keep the conformance valid in Swift 6.
+    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.badge,.list,.banner,.sound])
         CampaignClassic.trackNotificationReceive(withUserInfo: notification.request.content.userInfo)
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         CampaignClassic.trackNotificationClick(withUserInfo: response.notification.request.content.userInfo)
     }
     
@@ -85,7 +87,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         CampaignClassic.trackNotificationReceive(withUserInfo: userInfo)
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
         // handle user clicking on App's Notification Setting from Settings->TestApp->Notifications->TestApp Notification Settings
     }
     

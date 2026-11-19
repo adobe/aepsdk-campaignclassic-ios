@@ -10,9 +10,9 @@
 The AEPCampaignClassic extension represents the Campaign Classic Adobe Experience Platform SDK that is required for registering mobile devices and sending push notification click-through feedback to a Campaign Classic marketing server.
 
 ## Requirements
-- Xcode 15 (or newer)
-- Swift 5+
-- iOS 12 to 27
+- Xcode 15.3 (or newer)
+- Swift 5.10 (or newer)
+- iOS 15 to 27
 
 ## Installation
 These are currently the supported installation options:
