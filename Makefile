@@ -8,7 +8,7 @@ SIMULATOR_ARCHIVE_PATH = $(CURR_DIR)/build/ios_simulator.xcarchive/Products/Libr
 SIMULATOR_ARCHIVE_DSYM_PATH = $(CURR_DIR)/build/ios_simulator.xcarchive/dSYMs/
 IOS_ARCHIVE_PATH = $(CURR_DIR)/build/ios.xcarchive/Products/Library/Frameworks/
 IOS_ARCHIVE_DSYM_PATH = $(CURR_DIR)/build/ios.xcarchive/dSYMs/
-IOS_DESTINATION = 'platform=iOS Simulator,name=iPhone 15'
+IOS_DESTINATION = 'platform=iOS Simulator,name=iPhone 18 Pro,OS=27.0'
 
 lint-autocorrect:
 	./Pods/SwiftLint/swiftlint --fix
@@ -80,6 +80,15 @@ check-version:
 
 test-SPM-integration:
 	(sh ./script/test-SPM.sh)
+
+build-swift6:
+	xcodebuild build -workspace $(PROJECT_NAME).xcworkspace -scheme $(PROJECT_NAME) -destination 'generic/platform=iOS Simulator' AEPCAMPAIGNCLASSIC_SWIFT_VERSION=6.0
+
+test-swift6-consumer:
+	(sh ./Script/test-swift6-consumer.sh)
+
+build-min-toolchain:
+	xcodebuild build -workspace $(PROJECT_NAME).xcworkspace -scheme $(PROJECT_NAME) -destination 'generic/platform=iOS Simulator'
 
 test-podspec:
 	(sh ./script/test-podspec.sh)
